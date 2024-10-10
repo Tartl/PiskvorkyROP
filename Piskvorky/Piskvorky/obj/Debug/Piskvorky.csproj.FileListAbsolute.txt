@@ -1,0 +1,12 @@
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\bin\Debug\Piskvorky.exe.config
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\bin\Debug\Piskvorky.exe
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\bin\Debug\Piskvorky.pdb
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.AssemblyReference.cache
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.SuggestedBindingRedirects.cache
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.PlayingBoard.resources
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.Properties.Resources.resources
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.GenerateResource.cache
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.CoreCompileInputs.cache
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.exe
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.pdb
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.Form1.resources
