@@ -15,8 +15,19 @@ namespace Piskvorky
         public Form1()
         {
             InitializeComponent();
-            playingBoard1.Left = 225;
-            playingBoard1.Top = 50;
+            ScreenSize(Width, Height);
+        }
+        public void ScreenSize(int width, int height)
+        {
+            int activeFormWidth = width;
+            int activeFormHeight = height;
+            string screenSize = activeFormWidth.ToString() + "x" + activeFormHeight.ToString();
+            MessageBox.Show(screenSize);
+        }
+
+        private void Form1_ResizeEnd(object sender, EventArgs e)
+        {
+            ScreenSize(Width, Height);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Piskvorky
         private Calculations calc;
         private GameSymbol currentPlayer = GameSymbol.Symbol1;
 
+
         private Calculations Calc
         {
             get 
