@@ -24,11 +24,14 @@ namespace Piskvorky
         {
             if (width != Width || height != Height)
             {
-                int currentAvg = Width + Height / 2;
-                int minAvg = this.MinimumSize.Width + this.MinimumSize.Height / 2;
-                playingBoard1.FieldSize = (int)(fieldSize * (float)currentAvg / minAvg);
-                width = Width;
-                height = Height;
+                if (Math.Abs(Width / Height) < 2)
+                {
+                    int currentAvg = Width + Height / 2;
+                    int minAvg = this.MinimumSize.Width + this.MinimumSize.Height / 2;
+                    playingBoard1.FieldSize = (int)(fieldSize * (float)currentAvg / minAvg);
+                    width = Width;
+                    height = Height;
+                }
 
             }
         }
