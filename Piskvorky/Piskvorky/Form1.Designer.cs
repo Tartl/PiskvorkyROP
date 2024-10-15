@@ -47,8 +47,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel1.Controls.Add(this.label_hrac2, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label_hrac1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.playingBoard1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label_score, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.playingBoard1, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -94,6 +94,7 @@
             // 
             this.playingBoard1.BackColor = System.Drawing.Color.Transparent;
             this.playingBoard1.BoardSize = 15;
+            this.playingBoard1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.playingBoard1.FieldSize = 20;
             this.playingBoard1.GridColor = System.Drawing.Color.Black;
             this.playingBoard1.Location = new System.Drawing.Point(231, 3);
