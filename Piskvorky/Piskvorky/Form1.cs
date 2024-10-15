@@ -12,22 +12,34 @@ namespace Piskvorky
 {
     public partial class Form1 : Form
     {
+        int fieldSize;
+        int width = 0,
+            height  = 0;
         public Form1()
         {
             InitializeComponent();
-            ScreenSize(Width, Height);
+            fieldSize = playingBoard1.FieldSize;
         }
-        public void ScreenSize(int width, int height)
+        public void BoardRedraw()
         {
-            int activeFormWidth = width;
-            int activeFormHeight = height;
-            string screenSize = activeFormWidth.ToString() + "x" + activeFormHeight.ToString();
-            MessageBox.Show(screenSize);
+            if (width != Width || height != Height)
+            {
+                if (Math.Abs(Width / Height) < 2)
+                {
+                    int currentAvg = Width + Height / 2;
+                    int minAvg = this.MinimumSize.Width + this.MinimumSize.Height / 2;
+                    playingBoard1.FieldSize = (int)(fieldSize * (float)currentAvg / minAvg);
+                    width = Width;
+                    height = Height;
+                }
+
+            }
         }
 
-        private void Form1_ResizeEnd(object sender, EventArgs e)
+
+        private void Form1_Resize(object sender, EventArgs e)
         {
-            ScreenSize(Width, Height);
+            BoardRedraw();
         }
     }
 }
