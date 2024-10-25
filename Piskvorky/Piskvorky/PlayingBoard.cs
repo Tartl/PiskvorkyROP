@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -166,9 +167,22 @@ namespace Piskvorky
                 MessageBox.Show("Tady už symbol je!");
                 return;
             }
-            Calc.SymbolsOnBoard[x,y] = currentPlayer;
-            currentPlayer = Opponent;
+            GameResult result = Calc.AddSymbol(x, y, currentPlayer);
             Refresh();
+            if (result == GameResult.Win)
+            {
+                if (currentPlayer == GameSymbol.Symbol1)
+                {
+                    MessageBox.Show($"Vyhrál Hráč 1");
+                }
+                if (currentPlayer == GameSymbol.Symbol2)
+                {
+                    MessageBox.Show($"Vyhrál Hráč 2");
+                }
+                
+            }
+            currentPlayer = Opponent;
+            
         }
     }
 }
