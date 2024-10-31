@@ -91,14 +91,13 @@ namespace Piskvorky
             GameResult result = GameResult.Continue;
             foreach (Direction dir in Enum.GetValues(typeof(Direction)))
             {
+                short dirHor = DirectionSigns[(short)dir, (short)Coordinate.X];
+                short dirVer = DirectionSigns[(short)dir, (short)Coordinate.Y];
                 for (int i = 0; i < winLength; i++)
                 {
-                    short dirHor = DirectionSigns[(short)dir, (short)Coordinate.X];
-                    short dirVer = DirectionSigns[(short)dir, (short)Coordinate.Y];
                     int posX = x + dirHor * i;
                     int posY = y + dirVer * i;
-                    if ((dirHor == -1 && posX >= 0 && posX <= boardSize - winLength) || (dirHor == 1 && posX >= winLength -1 && posX < boardSize) || (dirHor == 0) &&
-                        ((dirVer == -1 && posY >= 0 && posY <= boardSize - winLength) || (dirVer == 1 && posY >= winLength - 1 && posY < boardSize) || (dirVer == 0))   )
+                    if (PositionWithinBounds(posX, posY, dirHor, dirVer))
                     {
                         result = IncludeDraw(ref SymbolsInRow[posX,posY,(short)dir,(short)player]);
                         if (result != GameResult.Continue)
@@ -114,6 +113,18 @@ namespace Piskvorky
             }
             SymbolsOnBoard[x, y] = player;
             return result;
+        }
+        private bool PositionWithinBounds(int posX, int posY, short dirHor, short dirVer)
+        {
+            bool withinHorizontalBounds = (dirHor == -1 && posX >= 0 && posX <= boardSize - winLength) || 
+                                          (dirHor == 1 && posX >= winLength - 1 && posX < boardSize) || 
+                                          (dirHor == 0);
+
+            bool withinVerticalBounds = (dirVer == -1 && posY >= 0 && posY <= boardSize - winLength) ||
+                                        (dirVer == 1 && posY >= winLength - 1 && posY < boardSize) ||
+                                        (dirVer == 0);
+
+            return withinHorizontalBounds && withinVerticalBounds;
         }
 
         private GameResult IncludeDraw(ref short numberInRow)

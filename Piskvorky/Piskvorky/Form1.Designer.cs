@@ -31,8 +31,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label_hrac2 = new System.Windows.Forms.Label();
             this.label_hrac1 = new System.Windows.Forms.Label();
-            this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.label_score = new System.Windows.Forms.Label();
+            this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,6 +79,17 @@
             this.label_hrac1.TabIndex = 1;
             this.label_hrac1.Text = "Hráč 1";
             // 
+            // label_score
+            // 
+            this.label_score.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_score.AutoSize = true;
+            this.label_score.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_score.Location = new System.Drawing.Point(348, 387);
+            this.label_score.Name = "label_score";
+            this.label_score.Size = new System.Drawing.Size(63, 37);
+            this.label_score.TabIndex = 4;
+            this.label_score.Text = "0:0";
+            // 
             // playingBoard1
             // 
             this.playingBoard1.BackColor = System.Drawing.Color.Transparent;
@@ -93,17 +104,6 @@
             this.playingBoard1.Symbol1Color = System.Drawing.Color.Red;
             this.playingBoard1.Symbol2Color = System.Drawing.Color.Blue;
             this.playingBoard1.TabIndex = 3;
-            // 
-            // label_score
-            // 
-            this.label_score.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label_score.AutoSize = true;
-            this.label_score.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_score.Location = new System.Drawing.Point(348, 387);
-            this.label_score.Name = "label_score";
-            this.label_score.Size = new System.Drawing.Size(63, 37);
-            this.label_score.TabIndex = 4;
-            this.label_score.Text = "0:0";
             // 
             // Form1
             // 

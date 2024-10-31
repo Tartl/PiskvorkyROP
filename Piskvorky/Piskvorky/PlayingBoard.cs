@@ -154,6 +154,7 @@ namespace Piskvorky
         public PlayingBoard()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
 
         private void PlayingBoard_MouseClick(object sender, MouseEventArgs e)
