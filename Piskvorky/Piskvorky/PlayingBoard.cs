@@ -23,8 +23,14 @@ namespace Piskvorky
         private Pen symbol2Pen;
         private Calculations calc;
         private GameSymbol currentPlayer = GameSymbol.Symbol1;
+        private float gridThickness = 1f;
+        private float symbol1Thickness = 2f;
+        private float symbol2Thickness = 2f;
 
+        private float GridThickness {  get; set; }
 
+        private float Symbol1Thickness { get; set; }
+        private float Symbol2Thickness { get; set; }
         private Calculations Calc
         {
             get 
@@ -87,7 +93,7 @@ namespace Piskvorky
         }
         public Pen GridPen {
             get {
-                if ( gridPen == null ) gridPen = new Pen(GridColor);
+                if ( gridPen == null ) gridPen = new Pen(GridColor, gridThickness);
                 return gridPen;
             }
         }
@@ -95,7 +101,7 @@ namespace Piskvorky
         {
             get
             {
-                if (symbol1Pen == null) symbol1Pen = new Pen(symbol1Color);
+                if (symbol1Pen == null) symbol1Pen = new Pen(symbol1Color, symbol1Thickness);
                 return symbol1Pen;
             }
         }
@@ -103,7 +109,7 @@ namespace Piskvorky
         {
             get
             {
-                if (symbol2Pen == null) symbol2Pen = new Pen(symbol2Color);
+                if (symbol2Pen == null) symbol2Pen = new Pen(symbol2Color, symbol2Thickness);
                 return symbol2Pen;
             }
         }
