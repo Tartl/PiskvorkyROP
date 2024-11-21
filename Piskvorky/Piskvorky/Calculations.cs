@@ -15,6 +15,7 @@ namespace Piskvorky
         private short winLength = 5;
         private short[,,,] symbolsInRow;
         private short[,] DirectionSigns;
+        private int rowsLeftOnBoard;
 
         public Calculations(int boardSize)
         {
@@ -36,12 +37,7 @@ namespace Piskvorky
                 if (symbolsInRow == null) ClearSymbolsInRow();
                 return symbolsInRow;
             }
-            set
-            {
-
-            }
         }
-        
         public void ClearSymbolsInRow()
         {
             symbolsInRow = new short[boardSize, boardSize,(short)Direction.Diag2 + 1,(short)GameSymbol.Symbol2 + 1];
@@ -59,6 +55,7 @@ namespace Piskvorky
                    
                 }
             }
+            rowsLeftOnBoard = 4 * ((2 * boardSize - (winLength - 1)) * (boardSize - (winLength - 1)));
         }
 
         public GameSymbol[,] SymbolsOnBoard
@@ -111,7 +108,10 @@ namespace Piskvorky
                     break;
                 }
             }
+
             SymbolsOnBoard[x, y] = player;
+            if (result == GameResult.Continue && rowsLeftOnBoard <= 0)
+                result = GameResult.Draw;
             return result;
         }
         private bool PositionWithinBounds(int posX, int posY, short dirHor, short dirVer)
@@ -132,6 +132,8 @@ namespace Piskvorky
             numberInRow++;
             if (numberInRow == winLength)
                 return GameResult.Win;
+            if (numberInRow == 1)
+                rowsLeftOnBoard--;
             return GameResult.Continue;
         }
 

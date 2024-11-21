@@ -188,6 +188,10 @@ namespace Piskvorky
                 }
                 
             }
+            else if (result == GameResult.Draw)
+            {
+                MessageBox.Show($"Na hrací ploše již nejsou žádné výhry, došlo k remíze!");
+            }
             currentPlayer = Opponent;
             
         }
