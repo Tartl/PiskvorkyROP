@@ -10,15 +10,17 @@ using System.Windows.Forms;
 
 namespace Piskvorky
 {
-    public partial class Form1 : Form
+    public partial class FormBoard : Form
     {
         int fieldSize;
         int width = 0,
             height  = 0;
-        public Form1()
+        FormMenu formMenu;
+        public FormBoard(FormMenu formMenu)
         {
             InitializeComponent();
             fieldSize = playingBoard1.FieldSize;
+            this.formMenu = formMenu;
         }
         private const int ResizeThreshold = 5;
 
@@ -38,6 +40,16 @@ namespace Piskvorky
             }
         }
 
+        private void buttonMenu_Click(object sender, EventArgs e)
+        {
+            formMenu.Show();
+            Close();
+        }
+
+        private void FormBoard_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formMenu.Show();
+        }
 
         private void Form1_Resize(object sender, EventArgs e)
         {

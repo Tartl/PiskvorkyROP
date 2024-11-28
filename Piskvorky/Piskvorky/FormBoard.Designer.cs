@@ -1,6 +1,6 @@
 ﻿namespace Piskvorky
 {
-    partial class Form1
+    partial class FormBoard
     {
         /// <summary>
         /// Required designer variable.
@@ -31,8 +31,9 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label_hrac2 = new System.Windows.Forms.Label();
             this.label_hrac1 = new System.Windows.Forms.Label();
-            this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.label_score = new System.Windows.Forms.Label();
+            this.buttonMenu = new System.Windows.Forms.Button();
+            this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +50,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label_hrac1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.playingBoard1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label_score, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonMenu, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -79,6 +81,27 @@
             this.label_hrac1.TabIndex = 1;
             this.label_hrac1.Text = "Hráč 1";
             // 
+            // label_score
+            // 
+            this.label_score.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label_score.AutoSize = true;
+            this.label_score.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_score.Location = new System.Drawing.Point(348, 387);
+            this.label_score.Name = "label_score";
+            this.label_score.Size = new System.Drawing.Size(63, 37);
+            this.label_score.TabIndex = 4;
+            this.label_score.Text = "0:0";
+            // 
+            // buttonMenu
+            // 
+            this.buttonMenu.Location = new System.Drawing.Point(3, 3);
+            this.buttonMenu.Name = "buttonMenu";
+            this.buttonMenu.Size = new System.Drawing.Size(115, 35);
+            this.buttonMenu.TabIndex = 5;
+            this.buttonMenu.Text = "Menu";
+            this.buttonMenu.UseVisualStyleBackColor = true;
+            this.buttonMenu.Click += new System.EventHandler(this.buttonMenu_Click);
+            // 
             // playingBoard1
             // 
             this.playingBoard1.BackColor = System.Drawing.Color.Transparent;
@@ -94,27 +117,16 @@
             this.playingBoard1.Symbol2Color = System.Drawing.Color.Blue;
             this.playingBoard1.TabIndex = 3;
             // 
-            // label_score
-            // 
-            this.label_score.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label_score.AutoSize = true;
-            this.label_score.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_score.Location = new System.Drawing.Point(348, 387);
-            this.label_score.Name = "label_score";
-            this.label_score.Size = new System.Drawing.Size(63, 37);
-            this.label_score.TabIndex = 4;
-            this.label_score.Text = "0:0";
-            // 
-            // Form1
+            // FormBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(800, 500);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "FormBoard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormBoard_FormClosed);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -126,8 +138,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label_hrac2;
         private System.Windows.Forms.Label label_hrac1;
-        private System.Windows.Forms.Label label_score;
         private PlayingBoard playingBoard1;
+        public System.Windows.Forms.Label label_score;
+        private System.Windows.Forms.Button buttonMenu;
     }
 }
 

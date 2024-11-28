@@ -9,7 +9,6 @@ C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.GenerateResource.
 C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.CoreCompileInputs.cache
 C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.exe
 C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.pdb
-C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.Form1.resources
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\bin\Debug\Piskvorky.exe.config
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\bin\Debug\Piskvorky.exe
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\bin\Debug\Piskvorky.pdb
@@ -21,3 +20,5 @@ E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.Generate
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.CoreCompileInputs.cache
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.exe
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.pdb
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormMenu.resources
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormBoard.resources

@@ -49,13 +49,25 @@
     <Compile Include="Calculations.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="Direction.cs" />
-    <Compile Include="GameResult.cs" />
-    <Compile Include="GameSymbol.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="FormMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FormMenu.Designer.cs">
+      <DependentUpon>FormMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSettings.Designer.cs">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameResult.cs" />
+    <Compile Include="GameSymbol.cs" />
+    <Compile Include="FormBoard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBoard.Designer.cs">
+      <DependentUpon>FormBoard.cs</DependentUpon>
     </Compile>
     <Compile Include="PlayingBoard.cs">
       <SubType>UserControl</SubType>
@@ -65,8 +77,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="FormBoard.resx">
+      <DependentUpon>FormBoard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMenu.resx">
+      <DependentUpon>FormMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSettings.resx">
+      <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlayingBoard.resx">
       <DependentUpon>PlayingBoard.cs</DependentUpon>

@@ -26,7 +26,8 @@ namespace Piskvorky
         private float gridThickness = 1f;
         private float symbol1Thickness = 2f;
         private float symbol2Thickness = 2f;
-
+        private double player1Score = 0;
+        private double player2Score = 0;
         private float GridThickness {  get; set; }
 
         private float Symbol1Thickness { get; set; }
@@ -181,16 +182,20 @@ namespace Piskvorky
                 if (currentPlayer == GameSymbol.Symbol1)
                 {
                     MessageBox.Show($"Vyhrál Hráč 1");
+                    player1Score++;
                 }
                 if (currentPlayer == GameSymbol.Symbol2)
                 {
                     MessageBox.Show($"Vyhrál Hráč 2");
+                    player2Score++;
                 }
                 
             }
             else if (result == GameResult.Draw)
             {
                 MessageBox.Show($"Na hrací ploše již nejsou žádné výhry, došlo k remíze!");
+                player1Score += 0.5;
+                player2Score += 0.5;
             }
             currentPlayer = Opponent;
             
