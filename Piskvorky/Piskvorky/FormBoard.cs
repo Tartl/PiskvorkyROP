@@ -16,11 +16,15 @@ namespace Piskvorky
         int width = 0,
             height  = 0;
         FormMenu formMenu;
+
         public FormBoard(FormMenu formMenu)
         {
             InitializeComponent();
             fieldSize = playingBoard1.FieldSize;
             this.formMenu = formMenu;
+            playingBoard1.PlayerWon += OnPlayerWon;
+            playingBoard1.Draw += OnDraw;
+
         }
         private const int ResizeThreshold = 5;
 
@@ -51,9 +55,74 @@ namespace Piskvorky
             formMenu.Show();
         }
 
+        private void nastaveníToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormSettings formsettings = new FormSettings();
+            formsettings.ShowDialog();
+            switch (formsettings.DialogResult)
+            {
+                case DialogResult.OK:
+                    {
+                        playingBoard1.Calc.WinLength = (short)formsettings.numUpDown_winLenght.Value;
+                    }
+                    break;
+                case DialogResult.Cancel:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void Form1_Resize(object sender, EventArgs e)
         {
             BoardRedraw();
+        }
+
+        private void OnPlayerWon(GameSymbol winner)
+        {
+            string[] scores = label_score.Text.Split(':'); // Parse current scores
+            double player1Score = int.Parse(scores[0]);
+            double player2Score = int.Parse(scores[1]);
+
+            // Update scores based on the winner
+            if (winner == GameSymbol.Symbol1)
+            {
+                MessageBox.Show("Vyhrál Hráč 1!");
+                player1Score++;
+            }
+            else if (winner == GameSymbol.Symbol2)
+            {
+                MessageBox.Show("Vyhrál Hráč 2!");
+                player2Score++;
+            }
+
+            label_score.Text = $"{player1Score}:{player2Score}"; // Update label
+        }
+
+        private void nováHraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ukončitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+            formMenu.Show();
+        }
+
+        private void OnDraw()
+        {
+            MessageBox.Show("Na hrací ploše již nejsou žádné výhry, došlo k remíze!");
+
+            string[] scores = label_score.Text.Split(':'); // Parse current scores
+            double player1Score = double.Parse(scores[0]);
+            double player2Score = double.Parse(scores[1]);
+
+            // Update scores for a draw
+            player1Score += 0.5;
+            player2Score += 0.5;
+
+            label_score.Text = $"{player1Score}:{player2Score}"; // Update label
         }
     }
 }

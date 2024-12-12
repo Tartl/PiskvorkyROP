@@ -28,13 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormBoard));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label_hrac2 = new System.Windows.Forms.Label();
             this.label_hrac1 = new System.Windows.Forms.Label();
             this.label_score = new System.Windows.Forms.Label();
             this.buttonMenu = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.hraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nováHraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otevřeníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uloženíToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ukončitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nastaveníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.demoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.historieNejlepšíchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.tableLayoutPanel1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -51,12 +62,12 @@
             this.tableLayoutPanel1.Controls.Add(this.playingBoard1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label_score, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonMenu, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 27);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.81236F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.18764F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(760, 437);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(760, 422);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // label_hrac2
@@ -64,7 +75,7 @@
             this.label_hrac2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label_hrac2.AutoSize = true;
             this.label_hrac2.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_hrac2.Location = new System.Drawing.Point(642, 387);
+            this.label_hrac2.Location = new System.Drawing.Point(642, 373);
             this.label_hrac2.Name = "label_hrac2";
             this.label_hrac2.Size = new System.Drawing.Size(115, 37);
             this.label_hrac2.TabIndex = 2;
@@ -75,7 +86,7 @@
             this.label_hrac1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label_hrac1.AutoSize = true;
             this.label_hrac1.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_hrac1.Location = new System.Drawing.Point(3, 387);
+            this.label_hrac1.Location = new System.Drawing.Point(3, 373);
             this.label_hrac1.Name = "label_hrac1";
             this.label_hrac1.Size = new System.Drawing.Size(115, 37);
             this.label_hrac1.TabIndex = 1;
@@ -86,7 +97,7 @@
             this.label_score.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label_score.AutoSize = true;
             this.label_score.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_score.Location = new System.Drawing.Point(348, 387);
+            this.label_score.Location = new System.Drawing.Point(348, 373);
             this.label_score.Name = "label_score";
             this.label_score.Size = new System.Drawing.Size(63, 37);
             this.label_score.TabIndex = 4;
@@ -102,6 +113,75 @@
             this.buttonMenu.UseVisualStyleBackColor = true;
             this.buttonMenu.Click += new System.EventHandler(this.buttonMenu_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hraToolStripMenuItem,
+            this.nastaveníToolStripMenuItem,
+            this.demoToolStripMenuItem,
+            this.historieNejlepšíchToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
+            this.menuStrip1.TabIndex = 5;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // hraToolStripMenuItem
+            // 
+            this.hraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nováHraToolStripMenuItem,
+            this.otevřeníToolStripMenuItem,
+            this.uloženíToolStripMenuItem,
+            this.ukončitToolStripMenuItem});
+            this.hraToolStripMenuItem.Name = "hraToolStripMenuItem";
+            this.hraToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.hraToolStripMenuItem.Text = "Hra";
+            // 
+            // nováHraToolStripMenuItem
+            // 
+            this.nováHraToolStripMenuItem.Name = "nováHraToolStripMenuItem";
+            this.nováHraToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nováHraToolStripMenuItem.Text = "Nová hra";
+            this.nováHraToolStripMenuItem.Click += new System.EventHandler(this.nováHraToolStripMenuItem_Click);
+            // 
+            // otevřeníToolStripMenuItem
+            // 
+            this.otevřeníToolStripMenuItem.Name = "otevřeníToolStripMenuItem";
+            this.otevřeníToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.otevřeníToolStripMenuItem.Text = "Otevření";
+            // 
+            // uloženíToolStripMenuItem
+            // 
+            this.uloženíToolStripMenuItem.Name = "uloženíToolStripMenuItem";
+            this.uloženíToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.uloženíToolStripMenuItem.Text = "Uložení";
+            // 
+            // ukončitToolStripMenuItem
+            // 
+            this.ukončitToolStripMenuItem.Name = "ukončitToolStripMenuItem";
+            this.ukončitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ukončitToolStripMenuItem.Text = "Ukončit";
+            this.ukončitToolStripMenuItem.Click += new System.EventHandler(this.ukončitToolStripMenuItem_Click);
+            // 
+            // nastaveníToolStripMenuItem
+            // 
+            this.nastaveníToolStripMenuItem.Name = "nastaveníToolStripMenuItem";
+            this.nastaveníToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.nastaveníToolStripMenuItem.Text = "Nastavení";
+            this.nastaveníToolStripMenuItem.Click += new System.EventHandler(this.nastaveníToolStripMenuItem_Click);
+            // 
+            // demoToolStripMenuItem
+            // 
+            this.demoToolStripMenuItem.Name = "demoToolStripMenuItem";
+            this.demoToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.demoToolStripMenuItem.Text = "Demo";
+            // 
+            // historieNejlepšíchToolStripMenuItem
+            // 
+            this.historieNejlepšíchToolStripMenuItem.Name = "historieNejlepšíchToolStripMenuItem";
+            this.historieNejlepšíchToolStripMenuItem.Size = new System.Drawing.Size(116, 20);
+            this.historieNejlepšíchToolStripMenuItem.Text = "Historie nejlepších";
+            // 
             // playingBoard1
             // 
             this.playingBoard1.BackColor = System.Drawing.Color.Transparent;
@@ -112,7 +192,7 @@
             this.playingBoard1.Location = new System.Drawing.Point(231, 3);
             this.playingBoard1.MinimumSize = new System.Drawing.Size(301, 301);
             this.playingBoard1.Name = "playingBoard1";
-            this.playingBoard1.Size = new System.Drawing.Size(301, 369);
+            this.playingBoard1.Size = new System.Drawing.Size(301, 356);
             this.playingBoard1.Symbol1Color = System.Drawing.Color.Red;
             this.playingBoard1.Symbol2Color = System.Drawing.Color.Blue;
             this.playingBoard1.TabIndex = 3;
@@ -123,6 +203,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "FormBoard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -130,7 +213,10 @@
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -141,6 +227,15 @@
         private PlayingBoard playingBoard1;
         public System.Windows.Forms.Label label_score;
         private System.Windows.Forms.Button buttonMenu;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem hraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nováHraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem otevřeníToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uloženíToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ukončitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nastaveníToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem demoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem historieNejlepšíchToolStripMenuItem;
     }
 }
 

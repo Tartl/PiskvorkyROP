@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -39,14 +40,16 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.numUpDown_winLenght = new System.Windows.Forms.NumericUpDown();
+            this.numUpDown_boardSize = new System.Windows.Forms.NumericUpDown();
+            this.numUpDown_gameLenght = new System.Windows.Forms.NumericUpDown();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDown_winLenght)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDown_boardSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDown_gameLenght)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -154,41 +157,59 @@
             this.label8.TabIndex = 16;
             this.label8.Text = "hráč 2";
             // 
-            // numericUpDown1
+            // numUpDown_winLenght
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(260, 117);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(43, 20);
-            this.numericUpDown1.TabIndex = 17;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numUpDown_winLenght.Location = new System.Drawing.Point(260, 117);
+            this.numUpDown_winLenght.Name = "numUpDown_winLenght";
+            this.numUpDown_winLenght.Size = new System.Drawing.Size(43, 20);
+            this.numUpDown_winLenght.TabIndex = 17;
+            this.numUpDown_winLenght.Value = new decimal(new int[] {
             5,
             0,
             0,
             0});
+            this.numUpDown_winLenght.ValueChanged += new System.EventHandler(this.numUpDown_winLenght_ValueChanged);
             // 
-            // numericUpDown2
+            // numUpDown_boardSize
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(260, 195);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(43, 20);
-            this.numericUpDown2.TabIndex = 18;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.numUpDown_boardSize.Location = new System.Drawing.Point(260, 154);
+            this.numUpDown_boardSize.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            this.numUpDown_boardSize.Minimum = new decimal(new int[] {
             3,
             0,
             0,
             0});
-            // 
-            // numericUpDown3
-            // 
-            this.numericUpDown3.Location = new System.Drawing.Point(260, 154);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(43, 20);
-            this.numericUpDown3.TabIndex = 19;
-            this.numericUpDown3.Value = new decimal(new int[] {
+            this.numUpDown_boardSize.Name = "numUpDown_boardSize";
+            this.numUpDown_boardSize.Size = new System.Drawing.Size(43, 20);
+            this.numUpDown_boardSize.TabIndex = 18;
+            this.numUpDown_boardSize.Value = new decimal(new int[] {
             15,
             0,
             0,
             0});
+            this.numUpDown_boardSize.ValueChanged += new System.EventHandler(this.numUpDown_boardSize_ValueChanged);
+            // 
+            // numUpDown_gameLenght
+            // 
+            this.numUpDown_gameLenght.Location = new System.Drawing.Point(260, 188);
+            this.numUpDown_gameLenght.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numUpDown_gameLenght.Name = "numUpDown_gameLenght";
+            this.numUpDown_gameLenght.Size = new System.Drawing.Size(43, 20);
+            this.numUpDown_gameLenght.TabIndex = 19;
+            this.numUpDown_gameLenght.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.numUpDown_gameLenght.ValueChanged += new System.EventHandler(this.numUpDown_gameLenght_ValueChanged);
             // 
             // comboBox1
             // 
@@ -207,21 +228,45 @@
             this.comboBox2.Items.AddRange(new object[] {
             "X",
             "O"});
-            this.comboBox2.Location = new System.Drawing.Point(376, 74);
+            this.comboBox2.Location = new System.Drawing.Point(377, 74);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(67, 21);
             this.comboBox2.TabIndex = 21;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.button1.Location = new System.Drawing.Point(288, 349);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 30);
+            this.button1.TabIndex = 22;
+            this.button1.Text = "OK";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.button2.Location = new System.Drawing.Point(369, 349);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 30);
+            this.button2.TabIndex = 23;
+            this.button2.Text = "Zrušit";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(456, 395);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.numericUpDown3);
-            this.Controls.Add(this.numericUpDown2);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.numUpDown_gameLenght);
+            this.Controls.Add(this.numUpDown_boardSize);
+            this.Controls.Add(this.numUpDown_winLenght);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -233,11 +278,17 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(472, 434);
             this.Name = "FormSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FormSettings";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDown_winLenght)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDown_boardSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDown_gameLenght)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -255,10 +306,12 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        public System.Windows.Forms.NumericUpDown numericUpDown1;
-        public System.Windows.Forms.NumericUpDown numericUpDown2;
-        public System.Windows.Forms.NumericUpDown numericUpDown3;
+        public System.Windows.Forms.NumericUpDown numUpDown_winLenght;
+        public System.Windows.Forms.NumericUpDown numUpDown_boardSize;
+        public System.Windows.Forms.NumericUpDown numUpDown_gameLenght;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }

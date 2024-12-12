@@ -16,5 +16,20 @@ namespace Piskvorky
         {
             InitializeComponent();
         }
+
+        private void numUpDown_winLenght_ValueChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void numUpDown_boardSize_ValueChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void numUpDown_gameLenght_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

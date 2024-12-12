@@ -32,7 +32,11 @@ namespace Piskvorky
 
         private float Symbol1Thickness { get; set; }
         private float Symbol2Thickness { get; set; }
-        private Calculations Calc
+
+        public event Action<GameSymbol> PlayerWon;
+        public event Action Draw;
+
+        public Calculations Calc
         {
             get 
             {
@@ -164,6 +168,28 @@ namespace Piskvorky
             DoubleBuffered = true;
         }
 
+        public void UpdateScore(Label scoreLabel, GameSymbol winner)
+        {
+            string[] scores = scoreLabel.Text.Split(':');
+            int player1Score = int.Parse(scores[0]);
+            int player2Score = int.Parse(scores[1]);
+
+            if (winner == GameSymbol.Symbol1)
+                player1Score++;
+            else if (winner == GameSymbol.Symbol2)
+                player2Score++;
+
+            scoreLabel.Text = $"{player1Score}:{player2Score}";
+        }
+
+        public void ResetGame()
+        {
+            Calc.ClearBoard();
+            Calc.ClearSymbolsInRow();
+            currentPlayer = GameSymbol.Symbol2;
+            Refresh();
+        }
+
         private void PlayingBoard_MouseClick(object sender, MouseEventArgs e)
         {
             int x = e.X / fieldSize;
@@ -179,23 +205,13 @@ namespace Piskvorky
             Refresh();
             if (result == GameResult.Win)
             {
-                if (currentPlayer == GameSymbol.Symbol1)
-                {
-                    MessageBox.Show($"Vyhrál Hráč 1");
-                    player1Score++;
-                }
-                if (currentPlayer == GameSymbol.Symbol2)
-                {
-                    MessageBox.Show($"Vyhrál Hráč 2");
-                    player2Score++;
-                }
-                
+                PlayerWon?.Invoke(currentPlayer);
+                ResetGame();
             }
             else if (result == GameResult.Draw)
             {
-                MessageBox.Show($"Na hrací ploše již nejsou žádné výhry, došlo k remíze!");
-                player1Score += 0.5;
-                player2Score += 0.5;
+                Draw?.Invoke();
+                ResetGame();
             }
             currentPlayer = Opponent;
             

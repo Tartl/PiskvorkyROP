@@ -11,7 +11,6 @@ namespace Piskvorky
     {
         private int boardSize = 15;
         private GameSymbol[,] symbolsOnBoard;
-        FormSettings formSettings = new FormSettings();
         private short winLength = 5;
         private short[,,,] symbolsInRow;
         private short[,] DirectionSigns;

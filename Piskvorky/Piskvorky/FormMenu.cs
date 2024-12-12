@@ -17,7 +17,7 @@ namespace Piskvorky
             InitializeComponent();
         }
 
-        private void buttonMenu_Click(object sender, EventArgs e)
+        private void buttonNewGame_Click(object sender, EventArgs e)
         {
             FormBoard board = new FormBoard(this);
             board.Show();
@@ -26,7 +26,12 @@ namespace Piskvorky
 
         private void buttonSettings_Click(object sender, EventArgs e)
         {
-
+            FormSettings formSettings = new FormSettings();
+            formSettings.ShowDialog();
+            if (formSettings.DialogResult == DialogResult.OK)
+            {
+                
+            }
         }
 
         private void buttonQuit_Click(object sender, EventArgs e)

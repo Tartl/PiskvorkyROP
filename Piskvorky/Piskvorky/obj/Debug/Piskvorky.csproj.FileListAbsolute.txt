@@ -22,3 +22,4 @@ E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.exe
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.pdb
 C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormMenu.resources
 C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormBoard.resources
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormSettings.resources

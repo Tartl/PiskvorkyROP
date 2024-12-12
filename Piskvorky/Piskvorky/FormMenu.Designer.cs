@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonMenu = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMenu));
+            this.buttonNewGame = new System.Windows.Forms.Button();
             this.buttonSettings = new System.Windows.Forms.Button();
             this.buttonBest = new System.Windows.Forms.Button();
             this.buttonLoad = new System.Windows.Forms.Button();
@@ -37,16 +38,16 @@
             this.buttonDemo = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // buttonMenu
+            // buttonNewGame
             // 
-            this.buttonMenu.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonMenu.Location = new System.Drawing.Point(248, 144);
-            this.buttonMenu.Name = "buttonMenu";
-            this.buttonMenu.Size = new System.Drawing.Size(312, 35);
-            this.buttonMenu.TabIndex = 0;
-            this.buttonMenu.Text = "Nová hra";
-            this.buttonMenu.UseVisualStyleBackColor = true;
-            this.buttonMenu.Click += new System.EventHandler(this.buttonMenu_Click);
+            this.buttonNewGame.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonNewGame.Location = new System.Drawing.Point(248, 144);
+            this.buttonNewGame.Name = "buttonNewGame";
+            this.buttonNewGame.Size = new System.Drawing.Size(312, 35);
+            this.buttonNewGame.TabIndex = 0;
+            this.buttonNewGame.Text = "Nová hra";
+            this.buttonNewGame.UseVisualStyleBackColor = true;
+            this.buttonNewGame.Click += new System.EventHandler(this.buttonNewGame_Click);
             // 
             // buttonSettings
             // 
@@ -121,16 +122,17 @@
             this.Controls.Add(this.buttonLoad);
             this.Controls.Add(this.buttonBest);
             this.Controls.Add(this.buttonSettings);
-            this.Controls.Add(this.buttonMenu);
+            this.Controls.Add(this.buttonNewGame);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMenu";
-            this.Text = "FormMenu";
+            this.Text = "Piškvorky";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button buttonMenu;
+        private System.Windows.Forms.Button buttonNewGame;
         private System.Windows.Forms.Button buttonSettings;
         private System.Windows.Forms.Button buttonBest;
         private System.Windows.Forms.Button buttonLoad;
