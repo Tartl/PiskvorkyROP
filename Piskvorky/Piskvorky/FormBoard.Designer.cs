@@ -32,6 +32,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label_hrac2 = new System.Windows.Forms.Label();
             this.label_hrac1 = new System.Windows.Forms.Label();
+            this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.label_score = new System.Windows.Forms.Label();
             this.buttonMenu = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -40,10 +41,6 @@
             this.otevřeníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uloženíToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ukončitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nastaveníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.demoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.historieNejlepšíchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -92,6 +89,21 @@
             this.label_hrac1.TabIndex = 1;
             this.label_hrac1.Text = "Hráč 1";
             // 
+            // playingBoard1
+            // 
+            this.playingBoard1.BackColor = System.Drawing.Color.Transparent;
+            this.playingBoard1.BoardSize = 15;
+            this.playingBoard1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.playingBoard1.FieldSize = 20;
+            this.playingBoard1.GridColor = System.Drawing.Color.Black;
+            this.playingBoard1.Location = new System.Drawing.Point(231, 3);
+            this.playingBoard1.MinimumSize = new System.Drawing.Size(301, 301);
+            this.playingBoard1.Name = "playingBoard1";
+            this.playingBoard1.Size = new System.Drawing.Size(301, 356);
+            this.playingBoard1.Symbol1Color = System.Drawing.Color.Red;
+            this.playingBoard1.Symbol2Color = System.Drawing.Color.Blue;
+            this.playingBoard1.TabIndex = 3;
+            // 
             // label_score
             // 
             this.label_score.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -116,10 +128,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hraToolStripMenuItem,
-            this.nastaveníToolStripMenuItem,
-            this.demoToolStripMenuItem,
-            this.historieNejlepšíchToolStripMenuItem});
+            this.hraToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(784, 24);
@@ -163,40 +172,6 @@
             this.ukončitToolStripMenuItem.Text = "Ukončit";
             this.ukončitToolStripMenuItem.Click += new System.EventHandler(this.ukončitToolStripMenuItem_Click);
             // 
-            // nastaveníToolStripMenuItem
-            // 
-            this.nastaveníToolStripMenuItem.Name = "nastaveníToolStripMenuItem";
-            this.nastaveníToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.nastaveníToolStripMenuItem.Text = "Nastavení";
-            this.nastaveníToolStripMenuItem.Click += new System.EventHandler(this.nastaveníToolStripMenuItem_Click);
-            // 
-            // demoToolStripMenuItem
-            // 
-            this.demoToolStripMenuItem.Name = "demoToolStripMenuItem";
-            this.demoToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
-            this.demoToolStripMenuItem.Text = "Demo";
-            // 
-            // historieNejlepšíchToolStripMenuItem
-            // 
-            this.historieNejlepšíchToolStripMenuItem.Name = "historieNejlepšíchToolStripMenuItem";
-            this.historieNejlepšíchToolStripMenuItem.Size = new System.Drawing.Size(116, 20);
-            this.historieNejlepšíchToolStripMenuItem.Text = "Historie nejlepších";
-            // 
-            // playingBoard1
-            // 
-            this.playingBoard1.BackColor = System.Drawing.Color.Transparent;
-            this.playingBoard1.BoardSize = 15;
-            this.playingBoard1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.playingBoard1.FieldSize = 20;
-            this.playingBoard1.GridColor = System.Drawing.Color.Black;
-            this.playingBoard1.Location = new System.Drawing.Point(231, 3);
-            this.playingBoard1.MinimumSize = new System.Drawing.Size(301, 301);
-            this.playingBoard1.Name = "playingBoard1";
-            this.playingBoard1.Size = new System.Drawing.Size(301, 356);
-            this.playingBoard1.Symbol1Color = System.Drawing.Color.Red;
-            this.playingBoard1.Symbol2Color = System.Drawing.Color.Blue;
-            this.playingBoard1.TabIndex = 3;
-            // 
             // FormBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -233,9 +208,6 @@
         private System.Windows.Forms.ToolStripMenuItem otevřeníToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uloženíToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ukončitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nastaveníToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem demoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem historieNejlepšíchToolStripMenuItem;
     }
 }
 

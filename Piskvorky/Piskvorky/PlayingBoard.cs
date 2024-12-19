@@ -26,8 +26,6 @@ namespace Piskvorky
         private float gridThickness = 1f;
         private float symbol1Thickness = 2f;
         private float symbol2Thickness = 2f;
-        private double player1Score = 0;
-        private double player2Score = 0;
         private float GridThickness {  get; set; }
 
         private float Symbol1Thickness { get; set; }

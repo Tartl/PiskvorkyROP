@@ -47,6 +47,7 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_winLenght)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_boardSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_gameLenght)).BeginInit();
@@ -91,7 +92,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(62, 236);
+            this.label5.Location = new System.Drawing.Point(61, 265);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(97, 13);
             this.label5.TabIndex = 5;
@@ -100,7 +101,7 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(244, 234);
+            this.radioButton1.Location = new System.Drawing.Point(243, 263);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(51, 17);
             this.radioButton1.TabIndex = 9;
@@ -111,7 +112,7 @@
             // 
             this.radioButton2.AutoSize = true;
             this.radioButton2.Checked = true;
-            this.radioButton2.Location = new System.Drawing.Point(244, 257);
+            this.radioButton2.Location = new System.Drawing.Point(243, 286);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(59, 17);
             this.radioButton2.TabIndex = 10;
@@ -122,7 +123,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(244, 280);
+            this.radioButton3.Location = new System.Drawing.Point(243, 309);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(51, 17);
             this.radioButton3.TabIndex = 11;
@@ -168,7 +169,6 @@
             0,
             0,
             0});
-            this.numUpDown_winLenght.ValueChanged += new System.EventHandler(this.numUpDown_winLenght_ValueChanged);
             // 
             // numUpDown_boardSize
             // 
@@ -191,7 +191,6 @@
             0,
             0,
             0});
-            this.numUpDown_boardSize.ValueChanged += new System.EventHandler(this.numUpDown_boardSize_ValueChanged);
             // 
             // numUpDown_gameLenght
             // 
@@ -209,7 +208,6 @@
             0,
             0,
             0});
-            this.numUpDown_gameLenght.ValueChanged += new System.EventHandler(this.numUpDown_gameLenght_ValueChanged);
             // 
             // comboBox1
             // 
@@ -255,11 +253,23 @@
             this.button2.Text = "Zrušit";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(59, 240);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBox1.Size = new System.Drawing.Size(199, 17);
+            this.checkBox1.TabIndex = 24;
+            this.checkBox1.Text = "                                hra s počítačem";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(456, 395);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox2);
@@ -313,5 +323,6 @@
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
