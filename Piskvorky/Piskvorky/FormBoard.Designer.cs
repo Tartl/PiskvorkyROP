@@ -34,13 +34,13 @@
             this.label_hrac1 = new System.Windows.Forms.Label();
             this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.label_score = new System.Windows.Forms.Label();
-            this.buttonMenu = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.hraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nováHraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otevřeníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uloženíToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ukončitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -58,7 +58,6 @@
             this.tableLayoutPanel1.Controls.Add(this.label_hrac1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.playingBoard1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label_score, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.buttonMenu, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 27);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -115,16 +114,6 @@
             this.label_score.TabIndex = 4;
             this.label_score.Text = "0:0";
             // 
-            // buttonMenu
-            // 
-            this.buttonMenu.Location = new System.Drawing.Point(3, 3);
-            this.buttonMenu.Name = "buttonMenu";
-            this.buttonMenu.Size = new System.Drawing.Size(115, 35);
-            this.buttonMenu.TabIndex = 5;
-            this.buttonMenu.Text = "Menu";
-            this.buttonMenu.UseVisualStyleBackColor = true;
-            this.buttonMenu.Click += new System.EventHandler(this.buttonMenu_Click);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -139,6 +128,7 @@
             // 
             this.hraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nováHraToolStripMenuItem,
+            this.menuToolStripMenuItem,
             this.otevřeníToolStripMenuItem,
             this.uloženíToolStripMenuItem,
             this.ukončitToolStripMenuItem});
@@ -172,6 +162,13 @@
             this.ukončitToolStripMenuItem.Text = "Ukončit";
             this.ukončitToolStripMenuItem.Click += new System.EventHandler(this.ukončitToolStripMenuItem_Click);
             // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.menuToolStripMenuItem.Text = "Menu";
+            this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
+            // 
             // FormBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -201,13 +198,13 @@
         private System.Windows.Forms.Label label_hrac1;
         private PlayingBoard playingBoard1;
         public System.Windows.Forms.Label label_score;
-        private System.Windows.Forms.Button buttonMenu;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem hraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nováHraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otevřeníToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uloženíToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ukončitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
     }
 }
 

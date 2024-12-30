@@ -46,8 +46,7 @@ namespace Piskvorky
 
         private void buttonMenu_Click(object sender, EventArgs e)
         {
-            formMenu.Show();
-            Close();
+
         }
 
         private void FormBoard_FormClosed(object sender, FormClosedEventArgs e)
@@ -92,6 +91,16 @@ namespace Piskvorky
         {
             Close();
             formMenu.Show();
+        }
+
+        private void menuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Opravdu chcete jít do menu?", "Upozornění", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                formMenu.Show();
+                Close();
+            }
+
         }
 
         private void OnDraw()

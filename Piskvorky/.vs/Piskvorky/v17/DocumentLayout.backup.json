@@ -3,28 +3,16 @@
   "WorkspaceRootPath": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|e:\\kuba\\prg\\piskvorkyrop\\piskvorky\\piskvorky\\formboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|solutionrelative:piskvorky\\formboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|e:\\kuba\\prg\\piskvorkyrop\\piskvorky\\piskvorky\\formboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|solutionrelative:piskvorky\\formboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|e:\\kuba\\prg\\piskvorkyrop\\piskvorky\\piskvorky\\playingboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|solutionrelative:piskvorky\\playingboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\piskvorky\\calculations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|solutionrelative:piskvorky\\calculations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\piskvorky\\gameresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|solutionrelative:piskvorky\\gameresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\piskvorky\\playingboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{DAA19E38-2957-4862-ADEC-1ABF2D91D1CE}|Piskvorky\\Piskvorky.csproj|solutionrelative:piskvorky\\playingboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\Form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Piskvorky\\Form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\piskvorky\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:piskvorky\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,35 +22,36 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GameResult.cs",
-              "DocumentMoniker": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\GameResult.cs",
-              "RelativeDocumentMoniker": "Piskvorky\\GameResult.cs",
-              "ToolTip": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\GameResult.cs",
-              "RelativeToolTip": "Piskvorky\\GameResult.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 0,
+              "Title": "FormBoard.cs",
+              "DocumentMoniker": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\FormBoard.cs",
+              "RelativeDocumentMoniker": "Piskvorky\\FormBoard.cs",
+              "ToolTip": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\FormBoard.cs*",
+              "RelativeToolTip": "Piskvorky\\FormBoard.cs*",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAAwGcAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T22:59:48.688Z"
+              "WhenOpened": "2024-12-30T16:42:17.02Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Calculations.cs",
-              "DocumentMoniker": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\Calculations.cs",
-              "RelativeDocumentMoniker": "Piskvorky\\Calculations.cs",
-              "ToolTip": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\Calculations.cs",
-              "RelativeToolTip": "Piskvorky\\Calculations.cs",
-              "ViewState": "AQIAAGMAAAAAAAAAAAAowI0AAAAAAAAA",
+              "Title": "FormBoard.cs [N\u00E1vrh]",
+              "DocumentMoniker": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\FormBoard.cs",
+              "RelativeDocumentMoniker": "Piskvorky\\FormBoard.cs",
+              "ToolTip": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\FormBoard.cs [N\u00E1vrh]*",
+              "RelativeToolTip": "Piskvorky\\FormBoard.cs [N\u00E1vrh]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T22:59:48.776Z"
+              "WhenOpened": "2024-12-30T16:42:07.111Z",
+              "EditorCaption": " [N\u00E1vrh]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "PlayingBoard.cs",
               "DocumentMoniker": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\PlayingBoard.cs",
               "RelativeDocumentMoniker": "Piskvorky\\PlayingBoard.cs",
@@ -72,37 +61,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-31T22:59:48.839Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PlayingBoard.cs [Design]",
-              "DocumentMoniker": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\PlayingBoard.cs",
-              "RelativeDocumentMoniker": "Piskvorky\\PlayingBoard.cs",
-              "ToolTip": "C:\\Kuba\\PRG\\ROP\\Piskvorky\\Piskvorky\\PlayingBoard.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003302|",
-              "WhenOpened": "2024-10-31T22:59:49.007Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\Form1.cs",
-              "RelativeDocumentMoniker": "Piskvorky\\Form1.cs",
-              "ToolTip": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\Form1.cs",
-              "RelativeToolTip": "Piskvorky\\Form1.cs",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T22:59:49.008Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "E:\\KUBA\\PRG\\PiskvorkyROP\\Piskvorky\\Piskvorky\\Form1.cs",
-              "RelativeDocumentMoniker": "Piskvorky\\Form1.cs",
-              "ToolTip": "C:\\Kuba\\PRG\\ROP\\Piskvorky\\Piskvorky\\Form1.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003525|",
-              "WhenOpened": "2024-10-31T22:59:49.008Z"
             }
           ]
         }

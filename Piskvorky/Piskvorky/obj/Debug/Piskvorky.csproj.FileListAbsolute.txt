@@ -13,7 +13,6 @@ E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\bin\Debug\Piskvorky.exe.config
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\bin\Debug\Piskvorky.exe
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\bin\Debug\Piskvorky.pdb
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.AssemblyReference.cache
-E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.Form1.resources
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.PlayingBoard.resources
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.Properties.Resources.resources
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.csproj.GenerateResource.cache
@@ -23,3 +22,6 @@ E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.pdb
 C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormMenu.resources
 C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormBoard.resources
 C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormSettings.resources
+E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormBoard.resources
+E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormMenu.resources
+E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormSettings.resources
