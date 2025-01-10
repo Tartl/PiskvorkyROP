@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +17,7 @@ namespace Piskvorky
         int width = 0,
             height  = 0;
         FormMenu formMenu;
-
+        SoundPlayer winSound = new SoundPlayer(@"C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\win.wav");
         public FormBoard(FormMenu formMenu)
         {
             InitializeComponent();
@@ -68,11 +69,13 @@ namespace Piskvorky
 
             if (winner == GameSymbol.Symbol1)
             {
+                winSound.Play();
                 MessageBox.Show("Vyhrál Hráč 1!");
                 player1Score++;
             }
             else if (winner == GameSymbol.Symbol2)
             {
+                winSound.Play();
                 MessageBox.Show("Vyhrál Hráč 2!");
                 player2Score++;
             }

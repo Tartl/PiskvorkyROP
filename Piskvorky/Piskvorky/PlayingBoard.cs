@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace Piskvorky
         private float symbol1Thickness = 2f;
         private float symbol2Thickness = 2f;
         private float GridThickness {  get; set; }
-
+        SoundPlayer fieldFullSound = new SoundPlayer(@"C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\symbolExists-effect.wav");
         private float Symbol1Thickness { get; set; }
         private float Symbol2Thickness { get; set; }
 
@@ -116,6 +117,9 @@ namespace Piskvorky
                 return symbol2Pen;
             }
         }
+        public string Symbol1Emoji { get; set; } = "❌";
+        public string Symbol2Emoji { get; set; } = "⭕"; 
+
 
         private void PlayingBoard_Paint(object sender, PaintEventArgs e)
         {
@@ -134,19 +138,24 @@ namespace Piskvorky
 
         private void DrawSymbol(Graphics graphics, GameSymbol symbol, int x, int y)
         {
-            if (!Calc.CordsOnBoard(x,y))
+            if (!Calc.CordsOnBoard(x, y))
                 throw new Exception("Souřadnice se nachází mimo hrací plochu!");
-            if (symbol == GameSymbol.Symbol1)
-            {
-                graphics.DrawLine(Symbol1Pen, x * fieldSize + 1, y * fieldSize + 1, x * fieldSize + fieldSize - 1, y * fieldSize + fieldSize - 1);
-                graphics.DrawLine(Symbol1Pen, x * fieldSize + 1, y * fieldSize + fieldSize - 1, x * fieldSize + fieldSize - 1, y * fieldSize + 1);
 
-            }
-            if (symbol == GameSymbol.Symbol2)
+            string emoji = symbol == GameSymbol.Symbol1 ? Symbol1Emoji : (symbol == GameSymbol.Symbol2 ? Symbol2Emoji : null);
+            if (emoji != null)
             {
-                graphics.DrawEllipse(Symbol2Pen, x * fieldSize + 1, y * fieldSize + 1, fieldSize - 2, fieldSize - 2);
-            }
+                Color symbolColor = symbol == GameSymbol.Symbol1 ? Symbol1Color : Symbol2Color;
 
+                using (Font emojiFont = new Font("Segoe UI Emoji", fieldSize / 2))
+                using (Brush textBrush = new SolidBrush(symbolColor))
+                {
+                    SizeF textSize = graphics.MeasureString(emoji, emojiFont);
+                    float posX = x * fieldSize + (fieldSize - textSize.Width) / 2;
+                    float posY = y * fieldSize + (fieldSize - textSize.Height) / 2;
+
+                    graphics.DrawString(emoji, emojiFont, textBrush, posX, posY);
+                }
+            }
         }
 
         private void DrawSymbols(Graphics graphics)
@@ -196,6 +205,7 @@ namespace Piskvorky
                 return;
             if (Calc.SymbolsOnBoard[x, y] != GameSymbol.Free)
             {
+                fieldFullSound.Play();
                 MessageBox.Show("Tady už symbol je!");
                 return;
             }

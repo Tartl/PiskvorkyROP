@@ -15,6 +15,9 @@ namespace Piskvorky
         public FormSettings()
         {
             InitializeComponent();
+            string[] defaultSymbols = { "❌", "⭕", "⭐", "🍀", "🔥" };
+            comboBox1.Items.AddRange(defaultSymbols);
+            comboBox2.Items.AddRange(defaultSymbols);
         }
         
         public int WinLength 
@@ -54,5 +57,26 @@ namespace Piskvorky
 
         }
 
+        public string Player1Symbol
+        {
+            get { return comboBox1.Text; }
+            set { comboBox1.Text = value; }
+        }
+
+        public string Player2Symbol
+        {
+            get { return comboBox2.Text; }
+            set { comboBox2.Text = value; }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (Player1Symbol == Player2Symbol)
+            {
+                MessageBox.Show("Symboly hráčů musí být různé!", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult = DialogResult.None;
+                return;
+            }
+        }
     }
 }
