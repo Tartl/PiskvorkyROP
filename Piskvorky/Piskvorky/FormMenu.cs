@@ -27,10 +27,22 @@ namespace Piskvorky
         private void buttonSettings_Click(object sender, EventArgs e)
         {
             FormSettings formSettings = new FormSettings();
+            formSettings.BoardSize = GameSettings.BoardSize;
+            formSettings.WinLength = GameSettings.WinLength;
+            formSettings.GameLength = GameSettings.GameLength;
+            formSettings.Player1Symbol = GameSettings.Player1Symbol;
+            formSettings.Player2Symbol = GameSettings.Player2Symbol;
+            formSettings.IsWithAI = GameSettings.IsAgainstAI;
             formSettings.ShowDialog();
             if (formSettings.DialogResult == DialogResult.OK)
             {
-                
+                GameSettings.WinLength = formSettings.WinLength;
+                GameSettings.BoardSize = formSettings.BoardSize;
+                GameSettings.GameLength = formSettings.GameLength;
+                GameSettings.Player1Symbol = formSettings.Player1Symbol;
+                GameSettings.Player2Symbol = formSettings.Player2Symbol;
+                GameSettings.IsAgainstAI = formSettings.IsWithAI;
+                GameSettings.AI_Difficulty = formSettings.AIDifficulty();
             }
         }
 

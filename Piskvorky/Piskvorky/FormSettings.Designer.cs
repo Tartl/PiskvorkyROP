@@ -47,7 +47,8 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.IsWithAI_checkBox = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_winLenght)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_boardSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_gameLenght)).BeginInit();
@@ -56,7 +57,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(61, 77);
+            this.label1.Location = new System.Drawing.Point(12, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(117, 13);
             this.label1.TabIndex = 1;
@@ -65,7 +66,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(62, 119);
+            this.label2.Location = new System.Drawing.Point(12, 120);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(162, 13);
             this.label2.TabIndex = 2;
@@ -74,7 +75,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(62, 156);
+            this.label3.Location = new System.Drawing.Point(12, 150);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(159, 13);
             this.label3.TabIndex = 3;
@@ -83,7 +84,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(62, 195);
+            this.label4.Location = new System.Drawing.Point(12, 181);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 4;
@@ -92,7 +93,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(61, 265);
+            this.label5.Location = new System.Drawing.Point(229, 226);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(97, 13);
             this.label5.TabIndex = 5;
@@ -101,7 +102,7 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(243, 263);
+            this.radioButton1.Location = new System.Drawing.Point(377, 224);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(51, 17);
             this.radioButton1.TabIndex = 9;
@@ -112,7 +113,7 @@
             // 
             this.radioButton2.AutoSize = true;
             this.radioButton2.Checked = true;
-            this.radioButton2.Location = new System.Drawing.Point(243, 286);
+            this.radioButton2.Location = new System.Drawing.Point(377, 247);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(59, 17);
             this.radioButton2.TabIndex = 10;
@@ -123,7 +124,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(243, 309);
+            this.radioButton3.Location = new System.Drawing.Point(377, 270);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(51, 17);
             this.radioButton3.TabIndex = 11;
@@ -143,7 +144,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(188, 77);
+            this.label7.Location = new System.Drawing.Point(139, 42);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(37, 13);
             this.label7.TabIndex = 15;
@@ -152,7 +153,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(320, 77);
+            this.label8.Location = new System.Drawing.Point(271, 42);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(37, 13);
             this.label8.TabIndex = 16;
@@ -160,7 +161,7 @@
             // 
             // numUpDown_winLenght
             // 
-            this.numUpDown_winLenght.Location = new System.Drawing.Point(260, 117);
+            this.numUpDown_winLenght.Location = new System.Drawing.Point(210, 120);
             this.numUpDown_winLenght.Name = "numUpDown_winLenght";
             this.numUpDown_winLenght.Size = new System.Drawing.Size(43, 20);
             this.numUpDown_winLenght.TabIndex = 17;
@@ -172,7 +173,7 @@
             // 
             // numUpDown_boardSize
             // 
-            this.numUpDown_boardSize.Location = new System.Drawing.Point(260, 154);
+            this.numUpDown_boardSize.Location = new System.Drawing.Point(210, 150);
             this.numUpDown_boardSize.Maximum = new decimal(new int[] {
             25,
             0,
@@ -194,7 +195,7 @@
             // 
             // numUpDown_gameLenght
             // 
-            this.numUpDown_gameLenght.Location = new System.Drawing.Point(260, 188);
+            this.numUpDown_gameLenght.Location = new System.Drawing.Point(210, 181);
             this.numUpDown_gameLenght.Minimum = new decimal(new int[] {
             1,
             0,
@@ -211,18 +212,20 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(243, 74);
+            this.comboBox1.Location = new System.Drawing.Point(194, 39);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(67, 21);
+            this.comboBox1.Size = new System.Drawing.Size(67, 29);
             this.comboBox1.TabIndex = 20;
             // 
             // comboBox2
             // 
+            this.comboBox2.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(377, 74);
+            this.comboBox2.Location = new System.Drawing.Point(328, 39);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(67, 21);
+            this.comboBox2.Size = new System.Drawing.Size(67, 29);
             this.comboBox2.TabIndex = 21;
             // 
             // button1
@@ -248,23 +251,33 @@
             this.button2.Text = "Zrušit";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // IsWithAI_checkBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(59, 240);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBox1.Size = new System.Drawing.Size(199, 17);
-            this.checkBox1.TabIndex = 24;
-            this.checkBox1.Text = "                                hra s počítačem";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.IsWithAI_checkBox.AutoSize = true;
+            this.IsWithAI_checkBox.Location = new System.Drawing.Point(232, 293);
+            this.IsWithAI_checkBox.Name = "IsWithAI_checkBox";
+            this.IsWithAI_checkBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.IsWithAI_checkBox.Size = new System.Drawing.Size(160, 17);
+            this.IsWithAI_checkBox.TabIndex = 24;
+            this.IsWithAI_checkBox.Text = "                   hra s počítačem";
+            this.IsWithAI_checkBox.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(12, 86);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(118, 13);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "barva hracích symbolů:";
             // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(456, 395);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.IsWithAI_checkBox);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox2);
@@ -318,6 +331,7 @@
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox IsWithAI_checkBox;
+        private System.Windows.Forms.Label label9;
     }
 }

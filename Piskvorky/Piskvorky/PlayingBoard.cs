@@ -57,7 +57,7 @@ namespace Piskvorky
             get { return boardSize; }
             set
             {
-                boardSize= value;
+                boardSize = value;
                 Refresh();
             }
         }

@@ -18,8 +18,14 @@ namespace Piskvorky
             string[] defaultSymbols = { "❌", "⭕", "⭐", "🍀", "🔥" };
             comboBox1.Items.AddRange(defaultSymbols);
             comboBox2.Items.AddRange(defaultSymbols);
+
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 1;
         }
-        
+
         public int WinLength 
         {
             get 
@@ -48,7 +54,7 @@ namespace Piskvorky
         {
             get
             {
-                return (int)numUpDown_gameLenght.Value;
+                return (int)numUpDown_gameLenght.Value; 
             }
             set
             {
@@ -56,17 +62,29 @@ namespace Piskvorky
             }
 
         }
-
         public string Player1Symbol
         {
-            get { return comboBox1.Text; }
-            set { comboBox1.Text = value; }
+            get { return comboBox1.SelectedItem.ToString(); }
+            set { comboBox1.SelectedItem = value; }
         }
 
         public string Player2Symbol
         {
-            get { return comboBox2.Text; }
-            set { comboBox2.Text = value; }
+            get { return comboBox2.SelectedItem.ToString(); }
+            set { comboBox2.SelectedItem = value; }
+        }
+
+        public bool IsWithAI
+        {
+            get { return IsWithAI_checkBox.Checked; }
+            set { IsWithAI_checkBox.Checked = value;}
+        }
+
+        public string AIDifficulty()
+        {
+            if (radioButton1.Checked) return "lehká";
+            if (radioButton2.Checked) return "střední";
+            return "těžká";
         }
 
         private void button1_Click(object sender, EventArgs e)

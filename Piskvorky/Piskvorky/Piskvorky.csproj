@@ -62,6 +62,7 @@
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="GameResult.cs" />
+    <Compile Include="GameSettings.cs" />
     <Compile Include="GameSymbol.cs" />
     <Compile Include="FormBoard.cs">
       <SubType>Form</SubType>

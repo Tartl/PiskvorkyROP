@@ -23,6 +23,13 @@ namespace Piskvorky
             { { -1, 0 }, { -1, -1 }, { 0, -1 }, { 1, -1 } };
         }
 
+        public void SetBoardSize(int newSize)
+        {
+            boardSize = newSize; 
+            ClearBoard();        
+            ClearSymbolsInRow();
+        }
+
         public short WinLength
         {
             get { return winLength; }
