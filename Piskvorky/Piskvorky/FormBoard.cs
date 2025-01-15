@@ -18,7 +18,7 @@ namespace Piskvorky
             height  = 0;
         int gameLength;
         FormMenu formMenu;
-        SoundPlayer winSound = new SoundPlayer(@"C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\win.wav");
+        SoundPlayer winSound = new SoundPlayer(@"sound\win.wav");
         public FormBoard(FormMenu formMenu)
         {
             InitializeComponent();
@@ -27,7 +27,6 @@ namespace Piskvorky
             this.formMenu = formMenu;
             playingBoard1.PlayerWon += OnPlayerWon;
             playingBoard1.Draw += OnDraw;
-
         }
         private const int ResizeThreshold = 5;
 

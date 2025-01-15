@@ -28,7 +28,7 @@ namespace Piskvorky
         private float symbol1Thickness = 2f;
         private float symbol2Thickness = 2f;
         private float GridThickness {  get; set; }
-        SoundPlayer fieldFullSound = new SoundPlayer(@"C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\symbolExists-effect.wav");
+        SoundPlayer fieldFullSound = new SoundPlayer(@"sound\symbolExists-effect.wav");
         private float Symbol1Thickness { get; set; }
         private float Symbol2Thickness { get; set; }
 
@@ -193,7 +193,8 @@ namespace Piskvorky
         {
             Calc.ClearBoard();
             Calc.ClearSymbolsInRow();
-            currentPlayer = GameSymbol.Symbol2;
+            Calc.ClearFieldValues();
+            currentPlayer = GameSymbol.Symbol1;
             Refresh();
         }
 
@@ -201,7 +202,12 @@ namespace Piskvorky
         {
             int x = e.X / fieldSize;
             int y = e.Y / fieldSize;
-            if (!Calc.CordsOnBoard(x,y))
+           AddMove(x, y);
+            
+        }
+        private void AddMove(int x, int y)
+        {
+            if (!Calc.CordsOnBoard(x, y))
                 return;
             if (Calc.SymbolsOnBoard[x, y] != GameSymbol.Free)
             {
@@ -221,8 +227,18 @@ namespace Piskvorky
                 Draw?.Invoke();
                 ResetGame();
             }
-            currentPlayer = Opponent;
-            
+            else
+            {
+                currentPlayer = Opponent;
+                if (currentPlayer == GameSymbol.Symbol2)
+                {
+                    int optX;
+                    int optY;
+                    Calc.GetBestMove(out optX, out optY, currentPlayer);
+                    AddMove(optX, optY);
+                }
+                currentPlayer = Opponent;
+            }
         }
-    }
+    }   
 }
