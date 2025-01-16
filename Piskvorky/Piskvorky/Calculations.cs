@@ -23,7 +23,6 @@ namespace Piskvorky
             this.boardSize = boardSize;
             DirectionSigns = new short[(short)Direction.Diag2 + 1, (short)Coordinate.Y + 1] 
             { { -1, 0 }, { -1, -1 }, { 0, -1 }, { 1, -1 } };
-            //Values = new int[winLength + 1]; pro AI, ktere umi hrat s ruznou delkou vyherni rady
             Values = new int[7] { 0, 0, 4, 20, 100, 500, 0 };
         }
 

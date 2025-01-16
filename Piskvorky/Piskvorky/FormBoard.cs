@@ -17,6 +17,7 @@ namespace Piskvorky
         int width = 0,
             height  = 0;
         int gameLength;
+        int gamesPlayed = 0;
         FormMenu formMenu;
         SoundPlayer winSound = new SoundPlayer(@"sound\win.wav");
         public FormBoard(FormMenu formMenu)
@@ -38,6 +39,7 @@ namespace Piskvorky
             gameLength = GameSettings.GameLength;
             playingBoard1.Symbol1Emoji = GameSettings.Player1Symbol;
             playingBoard1.Symbol2Emoji = GameSettings.Player2Symbol;
+            playingBoard1.IsPlayingAI = GameSettings.IsAgainstAI;
         }
 
         public void BoardRedraw()
@@ -77,21 +79,26 @@ namespace Piskvorky
             string[] scores = label_score.Text.Split(':'); 
             double player1Score = int.Parse(scores[0]);
             double player2Score = int.Parse(scores[1]);
-
+            gamesPlayed++;
             if (winner == GameSymbol.Symbol1)
             {
                 winSound.Play();
-                MessageBox.Show("Vyhrál Hráč 1!");
+                MessageBox.Show("Partii vyhrál Hráč 1!");
                 player1Score++;
             }
             else if (winner == GameSymbol.Symbol2)
             {
                 winSound.Play();
-                MessageBox.Show("Vyhrál Hráč 2!");
+                MessageBox.Show("Partii vyhrál Hráč 2!");
                 player2Score++;
             }
 
-            label_score.Text = $"{player1Score}:{player2Score}"; 
+            label_score.Text = $"{player1Score}:{player2Score}";
+            if (gamesPlayed == gameLength)
+            {
+                MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text}");
+
+            }
         }
 
         private void nováHraToolStripMenuItem_Click(object sender, EventArgs e)

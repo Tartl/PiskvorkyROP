@@ -29,8 +29,7 @@ namespace Piskvorky
         private float symbol2Thickness = 2f;
         private float GridThickness {  get; set; }
         SoundPlayer fieldFullSound = new SoundPlayer(@"sound\symbolExists-effect.wav");
-        private float Symbol1Thickness { get; set; }
-        private float Symbol2Thickness { get; set; }
+        private bool isPlayingAI;
 
         public event Action<GameSymbol> PlayerWon;
         public event Action Draw;
@@ -61,6 +60,12 @@ namespace Piskvorky
                 Refresh();
             }
         }
+        public bool IsPlayingAI
+        {
+            get { return isPlayingAI; }
+            set { isPlayingAI = value; }
+        }
+
         public int FieldSize {
             get { return fieldSize; } 
             set
@@ -99,22 +104,6 @@ namespace Piskvorky
             get {
                 if ( gridPen == null ) gridPen = new Pen(GridColor, gridThickness);
                 return gridPen;
-            }
-        }
-        public Pen Symbol1Pen
-        {
-            get
-            {
-                if (symbol1Pen == null) symbol1Pen = new Pen(symbol1Color, symbol1Thickness);
-                return symbol1Pen;
-            }
-        }
-        public Pen Symbol2Pen
-        {
-            get
-            {
-                if (symbol2Pen == null) symbol2Pen = new Pen(symbol2Color, symbol2Thickness);
-                return symbol2Pen;
             }
         }
         public string Symbol1Emoji { get; set; } = "❌";
@@ -227,7 +216,7 @@ namespace Piskvorky
                 Draw?.Invoke();
                 ResetGame();
             }
-            else
+            else if(isPlayingAI)
             {
                 currentPlayer = Opponent;
                 if (currentPlayer == GameSymbol.Symbol2)
@@ -237,8 +226,8 @@ namespace Piskvorky
                     Calc.GetBestMove(out optX, out optY, currentPlayer);
                     AddMove(optX, optY);
                 }
-                currentPlayer = Opponent;
             }
+            currentPlayer = Opponent;
         }
     }   
 }

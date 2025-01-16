@@ -27,3 +27,5 @@ E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormMenu.resour
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormSettings.resources
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\bin\Debug\sound\win.wav
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\bin\Debug\sound\symbolExists-effect.wav
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\bin\Debug\sound\symbolExists-effect.wav
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\bin\Debug\sound\win.wav
