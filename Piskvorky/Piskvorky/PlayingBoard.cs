@@ -194,40 +194,46 @@ namespace Piskvorky
            AddMove(x, y);
             
         }
-        private void AddMove(int x, int y)
+        private async void AddMove(int x, int y)
         {
             if (!Calc.CordsOnBoard(x, y))
                 return;
+
             if (Calc.SymbolsOnBoard[x, y] != GameSymbol.Free)
             {
                 fieldFullSound.Play();
                 MessageBox.Show("Tady už symbol je!");
                 return;
             }
+
             GameResult result = Calc.AddSymbol(x, y, currentPlayer);
             Refresh();
+
             if (result == GameResult.Win)
             {
                 PlayerWon?.Invoke(currentPlayer);
                 ResetGame();
+                return; // End the method here
             }
             else if (result == GameResult.Draw)
             {
                 Draw?.Invoke();
                 ResetGame();
+                return; // End the method here
             }
-            else if(isPlayingAI)
-            {
-                currentPlayer = Opponent;
-                if (currentPlayer == GameSymbol.Symbol2)
-                {
-                    int optX;
-                    int optY;
-                    Calc.GetBestMove(out optX, out optY, currentPlayer);
-                    AddMove(optX, optY);
-                }
-            }
+
+            // Handle AI move
             currentPlayer = Opponent;
+
+            if (isPlayingAI && currentPlayer == GameSymbol.Symbol2)
+            {
+                await Task.Delay(1000); // Introduce delay before AI's move
+
+                int optX, optY;
+                Calc.GetBestMove(out optX, out optY, currentPlayer); // Calculate AI move
+                AddMove(optX, optY); // Make the AI move
+            }
         }
-    }   
+
+    }
 }
