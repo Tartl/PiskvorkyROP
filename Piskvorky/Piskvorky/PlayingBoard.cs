@@ -228,7 +228,7 @@ namespace Piskvorky
                 if (currentPlayer == GameSymbol.Symbol2)
                 {
                     isAIThinking = true;
-                    await Task.Delay(500);
+                    await Task.Delay(1000);
                     int optX;
                     int optY;
                     Calc.GetBestMove(out optX, out optY, currentPlayer);

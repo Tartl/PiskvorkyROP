@@ -28,6 +28,11 @@ namespace Piskvorky
             this.formMenu = formMenu;
             playingBoard1.PlayerWon += OnPlayerWon;
             playingBoard1.Draw += OnDraw;
+            if (GameSettings.IsAgainstAI)
+            {
+                label_hrac1.Text = "Hráč";
+                label_hrac2.Text = "Počítač";
+            }
         }
         private const int ResizeThreshold = 5;
 
@@ -58,11 +63,6 @@ namespace Piskvorky
             }
         }
 
-        private void buttonMenu_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void FormBoard_FormClosed(object sender, FormClosedEventArgs e)
         {
             formMenu.Show();
@@ -80,19 +80,37 @@ namespace Piskvorky
             double player1Score = int.Parse(scores[0]);
             double player2Score = int.Parse(scores[1]);
             gamesPlayed++;
-            if (winner == GameSymbol.Symbol1)
-            {
-                winSound.Play();
-                MessageBox.Show("Partii vyhrál Hráč 1!");
-                player1Score++;
-            }
-            else if (winner == GameSymbol.Symbol2)
-            {
-                winSound.Play();
-                MessageBox.Show("Partii vyhrál Hráč 2!");
-                player2Score++;
-            }
 
+            if (GameSettings.IsAgainstAI)
+            { 
+                if (winner == GameSymbol.Symbol1)
+                {
+                    winSound.Play();
+                    MessageBox.Show("Partii vyhrál Hráč!");
+                    player1Score++;
+                }
+                else if (winner == GameSymbol.Symbol2)
+                {
+                    winSound.Play();
+                    MessageBox.Show("Partii vyhrál Počítač!");
+                    player2Score++;
+                }
+            }
+            else
+            {
+                if (winner == GameSymbol.Symbol1)
+                {
+                    winSound.Play();
+                    MessageBox.Show("Partii vyhrál Hráč 1!");
+                    player1Score++;
+                }
+                else if (winner == GameSymbol.Symbol2)
+                {
+                    winSound.Play();
+                    MessageBox.Show("Partii vyhrál Hráč 2!");
+                    player2Score++;
+                }
+            }
             label_score.Text = $"{player1Score}:{player2Score}";
             if (gamesPlayed == gameLength)
             {
