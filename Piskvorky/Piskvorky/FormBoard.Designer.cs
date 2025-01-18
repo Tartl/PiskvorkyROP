@@ -37,10 +37,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.hraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nováHraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otevřeníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uloženíToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ukončitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -95,12 +95,15 @@
             this.playingBoard1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.playingBoard1.FieldSize = 20;
             this.playingBoard1.GridColor = System.Drawing.Color.Black;
+            this.playingBoard1.IsPlayingAI = false;
             this.playingBoard1.Location = new System.Drawing.Point(231, 3);
             this.playingBoard1.MinimumSize = new System.Drawing.Size(301, 301);
             this.playingBoard1.Name = "playingBoard1";
             this.playingBoard1.Size = new System.Drawing.Size(301, 356);
             this.playingBoard1.Symbol1Color = System.Drawing.Color.Red;
+            this.playingBoard1.Symbol1Emoji = "❌";
             this.playingBoard1.Symbol2Color = System.Drawing.Color.Blue;
+            this.playingBoard1.Symbol2Emoji = "⭕";
             this.playingBoard1.TabIndex = 3;
             // 
             // label_score
@@ -139,35 +142,35 @@
             // nováHraToolStripMenuItem
             // 
             this.nováHraToolStripMenuItem.Name = "nováHraToolStripMenuItem";
-            this.nováHraToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nováHraToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.nováHraToolStripMenuItem.Text = "Nová hra";
             this.nováHraToolStripMenuItem.Click += new System.EventHandler(this.nováHraToolStripMenuItem_Click);
+            // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.menuToolStripMenuItem.Text = "Menu";
+            this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
             // 
             // otevřeníToolStripMenuItem
             // 
             this.otevřeníToolStripMenuItem.Name = "otevřeníToolStripMenuItem";
-            this.otevřeníToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.otevřeníToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.otevřeníToolStripMenuItem.Text = "Otevření";
             // 
             // uloženíToolStripMenuItem
             // 
             this.uloženíToolStripMenuItem.Name = "uloženíToolStripMenuItem";
-            this.uloženíToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.uloženíToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.uloženíToolStripMenuItem.Text = "Uložení";
             // 
             // ukončitToolStripMenuItem
             // 
             this.ukončitToolStripMenuItem.Name = "ukončitToolStripMenuItem";
-            this.ukončitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ukončitToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.ukončitToolStripMenuItem.Text = "Ukončit";
             this.ukončitToolStripMenuItem.Click += new System.EventHandler(this.ukončitToolStripMenuItem_Click);
-            // 
-            // menuToolStripMenuItem
-            // 
-            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.menuToolStripMenuItem.Text = "Menu";
-            this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
             // 
             // FormBoard
             // 

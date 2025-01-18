@@ -30,6 +30,7 @@ namespace Piskvorky
         private float GridThickness {  get; set; }
         SoundPlayer fieldFullSound = new SoundPlayer(@"sound\symbolExists-effect.wav");
         private bool isPlayingAI;
+        private bool isAIThinking = false;
 
         public event Action<GameSymbol> PlayerWon;
         public event Action Draw;
@@ -184,18 +185,23 @@ namespace Piskvorky
             Calc.ClearSymbolsInRow();
             Calc.ClearFieldValues();
             currentPlayer = GameSymbol.Symbol1;
+            isAIThinking = false;
             Refresh();
         }
 
-        private void PlayingBoard_MouseClick(object sender, MouseEventArgs e)
+        private async void PlayingBoard_MouseClick(object sender, MouseEventArgs e)
         {
+            if (isAIThinking)
+                return;
             int x = e.X / fieldSize;
             int y = e.Y / fieldSize;
-           AddMove(x, y);
+            await AddMove(x, y);
             
         }
-        private void AddMove(int x, int y)
+        private async Task AddMove(int x, int y)
         {
+            
+
             if (!Calc.CordsOnBoard(x, y))
                 return;
             if (Calc.SymbolsOnBoard[x, y] != GameSymbol.Free)
@@ -221,13 +227,20 @@ namespace Piskvorky
                 currentPlayer = Opponent;
                 if (currentPlayer == GameSymbol.Symbol2)
                 {
+                    isAIThinking = true;
+                    await Task.Delay(500);
                     int optX;
                     int optY;
                     Calc.GetBestMove(out optX, out optY, currentPlayer);
-                    AddMove(optX, optY);
+                    await AddMove(optX, optY);
+                    isAIThinking = false;
                 }
             }
-            currentPlayer = Opponent;
+            else
+            {
+                currentPlayer = Opponent;
+            }
+            
         }
     }   
 }

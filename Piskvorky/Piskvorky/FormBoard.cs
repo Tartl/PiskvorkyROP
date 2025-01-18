@@ -97,7 +97,10 @@ namespace Piskvorky
             if (gamesPlayed == gameLength)
             {
                 MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text}");
+                //Přidat skóre do tabulky nejlepších hráčů
 
+
+                label_score.Text = "0:0";
             }
         }
 
