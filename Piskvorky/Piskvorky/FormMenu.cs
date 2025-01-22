@@ -19,9 +19,16 @@ namespace Piskvorky
 
         private void buttonNewGame_Click(object sender, EventArgs e)
         {
-            FormBoard board = new FormBoard(this);
-            board.Show();
-            Hide();
+            FormNewGame formNewGame = new FormNewGame();
+            formNewGame.ShowDialog();
+            if (formNewGame.DialogResult == DialogResult.OK)
+            {
+                GameSettings.Player1Name = formNewGame.textBox1.Text;
+                GameSettings.Player2Name = formNewGame.textBox2.Text;
+                FormBoard board = new FormBoard(this);
+                board.Show();
+                Hide();
+            }
         }
 
         private void buttonSettings_Click(object sender, EventArgs e)
@@ -33,6 +40,7 @@ namespace Piskvorky
             formSettings.Player1Symbol = GameSettings.Player1Symbol;
             formSettings.Player2Symbol = GameSettings.Player2Symbol;
             formSettings.IsWithAI = GameSettings.IsAgainstAI;
+            formSettings.AIDifficulty = GameSettings.AI_Difficulty;
             formSettings.ShowDialog();
             if (formSettings.DialogResult == DialogResult.OK)
             {
@@ -42,7 +50,7 @@ namespace Piskvorky
                 GameSettings.Player1Symbol = formSettings.Player1Symbol;
                 GameSettings.Player2Symbol = formSettings.Player2Symbol;
                 GameSettings.IsAgainstAI = formSettings.IsWithAI;
-                GameSettings.AI_Difficulty = formSettings.AIDifficulty();
+                GameSettings.AI_Difficulty = formSettings.AIDifficulty;
             }
         }
 
@@ -51,6 +59,10 @@ namespace Piskvorky
             Close();
         }
 
-        
+        private void buttonBest_Click(object sender, EventArgs e)
+        {
+            FormHistoryOfBest formHistoryOfBest = new FormHistoryOfBest();
+            formHistoryOfBest.ShowDialog();
+        }
     }
 }

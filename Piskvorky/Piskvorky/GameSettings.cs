@@ -15,6 +15,8 @@ namespace Piskvorky
         public static string Player2Symbol { get; set; } = "⭕";
         public static bool IsAgainstAI { get; set; } = false;
         public static string AI_Difficulty { get; set; } = "střední";
+        public static string Player1Name { get; set; } = "Hráč 1";
+        public static string Player2Name { get; set; } = "Hráč 2";
 
     }
 }

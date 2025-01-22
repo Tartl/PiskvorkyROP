@@ -71,10 +71,12 @@
             this.buttonBest.TabIndex = 2;
             this.buttonBest.Text = "Historie nejlepších";
             this.buttonBest.UseVisualStyleBackColor = true;
+            this.buttonBest.Click += new System.EventHandler(this.buttonBest_Click);
             // 
             // buttonLoad
             // 
             this.buttonLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonLoad.Enabled = false;
             this.buttonLoad.Location = new System.Drawing.Point(392, 283);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(153, 35);
@@ -96,6 +98,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonSave.Enabled = false;
             this.buttonSave.Location = new System.Drawing.Point(233, 283);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(153, 35);
@@ -106,6 +109,7 @@
             // buttonDemo
             // 
             this.buttonDemo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonDemo.Enabled = false;
             this.buttonDemo.Location = new System.Drawing.Point(233, 324);
             this.buttonDemo.Name = "buttonDemo";
             this.buttonDemo.Size = new System.Drawing.Size(153, 35);

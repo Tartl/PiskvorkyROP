@@ -46,15 +46,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BestOfLeaderboard.cs" />
     <Compile Include="Calculations.cs" />
     <Compile Include="Difficulty.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="Direction.cs" />
+    <Compile Include="FormHistoryOfBest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHistoryOfBest.Designer.cs">
+      <DependentUpon>FormHistoryOfBest.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMenu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMenu.Designer.cs">
       <DependentUpon>FormMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNewGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewGame.Designer.cs">
+      <DependentUpon>FormNewGame.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSettings.cs">
       <SubType>Form</SubType>
@@ -82,8 +95,14 @@
     <EmbeddedResource Include="FormBoard.resx">
       <DependentUpon>FormBoard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormHistoryOfBest.resx">
+      <DependentUpon>FormHistoryOfBest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMenu.resx">
       <DependentUpon>FormMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewGame.resx">
+      <DependentUpon>FormNewGame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>

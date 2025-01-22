@@ -8,6 +8,8 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Piskvorky
 {
@@ -18,8 +20,21 @@ namespace Piskvorky
             height  = 0;
         int gameLength;
         int gamesPlayed = 0;
+        string player1_name = "Hráč 1";
+        string player2_name = "Hráč 2";
+
+        private readonly string leaderboardFilePath = Path.Combine(Application.StartupPath, "leaderboard.xml");
+        int player_score = 0;
+        int player_wins = 0;
+        int player_losses = 0;
+        int player_draws = 0;
+        int player_bestWinMoves = 0;
+        double player_winPercentage = 0;
+
         FormMenu formMenu;
         SoundPlayer winSound = new SoundPlayer(@"sound\win.wav");
+        private List<BestOfLeaderboard> leaderboard = new List<BestOfLeaderboard>();
+
         public FormBoard(FormMenu formMenu)
         {
             InitializeComponent();
@@ -28,11 +43,12 @@ namespace Piskvorky
             this.formMenu = formMenu;
             playingBoard1.PlayerWon += OnPlayerWon;
             playingBoard1.Draw += OnDraw;
-            if (GameSettings.IsAgainstAI)
-            {
-                label_hrac1.Text = "Hráč";
-                label_hrac2.Text = "Počítač";
-            }
+            player1_name = GameSettings.Player1Name;
+            player2_name = GameSettings.Player2Name;
+            label_hrac1.Text = player1_name;
+            label_hrac2.Text = player2_name;
+            
+            LoadLeaderboard();
         }
         private const int ResizeThreshold = 5;
 
@@ -64,6 +80,11 @@ namespace Piskvorky
             }
         }
 
+        private void FormBoard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveLeaderboard();
+        }
+
         private void FormBoard_FormClosed(object sender, FormClosedEventArgs e)
         {
             formMenu.Show();
@@ -77,24 +98,25 @@ namespace Piskvorky
 
         private void OnPlayerWon(GameSymbol winner)
         {
-            string[] scores = label_score.Text.Split(':'); 
+            string[] scores = label_score.Text.Split(':');
             double player1Score = int.Parse(scores[0]);
             double player2Score = int.Parse(scores[1]);
             gamesPlayed++;
-
             if (GameSettings.IsAgainstAI)
-            { 
+            {
                 if (winner == GameSymbol.Symbol1)
                 {
                     winSound.Play();
-                    MessageBox.Show("Partii vyhrál Hráč!");
+                    MessageBox.Show($"Partii vyhrál {player1_name}!");
                     player1Score++;
+                    player_wins++;
                 }
-                else if (winner == GameSymbol.Symbol2)
+                else
                 {
                     winSound.Play();
                     MessageBox.Show("Partii vyhrál Počítač!");
                     player2Score++;
+                    player_losses++;
                 }
             }
             else
@@ -102,13 +124,13 @@ namespace Piskvorky
                 if (winner == GameSymbol.Symbol1)
                 {
                     winSound.Play();
-                    MessageBox.Show("Partii vyhrál Hráč 1!");
+                    MessageBox.Show($"Partii vyhrál {player1_name}!");
                     player1Score++;
                 }
-                else if (winner == GameSymbol.Symbol2)
+                else
                 {
                     winSound.Play();
-                    MessageBox.Show("Partii vyhrál Hráč 2!");
+                    MessageBox.Show($"Partii vyhrál {player2_name}");
                     player2Score++;
                 }
             }
@@ -117,23 +139,48 @@ namespace Piskvorky
             {
                 MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text}");
                 //Přidat skóre do tabulky nejlepších hráčů
-
+                if (player1Score > player2Score && GameSettings.IsAgainstAI)
+                {
+                    player_score = (int)player1Score * 100 - player_losses * 50;
+                    player_winPercentage = (double)player_wins / gamesPlayed * 100;
+                    AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
+                }
 
                 label_score.Text = "0:0";
             }
+            
+        }
+
+        private void OnDraw()
+        {
+            MessageBox.Show("Na hrací ploše již nejsou žádné výhry, došlo k remíze!");
+
+            string[] scores = label_score.Text.Split(':'); 
+            double player1Score = double.Parse(scores[0]);
+            double player2Score = double.Parse(scores[1]);
+
+            player_draws++;
+
+            player1Score += 0.5;
+            player2Score += 0.5;
+
+            label_score.Text = $"{player1Score}:{player2Score}"; 
         }
 
         private void nováHraToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
-            FormBoard formBoard = new FormBoard(formMenu);
-            formBoard.Show();
+            playingBoard1.ResetGame();
+            label_score.Text = "0:0";
+            MessageBox.Show($"Hra byla zresetována!");
         }
 
         private void ukončitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
-            formMenu.Show();
+            
+            if (MessageBox.Show("Opravdu chcete ukončit aplikaci?", "Upozornění", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
 
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
@@ -146,19 +193,61 @@ namespace Piskvorky
 
         }
 
-        private void OnDraw()
+        private void SaveLeaderboard()
         {
-            MessageBox.Show("Na hrací ploše již nejsou žádné výhry, došlo k remíze!");
+            // Create the serializer for a list of BestOfLeaderboard
+            var serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
 
-            string[] scores = label_score.Text.Split(':'); 
-            double player1Score = double.Parse(scores[0]);
-            double player2Score = double.Parse(scores[1]);
+            // Write the serialized XML to file
+            using (var fs = new FileStream(leaderboardFilePath, FileMode.Create))
+            {
+                serializer.Serialize(fs, leaderboard);
+            }
+        }
 
-            
-            player1Score += 0.5;
-            player2Score += 0.5;
+        private void LoadLeaderboard()
+        {
+            if (File.Exists(leaderboardFilePath))
+            {
+                // Create the same serializer
+                var serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
 
-            label_score.Text = $"{player1Score}:{player2Score}"; 
+                // Read the XML from file
+                using (var fs = new FileStream(leaderboardFilePath, FileMode.Open))
+                {
+                    leaderboard = (List<BestOfLeaderboard>)serializer.Deserialize(fs);
+                }
+            }
+            else
+            {
+                // If no file exists yet, start with an empty list
+                leaderboard = new List<BestOfLeaderboard>();
+            }
+        }
+
+        private void AddToLeaderboard(string playerName, int score, int wins, int losses, int draws, int bestWinMoves, double winPercentage)
+        {
+            var newEntry = new BestOfLeaderboard
+            {
+                PlayerName = playerName,
+                Score = score,
+                Wins = wins,
+                Losses = losses,
+                Draws = draws,
+                BestWinMoves = bestWinMoves,
+                WinPercentage = winPercentage
+            };
+
+            // Add the new entry, sort, and keep top 10
+            leaderboard.Add(newEntry);
+            leaderboard = leaderboard
+                .OrderByDescending(entry => entry.Score)
+                .ThenBy(entry => entry.BestWinMoves)
+                .Take(10)
+                .ToList();
+
+            // Save the updated list to XML
+            SaveLeaderboard();
         }
     }
 }

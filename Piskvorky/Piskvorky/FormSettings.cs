@@ -80,11 +80,21 @@ namespace Piskvorky
             set { IsWithAI_checkBox.Checked = value;}
         }
 
-        public string AIDifficulty()
+        public string AIDifficulty
         {
-            if (radioButton1.Checked) return "lehká";
-            if (radioButton2.Checked) return "střední";
-            return "těžká";
+            get
+            {
+                if (radioButton1.Checked) return radioButton1.Text;
+                if (radioButton2.Checked) return radioButton2.Text;
+                return radioButton3.Text;
+            }
+            set 
+            { 
+                if (radioButton1.Text == value) radioButton1.Checked = true;
+                else if (radioButton2.Text == value) radioButton2.Checked = true;
+                else radioButton3.Checked = true;
+            }
+            
         }
 
         private void button1_Click(object sender, EventArgs e)

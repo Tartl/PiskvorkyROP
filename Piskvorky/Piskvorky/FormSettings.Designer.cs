@@ -93,7 +93,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(229, 226);
+            this.label5.Location = new System.Drawing.Point(12, 264);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(97, 13);
             this.label5.TabIndex = 5;
@@ -102,7 +102,7 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(377, 224);
+            this.radioButton1.Location = new System.Drawing.Point(210, 264);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(51, 17);
             this.radioButton1.TabIndex = 9;
@@ -113,7 +113,7 @@
             // 
             this.radioButton2.AutoSize = true;
             this.radioButton2.Checked = true;
-            this.radioButton2.Location = new System.Drawing.Point(377, 247);
+            this.radioButton2.Location = new System.Drawing.Point(210, 287);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(59, 17);
             this.radioButton2.TabIndex = 10;
@@ -124,7 +124,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(377, 270);
+            this.radioButton3.Location = new System.Drawing.Point(210, 310);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(51, 17);
             this.radioButton3.TabIndex = 11;
@@ -254,12 +254,12 @@
             // IsWithAI_checkBox
             // 
             this.IsWithAI_checkBox.AutoSize = true;
-            this.IsWithAI_checkBox.Location = new System.Drawing.Point(232, 293);
+            this.IsWithAI_checkBox.Location = new System.Drawing.Point(11, 234);
             this.IsWithAI_checkBox.Name = "IsWithAI_checkBox";
             this.IsWithAI_checkBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.IsWithAI_checkBox.Size = new System.Drawing.Size(160, 17);
+            this.IsWithAI_checkBox.Size = new System.Drawing.Size(211, 17);
             this.IsWithAI_checkBox.TabIndex = 24;
-            this.IsWithAI_checkBox.Text = "                   hra s počítačem";
+            this.IsWithAI_checkBox.Text = "                                    hra s počítačem";
             this.IsWithAI_checkBox.UseVisualStyleBackColor = true;
             // 
             // label9
