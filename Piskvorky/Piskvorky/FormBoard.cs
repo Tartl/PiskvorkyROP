@@ -139,7 +139,7 @@ namespace Piskvorky
             {
                 MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text}");
                 //Přidat skóre do tabulky nejlepších hráčů
-                if (player1Score > player2Score && GameSettings.IsAgainstAI)
+                if ((player1Score > player2Score) && GameSettings.IsAgainstAI)
                 {
                     player_score = (int)player1Score * 100 - player_losses * 50;
                     player_winPercentage = (double)player_wins / gamesPlayed * 100;
