@@ -45,6 +45,7 @@ namespace Piskvorky
             playingBoard1.Symbol1Emoji = GameSettings.Player1Symbol;
             playingBoard1.Symbol2Emoji = GameSettings.Player2Symbol;
             playingBoard1.IsPlayingAI = GameSettings.IsAgainstAI;
+            playingBoard1.AIDifficulty = GameSettings.AI_Difficulty;
         }
 
         public void BoardRedraw()

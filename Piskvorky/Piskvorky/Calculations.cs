@@ -35,6 +35,7 @@ namespace Piskvorky
             set { winLength = value; }
         }
 
+
         public short[,,,] SymbolsInRow
         {
             get
@@ -214,7 +215,27 @@ namespace Piskvorky
             }
         }
 
-        public void GetBestMove(out int x, out int y, GameSymbol player)
+        public void GetBestMove(Difficulty difficulty, out int x, out int y, GameSymbol player)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    GetBestMove_Medium(out x, out y, player);
+                    break;
+                case Difficulty.Medium:
+                    GetBestMove_Medium(out x, out y, player);
+                    break;
+                case Difficulty.Hard:
+                    GetBestMove_Medium(out x, out y, player);
+                    break;
+
+                default:
+                    break;
+            }
+            GetBestMove_Medium(out x, out y, player);
+        }
+
+        public void GetBestMove_Medium(out int x, out int y, GameSymbol player)
         {
             // 1) Check if we can win immediately
             if (TryFindWinningMove(player, out x, out y))

@@ -31,6 +31,7 @@ namespace Piskvorky
         SoundPlayer fieldFullSound = new SoundPlayer(@"sound\symbolExists-effect.wav");
         private bool isPlayingAI;
         private bool isAIThinking = false;
+        private string aiDifficulty;
 
         public event Action<GameSymbol> PlayerWon;
         public event Action Draw;
@@ -108,8 +109,13 @@ namespace Piskvorky
             }
         }
         public string Symbol1Emoji { get; set; } = "❌";
-        public string Symbol2Emoji { get; set; } = "⭕"; 
+        public string Symbol2Emoji { get; set; } = "⭕";
 
+        public string AIDifficulty
+        {
+            get { return aiDifficulty; }
+            set { aiDifficulty = value; }
+        }
 
         private void PlayingBoard_Paint(object sender, PaintEventArgs e)
         {
@@ -198,6 +204,23 @@ namespace Piskvorky
             await AddMove(x, y);
             
         }
+
+        private Difficulty GetDifficulty(string aidifficulty)
+        {
+            switch (aidifficulty)
+            {
+                case "lehká":
+                    return Difficulty.Easy;
+
+                case "střední":
+                    return Difficulty.Medium;
+                case "těžká":
+                    return Difficulty.Hard;
+                default:
+                    return Difficulty.Medium;
+            }
+        }
+
         private async Task AddMove(int x, int y)
         {
             
@@ -231,7 +254,8 @@ namespace Piskvorky
                     await Task.Delay(1000);
                     int optX;
                     int optY;
-                    Calc.GetBestMove(out optX, out optY, currentPlayer);
+                    
+                    Calc.GetBestMove(GetDifficulty(AIDifficulty), out optX, out optY, currentPlayer);
                     await AddMove(optX, optY);
                     isAIThinking = false;
                 }
