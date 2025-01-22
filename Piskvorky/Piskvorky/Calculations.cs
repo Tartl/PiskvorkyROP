@@ -403,7 +403,6 @@ namespace Piskvorky
             }
             return cnt;
         }
-
         private bool TryFindOpenThreeOrFour(GameSymbol opponent, out int blockX, out int blockY)
         {
             blockX = -1;
@@ -415,7 +414,7 @@ namespace Piskvorky
                 {
                     if (SymbolsOnBoard[x, y] == GameSymbol.Free)
                     {
-                        // Simulate opponent placing here
+                        // Simulace umístění symbolu soupeře
                         SymbolsOnBoard[x, y] = opponent;
                         bool dangerous = IsOpenThreeOrFour(x, y, opponent);
                         SymbolsOnBoard[x, y] = GameSymbol.Free;
@@ -424,23 +423,23 @@ namespace Piskvorky
                         {
                             blockX = x;
                             blockY = y;
-                            return true;
+                            return true; // Nebezpečný tah nalezen
                         }
                     }
                 }
             }
-            return false;
+            return false; // Žádná otevřená trojka nebo čtyřka nenalezena
         }
 
+        // Kontrola, zda tah vytváří otevřenou trojku nebo čtyřku
         private bool IsOpenThreeOrFour(int placedX, int placedY, GameSymbol symbol)
         {
-            // Already placed the stone at (placedX, placedY)
             int[][] directions = new int[][]
             {
-                new int[]{1, 0},
-                new int[]{0, 1},
-                new int[]{1, 1},
-                new int[]{1, -1}
+                new int[]{1, 0}, // Horizontální
+                new int[]{0, 1}, // Vertikální
+                new int[]{1, 1}, // Diagonální 1
+                new int[]{1, -1} // Diagonální 2
             };
 
             foreach (var d in directions)
@@ -454,55 +453,47 @@ namespace Piskvorky
                 bool rightOpen = IsOpenEnd(placedX, placedY, d[0], d[1]);
                 int openEndsCount = (leftOpen ? 1 : 0) + (rightOpen ? 1 : 0);
 
-                // "Open 4" => 4 in a row, at least 1 open end
+                // Otevřená čtyřka: 4 v řadě s alespoň jedním otevřeným koncem
                 if (count == 4 && openEndsCount >= 1) return true;
 
-                // "Open 3" => 3 in a row, 2 open ends
+                // Otevřená trojka: 3 v řadě se dvěma otevřenými konci
                 if (count == 3 && openEndsCount == 2) return true;
             }
             return false;
         }
 
+        // Kontrola, zda je konec směru otevřený (volný)
         private bool IsOpenEnd(int startX, int startY, int dx, int dy)
         {
             int x = startX + dx;
             int y = startY + dy;
-            if (!CordsOnBoard(x, y)) return false;
-            return (SymbolsOnBoard[x, y] == GameSymbol.Free);
+            if (!CordsOnBoard(x, y)) return false; // Souřadnice mimo hrací plochu
+            return (SymbolsOnBoard[x, y] == GameSymbol.Free); // Pole je volné
         }
 
-        /// <summary>
-        /// Gives a small bonus for squares closer to the center
-        /// so the AI doesn't randomly pick corners when all else is equal.
-        /// Tweak the formula as you like!
-        /// </summary>
+        // Přidání bonusu za blízkost k centru hrací plochy
         private int GetCenterBonus(int row, int col)
         {
-            int center = boardSize / 2;
-            // Manhattan distance from center
+            int center = boardSize / 2; // Střed hrací plochy
             int dx = Math.Abs(row - center);
             int dy = Math.Abs(col - center);
-            int dist = dx + dy;
+            int dist = dx + dy; // Manhattan vzdálenost od středu
 
-            // The smaller dist is, the bigger the bonus. For example:
-            // radius = center => maximum distance is roughly center*2 from a corner.
-            int radius = center * 2;
-            // We'll do "radius - dist" so center gets the highest bonus.
-            int bonus = radius - dist;
-            if (bonus < 0) bonus = 0;
-            return bonus;
+            int radius = center * 2; // Maximální vzdálenost od středu
+            int bonus = radius - dist; // Bonus klesá s rostoucí vzdáleností
+            return bonus < 0 ? 0 : bonus; // Pokud je bonus záporný, vrátí 0
         }
 
+        // Výběr nejlepšího tahu na střední obtížnost
         private void PickMoveByFieldValue_Medium(out int bestX, out int bestY, GameSymbol player, GameSymbol opponent)
         {
-            int bestValue = int.MinValue;
+            int bestValue = int.MinValue; // Počáteční minimální hodnota
 
             bestX = boardSize / 2;
             bestY = boardSize / 2;
             if (SymbolsOnBoard[bestX, bestY] == GameSymbol.Free)
             {
-                // Just a small baseline so we don't keep int.MinValue
-                bestValue = 4;
+                bestValue = 4; // Základní hodnota pro tah ve středu
             }
 
             for (int i = 0; i < boardSize; i++)
@@ -511,14 +502,12 @@ namespace Piskvorky
                 {
                     if (SymbolsOnBoard[i, j] == GameSymbol.Free)
                     {
-                        // Original heuristic
                         int value =
-                            (FieldValues[i, j, (short)player] * 16)
+                            (FieldValues[i, j, (short)player] * 16) // Hodnoty polí hráče
                             + 1
-                            + (FieldValues[i, j, (short)opponent] * 8);
+                            + (FieldValues[i, j, (short)opponent] * 32); // Hodnoty polí soupeře
 
-                        // Add the center bonus
-                        value += GetCenterBonus(i, j);
+                        value += GetCenterBonus(i, j); // Bonus za blízkost ke středu
 
                         if (value > bestValue)
                         {
@@ -530,6 +519,8 @@ namespace Piskvorky
                 }
             }
         }
+
+        // Výběr nejlepšího tahu na těžkou obtížnost
         private void PickMoveByFieldValue_Hard(out int bestX, out int bestY, GameSymbol player, GameSymbol opponent)
         {
             int bestValue = int.MinValue;
@@ -538,8 +529,7 @@ namespace Piskvorky
             bestY = boardSize / 2;
             if (SymbolsOnBoard[bestX, bestY] == GameSymbol.Free)
             {
-                // Just a small baseline so we don't keep int.MinValue
-                bestValue = 4;
+                bestValue = 4; // Základní hodnota pro tah ve středu
             }
 
             for (int i = 0; i < boardSize; i++)
@@ -548,14 +538,12 @@ namespace Piskvorky
                 {
                     if (SymbolsOnBoard[i, j] == GameSymbol.Free)
                     {
-                        // Original heuristic
                         int value =
                             (FieldValues[i, j, (short)player] * 16)
                             + 1
-                            + (FieldValues[i, j, (short)opponent] * 16);
+                            + (FieldValues[i, j, (short)opponent] * 8); // Větší váha pro soupeřova pole
 
-                        // Add the center bonus
-                        value += GetCenterBonus(i, j);
+                        value += GetCenterBonus(i, j); // Bonus za blízkost ke středu
 
                         if (value > bestValue)
                         {
@@ -568,12 +556,13 @@ namespace Piskvorky
             }
         }
 
+        // Výběr suboptimálního tahu
         private void PickMoveSuboptimalByFieldValue(
             out int bestX,
             out int bestY,
             GameSymbol player,
             GameSymbol opponent,
-            int topN = 3)
+            int topN = 3) // Počet nejlepších kandidátů, ze kterých se vybírá
         {
             var candidates = new List<(int X, int Y, int Score)>();
 
@@ -588,8 +577,7 @@ namespace Piskvorky
                             + 1
                             + (FieldValues[i, j, (short)opponent] * 4);
 
-                        // If you want the suboptimal approach also to consider center bonus:
-                        value += GetCenterBonus(i, j);
+                        value += GetCenterBonus(i, j); // Bonus za blízkost ke středu
 
                         candidates.Add((i, j, value));
                     }
@@ -600,19 +588,19 @@ namespace Piskvorky
             {
                 bestX = -1;
                 bestY = -1;
-                return;
+                return; // Žádní kandidáti
             }
 
-            // Sort descending by Score
-            candidates.Sort((a, b) => b.Score.CompareTo(a.Score));
+            candidates.Sort((a, b) => b.Score.CompareTo(a.Score)); // Seřazení podle skóre
 
             if (topN > candidates.Count)
                 topN = candidates.Count;
 
             Random rnd = new Random();
-            var chosen = candidates[rnd.Next(topN)];
+            var chosen = candidates[rnd.Next(topN)]; // Náhodný výběr z nejlepších kandidátů
             bestX = chosen.X;
             bestY = chosen.Y;
         }
+    
     }
 }
