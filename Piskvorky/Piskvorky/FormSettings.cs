@@ -95,6 +95,12 @@ namespace Piskvorky
                 DialogResult = DialogResult.None;
                 return;
             }
+            if (WinLength > BoardSize)
+            {
+                MessageBox.Show("Počet symbolů pro výhru nesmí být menší než velikost hrací plochy!", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult = DialogResult.None;
+                return;
+            }
         }
     }
 }

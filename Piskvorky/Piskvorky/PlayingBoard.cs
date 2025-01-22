@@ -211,7 +211,6 @@ namespace Piskvorky
             {
                 case "lehká":
                     return Difficulty.Easy;
-
                 case "střední":
                     return Difficulty.Medium;
                 case "těžká":
@@ -254,7 +253,6 @@ namespace Piskvorky
                     await Task.Delay(1000);
                     int optX;
                     int optY;
-                    
                     Calc.GetBestMove(GetDifficulty(AIDifficulty), out optX, out optY, currentPlayer);
                     await AddMove(optX, optY);
                     isAIThinking = false;

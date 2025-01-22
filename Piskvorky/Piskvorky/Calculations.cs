@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Piskvorky
 {
@@ -194,95 +195,117 @@ namespace Piskvorky
         }
 
         private void RecalcValue(
-            short symbolsInRowCurrentPlayer,
-            short symbolsInRowOpponent,
-            short openEndsCurrentPlayer,
-            short openEndsOpponent,
-            ref int fieldValueForCurrentPlayer,
-            ref int fieldValueOpponent)
+     short symbolsInRowCurrentPlayer,
+     short symbolsInRowOpponent,
+     short openEndsCurrentPlayer,
+     short openEndsOpponent,
+     ref int fieldValueForCurrentPlayer,
+     ref int fieldValueOpponent)
         {
+            // If the opponent has no stones in that row, we can add "attack" points
             if (symbolsInRowOpponent == 0)
             {
+                // Base increment based on how many in a row
                 int baseIncrement = Values[symbolsInRowCurrentPlayer + 1] - Values[symbolsInRowCurrentPlayer];
-                if (openEndsCurrentPlayer == 2) baseIncrement *= 2;
-                else if (openEndsCurrentPlayer == 1) baseIncrement += baseIncrement / 2;
+
+                // If openEndsCurrentPlayer == 0, it’s worthless
+                if (openEndsCurrentPlayer == 0)
+                {
+                    baseIncrement /= 10;
+                }
+                else if (openEndsCurrentPlayer == 2)
+                {
+                    baseIncrement *= 2;
+                }
+                else if (openEndsCurrentPlayer == 1)
+                {
+                    baseIncrement += baseIncrement / 2;
+                }
 
                 fieldValueForCurrentPlayer += baseIncrement;
             }
+            // Otherwise, if our row has only 1 stone, we reduce opponent's value
             else if (symbolsInRowCurrentPlayer == 1)
             {
                 fieldValueOpponent -= Values[symbolsInRowOpponent];
             }
         }
 
+
         public void GetBestMove(Difficulty difficulty, out int x, out int y, GameSymbol player)
         {
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    GetBestMove_Medium(out x, out y, player);
+                    GetBestMove_Easy(out x, out y, player);
                     break;
                 case Difficulty.Medium:
                     GetBestMove_Medium(out x, out y, player);
                     break;
                 case Difficulty.Hard:
+                    GetBestMove_Hard(out x, out y, player);
+                    break;
+                default:
                     GetBestMove_Medium(out x, out y, player);
                     break;
-
-                default:
-                    break;
             }
-            GetBestMove_Medium(out x, out y, player);
+
+        }
+
+        public void GetBestMove_Easy(out int x, out int y, GameSymbol player)
+        {
+            Random random = new Random();
+            int chance = random.Next(0, 100);
+
+            // Kdo je soupeř
+            GameSymbol opponent = GetOpponent(player);
+
+            // S 80% pravděpodobností zkusíme hledat výhru a blokovat
+            if (chance < 80)
+            {
+                // 1) Zkus, zda můžeme vyhrát
+                if (TryFindWinningMove(player, out x, out y))
+                    return;
+
+                // 2) Zkus, zda soupeř nemůže vyhrát, případně blokuj
+                if (TryFindWinningMove(opponent, out x, out y))
+                    return;
+            }
+
+            // 3) Buď rovnou (20% případů), nebo po prověření (80% případů) vyber "suboptimální" tah
+            //    tzn. vyber z TOP 5 nejlepších tahů. Čím vyšší topN, tím "větší rezerva" na horší tah.
+            PickMoveSuboptimalByFieldValue(out x, out y, player, opponent, topN: 2);
         }
 
         public void GetBestMove_Medium(out int x, out int y, GameSymbol player)
         {
-            // 1) Check if we can win immediately
+            // 1) Zkus, zda můžeme vyhrát
             if (TryFindWinningMove(player, out x, out y))
                 return;
 
-            // 2) If the opponent can win next turn, block them
+            // 2) Zkus, zda soupeř nemůže vyhrát, případně zablokuj
             GameSymbol opponent = GetOpponent(player);
             if (TryFindWinningMove(opponent, out x, out y))
-            {
                 return;
-            }
 
-            // 3) Otherwise, pick the best move by your current approach
-            int bestValue;
-            x = (boardSize + 1) / 2;
-            y = (boardSize + 1) / 2;
-            if (SymbolsOnBoard[x, y] == GameSymbol.Free)
-            {
-                bestValue = 4;
-            }
-            else
-            {
-                bestValue = int.MinValue;
-            }
+            // 3) Jinak vyber nejlepší tah dle FieldValues
+            PickMoveByFieldValue(out x, out y, player, opponent);
+        }
 
-            for (int i = 0; i < boardSize; i++)
-            {
-                for (int j = 0; j < boardSize; j++)
-                {
-                    if (SymbolsOnBoard[i, j] == GameSymbol.Free)
-                    {
-                        // If you don't have EvaluateHeuristic, remove or comment this line:
-                        // int score = EvaluateHeuristic(i, j, player);
+        /// <summary>
+        /// TĚŽKÁ obtížnost – momentálně stejná jako Medium (lze dále rozvinout).
+        /// </summary>
+        public void GetBestMove_Hard(out int x, out int y, GameSymbol player)
+        {
+            // 1) Zkus, zda můžeme vyhrát
+            if (TryFindWinningMove(player, out x, out y))
+                return;
 
-                        // This line uses your incremental FieldValues to choose a move:
-                        int value = (FieldValues[i, j, (short)player] * 16)
-                                    + 1
-                                    + (FieldValues[i, j, (short)opponent] * 8);
-                        if (value > bestValue)
-                        {
-                            bestValue = value;
-                            x = i;
-                            y = j;
-                        }
-                    }
-                }
-            }
+            // 2) Zkus, zda soupeř nemůže vyhrát, případně zablokuj
+            GameSymbol opponent = GetOpponent(player);
+            if (TryFindWinningMove(opponent, out x, out y))
+                return;
+
         }
 
         private bool TryFindWinningMove(GameSymbol checkPlayer, out int winX, out int winY)
@@ -354,6 +377,124 @@ namespace Piskvorky
                 y += dy;
             }
             return cnt;
+        }
+
+        private void PickMoveByFieldValue(out int bestX, out int bestY, GameSymbol player, GameSymbol opponent)
+        {
+            int bestValue = int.MinValue;
+
+            // Jako (alespoň) výchozí zkusíme střed desky, pokud je volný
+            bestX = (boardSize + 1) / 2;
+            bestY = (boardSize + 1) / 2;
+            if (SymbolsOnBoard[bestX, bestY] == GameSymbol.Free)
+            {
+                bestValue = 4; // ať to není minValue
+            }
+
+            // Projdeme celou desku a hledáme pole s nejvyšší hodnotou
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (SymbolsOnBoard[i, j] == GameSymbol.Free)
+                    {
+                        // Simple heuristika: FieldValues pro hráče vynásobíme 16,
+                        // plus FieldValues pro soupeře vynásobíme 8
+                        int value =
+                            (FieldValues[i, j, (short)player] * 16)
+                            + 1
+                            + (FieldValues[i, j, (short)opponent] * 8);
+
+                        if (value > bestValue)
+                        {
+                            bestValue = value;
+                            bestX = i;
+                            bestY = j;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Náhodně vybere jakékoli volné pole na desce.
+        /// </summary>
+        private void GetRandomFreeMove(out int x, out int y)
+        {
+            Random r = new Random();
+            var freePositions = new List<(int, int)>();
+
+            // Nasbíráme všechna volná pole
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (SymbolsOnBoard[i, j] == GameSymbol.Free)
+                    {
+                        freePositions.Add((i, j));
+                    }
+                }
+            }
+
+            // Když není co hrát
+            if (freePositions.Count == 0)
+            {
+                x = y = -1;
+                return;
+            }
+
+            // Vybereme náhodný index
+            var chosen = freePositions[r.Next(freePositions.Count)];
+            x = chosen.Item1;
+            y = chosen.Item2;
+        }
+        private void PickMoveSuboptimalByFieldValue(
+            out int bestX,
+            out int bestY,
+            GameSymbol player,
+            GameSymbol opponent,
+            int topN = 5)
+        {
+            // Sesbíráme všechny volné pozice spolu s jejich "skóre"
+            var candidates = new List<(int X, int Y, int Score)>();
+
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (SymbolsOnBoard[i, j] == GameSymbol.Free)
+                    {
+                        int value =
+                            (FieldValues[i, j, (short)player] * 16)
+                            + 1
+                            + (FieldValues[i, j, (short)opponent] * 8);
+
+                        candidates.Add((i, j, value));
+                    }
+                }
+            }
+
+            // Pokud není žádný volný tah (deska plná), končíme
+            if (candidates.Count == 0)
+            {
+                bestX = -1;
+                bestY = -1;
+                return;
+            }
+
+            // Seřadíme kandidáty sestupně podle Score
+            candidates.Sort((a, b) => b.Score.CompareTo(a.Score));
+
+            // Omezíme se na topN prvků (pokud jich je méně, vezmeme všechny)
+            if (topN > candidates.Count)
+                topN = candidates.Count;
+
+            // Z té top skupiny vybereme náhodně jeden
+            Random rnd = new Random();
+            var chosen = candidates[rnd.Next(topN)];
+
+            bestX = chosen.X;
+            bestY = chosen.Y;
         }
     }
 }
