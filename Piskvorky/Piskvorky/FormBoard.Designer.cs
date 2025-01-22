@@ -32,6 +32,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label_hrac2 = new System.Windows.Forms.Label();
             this.label_hrac1 = new System.Windows.Forms.Label();
+            this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.label_score = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.hraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,7 +41,6 @@
             this.otevřeníToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uloženíToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ukončitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.playingBoard1 = new Piskvorky.PlayingBoard();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -87,6 +87,25 @@
             this.label_hrac1.Size = new System.Drawing.Size(115, 37);
             this.label_hrac1.TabIndex = 1;
             this.label_hrac1.Text = "Hráč 1";
+            // 
+            // playingBoard1
+            // 
+            this.playingBoard1.AIDifficulty = null;
+            this.playingBoard1.BackColor = System.Drawing.Color.Transparent;
+            this.playingBoard1.BoardSize = 15;
+            this.playingBoard1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.playingBoard1.FieldSize = 20;
+            this.playingBoard1.GridColor = System.Drawing.Color.Black;
+            this.playingBoard1.IsPlayingAI = false;
+            this.playingBoard1.Location = new System.Drawing.Point(231, 3);
+            this.playingBoard1.MinimumSize = new System.Drawing.Size(301, 301);
+            this.playingBoard1.Name = "playingBoard1";
+            this.playingBoard1.Size = new System.Drawing.Size(301, 356);
+            this.playingBoard1.Symbol1Color = System.Drawing.Color.Red;
+            this.playingBoard1.Symbol1Emoji = "❌";
+            this.playingBoard1.Symbol2Color = System.Drawing.Color.Blue;
+            this.playingBoard1.Symbol2Emoji = "⭕";
+            this.playingBoard1.TabIndex = 3;
             // 
             // label_score
             // 
@@ -153,25 +172,6 @@
             this.ukončitToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.ukončitToolStripMenuItem.Text = "Ukončit";
             this.ukončitToolStripMenuItem.Click += new System.EventHandler(this.ukončitToolStripMenuItem_Click);
-            // 
-            // playingBoard1
-            // 
-            this.playingBoard1.AIDifficulty = null;
-            this.playingBoard1.BackColor = System.Drawing.Color.Transparent;
-            this.playingBoard1.BoardSize = 15;
-            this.playingBoard1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.playingBoard1.FieldSize = 20;
-            this.playingBoard1.GridColor = System.Drawing.Color.Black;
-            this.playingBoard1.IsPlayingAI = false;
-            this.playingBoard1.Location = new System.Drawing.Point(231, 3);
-            this.playingBoard1.MinimumSize = new System.Drawing.Size(301, 301);
-            this.playingBoard1.Name = "playingBoard1";
-            this.playingBoard1.Size = new System.Drawing.Size(301, 356);
-            this.playingBoard1.Symbol1Color = System.Drawing.Color.Red;
-            this.playingBoard1.Symbol1Emoji = "❌";
-            this.playingBoard1.Symbol2Color = System.Drawing.Color.Blue;
-            this.playingBoard1.Symbol2Emoji = "⭕";
-            this.playingBoard1.TabIndex = 3;
             // 
             // FormBoard
             // 

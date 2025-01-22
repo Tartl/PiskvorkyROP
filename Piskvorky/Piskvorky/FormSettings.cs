@@ -112,5 +112,25 @@ namespace Piskvorky
                 return;
             }
         }
+
+        private void IsWithAI_checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (IsWithAI_checkBox.Checked)
+            {
+                label5.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                radioButton3.Enabled = true;
+                radioButton2.Checked = true;
+            }
+            else
+            {
+                label5.Enabled = false;
+                radioButton1.Enabled = false;
+                radioButton2.Enabled = false;
+                radioButton3.Enabled = false;
+                radioButton2.Checked = false;
+            }
+        }
     }
 }

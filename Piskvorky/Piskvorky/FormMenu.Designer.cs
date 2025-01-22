@@ -43,7 +43,7 @@
             // buttonNewGame
             // 
             this.buttonNewGame.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonNewGame.Location = new System.Drawing.Point(233, 201);
+            this.buttonNewGame.Location = new System.Drawing.Point(225, 191);
             this.buttonNewGame.Name = "buttonNewGame";
             this.buttonNewGame.Size = new System.Drawing.Size(312, 35);
             this.buttonNewGame.TabIndex = 0;
@@ -54,7 +54,7 @@
             // buttonSettings
             // 
             this.buttonSettings.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonSettings.Location = new System.Drawing.Point(233, 242);
+            this.buttonSettings.Location = new System.Drawing.Point(225, 232);
             this.buttonSettings.Name = "buttonSettings";
             this.buttonSettings.Size = new System.Drawing.Size(312, 35);
             this.buttonSettings.TabIndex = 1;
@@ -65,7 +65,7 @@
             // buttonBest
             // 
             this.buttonBest.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonBest.Location = new System.Drawing.Point(392, 324);
+            this.buttonBest.Location = new System.Drawing.Point(384, 314);
             this.buttonBest.Name = "buttonBest";
             this.buttonBest.Size = new System.Drawing.Size(153, 35);
             this.buttonBest.TabIndex = 2;
@@ -77,7 +77,7 @@
             // 
             this.buttonLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonLoad.Enabled = false;
-            this.buttonLoad.Location = new System.Drawing.Point(392, 283);
+            this.buttonLoad.Location = new System.Drawing.Point(384, 273);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(153, 35);
             this.buttonLoad.TabIndex = 3;
@@ -87,7 +87,7 @@
             // buttonQuit
             // 
             this.buttonQuit.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonQuit.Location = new System.Drawing.Point(233, 365);
+            this.buttonQuit.Location = new System.Drawing.Point(225, 355);
             this.buttonQuit.Name = "buttonQuit";
             this.buttonQuit.Size = new System.Drawing.Size(312, 35);
             this.buttonQuit.TabIndex = 4;
@@ -99,7 +99,7 @@
             // 
             this.buttonSave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonSave.Enabled = false;
-            this.buttonSave.Location = new System.Drawing.Point(233, 283);
+            this.buttonSave.Location = new System.Drawing.Point(225, 273);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(153, 35);
             this.buttonSave.TabIndex = 5;
@@ -110,7 +110,7 @@
             // 
             this.buttonDemo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonDemo.Enabled = false;
-            this.buttonDemo.Location = new System.Drawing.Point(233, 324);
+            this.buttonDemo.Location = new System.Drawing.Point(225, 314);
             this.buttonDemo.Name = "buttonDemo";
             this.buttonDemo.Size = new System.Drawing.Size(153, 35);
             this.buttonDemo.TabIndex = 6;
@@ -119,10 +119,12 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(89, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(60, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(674, 173);
+            this.pictureBox1.Size = new System.Drawing.Size(658, 173);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
@@ -131,7 +133,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(784, 431);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonDemo);
             this.Controls.Add(this.buttonSave);
@@ -141,6 +143,7 @@
             this.Controls.Add(this.buttonSettings);
             this.Controls.Add(this.buttonNewGame);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(800, 470);
             this.Name = "FormMenu";
             this.Text = "Piškvorky";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

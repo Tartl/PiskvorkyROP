@@ -195,10 +195,8 @@ namespace Piskvorky
 
         private void SaveLeaderboard()
         {
-            // Create the serializer for a list of BestOfLeaderboard
             var serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
 
-            // Write the serialized XML to file
             using (var fs = new FileStream(leaderboardFilePath, FileMode.Create))
             {
                 serializer.Serialize(fs, leaderboard);
@@ -209,10 +207,8 @@ namespace Piskvorky
         {
             if (File.Exists(leaderboardFilePath))
             {
-                // Create the same serializer
                 var serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
 
-                // Read the XML from file
                 using (var fs = new FileStream(leaderboardFilePath, FileMode.Open))
                 {
                     leaderboard = (List<BestOfLeaderboard>)serializer.Deserialize(fs);
@@ -220,7 +216,6 @@ namespace Piskvorky
             }
             else
             {
-                // If no file exists yet, start with an empty list
                 leaderboard = new List<BestOfLeaderboard>();
             }
         }
@@ -238,7 +233,6 @@ namespace Piskvorky
                 WinPercentage = winPercentage
             };
 
-            // Add the new entry, sort, and keep top 10
             leaderboard.Add(newEntry);
             leaderboard = leaderboard
                 .OrderByDescending(entry => entry.Score)
@@ -246,7 +240,6 @@ namespace Piskvorky
                 .Take(10)
                 .ToList();
 
-            // Save the updated list to XML
             SaveLeaderboard();
         }
     }

@@ -93,6 +93,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.Enabled = false;
             this.label5.Location = new System.Drawing.Point(12, 264);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(97, 13);
@@ -102,6 +103,7 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
+            this.radioButton1.Enabled = false;
             this.radioButton1.Location = new System.Drawing.Point(210, 264);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(51, 17);
@@ -112,18 +114,18 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = true;
+            this.radioButton2.Enabled = false;
             this.radioButton2.Location = new System.Drawing.Point(210, 287);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(59, 17);
             this.radioButton2.TabIndex = 10;
-            this.radioButton2.TabStop = true;
             this.radioButton2.Text = "střední";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
+            this.radioButton3.Enabled = false;
             this.radioButton3.Location = new System.Drawing.Point(210, 310);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(51, 17);
@@ -261,6 +263,7 @@
             this.IsWithAI_checkBox.TabIndex = 24;
             this.IsWithAI_checkBox.Text = "                                    hra s počítačem";
             this.IsWithAI_checkBox.UseVisualStyleBackColor = true;
+            this.IsWithAI_checkBox.CheckedChanged += new System.EventHandler(this.IsWithAI_checkBox_CheckedChanged);
             // 
             // label9
             // 
