@@ -47,8 +47,7 @@ namespace Piskvorky
             player2_name = GameSettings.Player2Name;
             label_hrac1.Text = player1_name;
             label_hrac2.Text = player2_name;
-            
-            LoadLeaderboard();
+            leaderboard = LoadLeaderboardBase64(leaderboardFilePath);
         }
         private const int ResizeThreshold = 5;
 
@@ -82,7 +81,7 @@ namespace Piskvorky
 
         private void FormBoard_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveLeaderboard();
+            SaveLeaderboardBase64(leaderboardFilePath, leaderboard);
         }
 
         private void FormBoard_FormClosed(object sender, FormClosedEventArgs e)
@@ -99,8 +98,8 @@ namespace Piskvorky
         private void OnPlayerWon(GameSymbol winner)
         {
             string[] scores = label_score.Text.Split(':');
-            double player1Score = int.Parse(scores[0]);
-            double player2Score = int.Parse(scores[1]);
+            double player1Score = double.Parse(scores[0]);
+            double player2Score = double.Parse(scores[1]);
             gamesPlayed++;
             if (GameSettings.IsAgainstAI)
             {
@@ -193,30 +192,31 @@ namespace Piskvorky
 
         }
 
-        private void SaveLeaderboard()
+        public void SaveLeaderboardBase64(string filePath, List<BestOfLeaderboard> leaderboard)
         {
-            var serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
-
-            using (var fs = new FileStream(leaderboardFilePath, FileMode.Create))
+            XmlSerializer serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
+            using (StringWriter stringWriter = new StringWriter())
             {
-                serializer.Serialize(fs, leaderboard);
+                serializer.Serialize(stringWriter, leaderboard);
+                string xmlContent = stringWriter.ToString();
+
+                // Encode to Base64
+                string encodedContent = Convert.ToBase64String(Encoding.UTF8.GetBytes(xmlContent));
+                File.WriteAllText(filePath, encodedContent);
             }
         }
 
-        private void LoadLeaderboard()
+        public List<BestOfLeaderboard> LoadLeaderboardBase64(string filePath)
         {
-            if (File.Exists(leaderboardFilePath))
-            {
-                var serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
+            if (!File.Exists(filePath)) return new List<BestOfLeaderboard>();
 
-                using (var fs = new FileStream(leaderboardFilePath, FileMode.Open))
-                {
-                    leaderboard = (List<BestOfLeaderboard>)serializer.Deserialize(fs);
-                }
-            }
-            else
+            string encodedContent = File.ReadAllText(filePath);
+            string xmlContent = Encoding.UTF8.GetString(Convert.FromBase64String(encodedContent));
+
+            XmlSerializer serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
+            using (StringReader stringReader = new StringReader(xmlContent))
             {
-                leaderboard = new List<BestOfLeaderboard>();
+                return (List<BestOfLeaderboard>)serializer.Deserialize(stringReader);
             }
         }
 
@@ -240,7 +240,7 @@ namespace Piskvorky
                 .Take(10)
                 .ToList();
 
-            SaveLeaderboard();
+            SaveLeaderboardBase64(leaderboardFilePath, leaderboard);
         }
     }
 }

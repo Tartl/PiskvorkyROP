@@ -20,23 +20,20 @@ namespace Piskvorky
         public FormHistoryOfBest()
         {
             InitializeComponent();
-            LoadLeaderboard();
+            leaderboard = LoadLeaderboardBase64(leaderboardFilePath);
             InitializeLeaderboardGridView();
         }
-
-        private void LoadLeaderboard()
+        public List<BestOfLeaderboard> LoadLeaderboardBase64(string filePath)
         {
-            if (File.Exists(leaderboardFilePath))
+            if (!File.Exists(filePath)) return new List<BestOfLeaderboard>();
+
+            string encodedContent = File.ReadAllText(filePath);
+            string xmlContent = Encoding.UTF8.GetString(Convert.FromBase64String(encodedContent));
+
+            XmlSerializer serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
+            using (StringReader stringReader = new StringReader(xmlContent))
             {
-                var serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
-                using (var fs = new FileStream(leaderboardFilePath, FileMode.Open))
-                {
-                    leaderboard = (List<BestOfLeaderboard>)serializer.Deserialize(fs);
-                }
-            }
-            else
-            {
-                leaderboard = new List<BestOfLeaderboard>();
+                return (List<BestOfLeaderboard>)serializer.Deserialize(stringReader);
             }
         }
 

@@ -31,3 +31,5 @@ C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\bin\Debug\sound\symbolExists-effect.wav
 C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\bin\Debug\sound\win.wav
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormNewGame.resources
 E:\KUBA\PRG\PiskvorkyROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormHistoryOfBest.resources
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormHistoryOfBest.resources
+C:\Kuba\PRG\ROP\Piskvorky\Piskvorky\obj\Debug\Piskvorky.FormNewGame.resources
