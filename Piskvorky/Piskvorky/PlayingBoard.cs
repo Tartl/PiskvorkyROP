@@ -73,6 +73,7 @@ namespace Piskvorky
             set
             {
                 fieldSize = value;
+                Size = new Size(BoardSize * fieldSize + 1, BoardSize * fieldSize + 1);
                 Refresh();
             }
         }

@@ -93,6 +93,8 @@ namespace Piskvorky
         private void Form1_Resize(object sender, EventArgs e)
         {
             BoardRedraw();
+
+            playingBoard1.Location = new Point((this.ClientSize.Width - playingBoard1.Width) / 2, playingBoard1.Location.Y);
         }
 
         private void OnPlayerWon(GameSymbol winner)
