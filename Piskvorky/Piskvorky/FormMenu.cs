@@ -41,6 +41,8 @@ namespace Piskvorky
             formSettings.Player2Symbol = GameSettings.Player2Symbol;
             formSettings.IsWithAI = GameSettings.IsAgainstAI;
             formSettings.AIDifficulty = GameSettings.AI_Difficulty;
+            formSettings.Player1Color = GameSettings.Player1Color;
+            formSettings.Player2Color = GameSettings.Player2Color;
             formSettings.ShowDialog();
             if (formSettings.DialogResult == DialogResult.OK)
             {

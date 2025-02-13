@@ -30,6 +30,7 @@
         {
             this.leaderboardGridView = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.leaderboardGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,17 +52,29 @@
             this.button1.Text = "Zavřít";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 396);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(394, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Jedná se o tabulku s 10 nejlepšími hráči při hře proti počítači s nejtěžší obtížn" +
+    "ostí";
+            // 
             // FormHistoryOfBest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.leaderboardGridView);
             this.Name = "FormHistoryOfBest";
             this.Text = "FormHistoryOfBest";
             ((System.ComponentModel.ISupportInitialize)(this.leaderboardGridView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -69,5 +82,6 @@
 
         private System.Windows.Forms.DataGridView leaderboardGridView;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
     }
 }

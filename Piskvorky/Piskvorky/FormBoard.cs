@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Piskvorky
 {
@@ -43,8 +44,11 @@ namespace Piskvorky
             this.formMenu = formMenu;
             playingBoard1.PlayerWon += OnPlayerWon;
             playingBoard1.Draw += OnDraw;
-            player1_name = GameSettings.Player1Name;
-            player2_name = GameSettings.Player2Name;
+            if (GameSettings.Player1Name != "" && GameSettings.Player2Name != "")
+            {
+                player1_name = GameSettings.Player1Name;
+                player2_name = GameSettings.Player2Name;
+            }
             label_hrac1.Text = player1_name;
             label_hrac2.Text = player2_name;
             leaderboard = LoadLeaderboardBase64(leaderboardFilePath);
@@ -59,6 +63,8 @@ namespace Piskvorky
             gameLength = GameSettings.GameLength;
             playingBoard1.Symbol1Emoji = GameSettings.Player1Symbol;
             playingBoard1.Symbol2Emoji = GameSettings.Player2Symbol;
+            playingBoard1.Symbol1Color = GameSettings.Player1Color;
+            playingBoard1.Symbol2Color = GameSettings.Player2Color;
             playingBoard1.IsPlayingAI = GameSettings.IsAgainstAI;
             playingBoard1.AIDifficulty = GameSettings.AI_Difficulty;
         }
@@ -138,11 +144,13 @@ namespace Piskvorky
             label_score.Text = $"{player1Score}:{player2Score}";
             if (gamesPlayed == gameLength)
             {
-                MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text}");
+                player_bestWinMoves = playingBoard1.MovesToWinMin;
+                MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text} a nejkratší hra měla {player_bestWinMoves} tahů");
                 //Přidat skóre do tabulky nejlepších hráčů
-                if ((player1Score > player2Score) && GameSettings.IsAgainstAI)
+                if (GameSettings.AI_Difficulty == "těžká" && GameSettings.IsAgainstAI)
                 {
-                    player_score = (int)player1Score * 100 - player_losses * 50;
+
+                    player_score = (int)player1Score * 100 - player_losses * 25 - player_bestWinMoves;
                     player_winPercentage = (double)player_wins / gamesPlayed * 100;
                     AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
                 }
@@ -220,6 +228,16 @@ namespace Piskvorky
             {
                 return (List<BestOfLeaderboard>)serializer.Deserialize(stringReader);
             }
+        }
+
+        private void uloženíToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void otevřeníToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void AddToLeaderboard(string playerName, int score, int wins, int losses, int draws, int bestWinMoves, double winPercentage)

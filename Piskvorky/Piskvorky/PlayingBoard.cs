@@ -20,18 +20,16 @@ namespace Piskvorky
         private Color symbol1Color = Color.Red;
         private Color symbol2Color = Color.Blue;
         private Pen gridPen;
-        private Pen symbol1Pen;
-        private Pen symbol2Pen;
         private Calculations calc;
         private GameSymbol currentPlayer = GameSymbol.Symbol1;
         private float gridThickness = 1f;
-        private float symbol1Thickness = 2f;
-        private float symbol2Thickness = 2f;
         private float GridThickness {  get; set; }
         SoundPlayer fieldFullSound = new SoundPlayer(@"sound\symbolExists-effect.wav");
         private bool isPlayingAI;
         private bool isAIThinking = false;
         private string aiDifficulty;
+        private int movesToWin = 0;
+        private int movesToWinMin = 626;
 
         public event Action<GameSymbol> PlayerWon;
         public event Action Draw;
@@ -118,6 +116,12 @@ namespace Piskvorky
             set { aiDifficulty = value; }
         }
 
+        public int MovesToWinMin
+        {
+            get { return movesToWinMin; }
+            set { movesToWinMin = value; }
+        }
+
         private void PlayingBoard_Paint(object sender, PaintEventArgs e)
         {
             DrawBoard(e.Graphics);
@@ -193,6 +197,7 @@ namespace Piskvorky
             Calc.ClearFieldValues();
             currentPlayer = GameSymbol.Symbol1;
             isAIThinking = false;
+            movesToWin = 0;
             Refresh();
         }
 
@@ -223,8 +228,6 @@ namespace Piskvorky
 
         private async Task AddMove(int x, int y)
         {
-            
-
             if (!Calc.CordsOnBoard(x, y))
                 return;
             if (Calc.SymbolsOnBoard[x, y] != GameSymbol.Free)
@@ -233,10 +236,15 @@ namespace Piskvorky
                 MessageBox.Show("Tady už symbol je!");
                 return;
             }
+            movesToWin++;
             GameResult result = Calc.AddSymbol(x, y, currentPlayer);
             Refresh();
             if (result == GameResult.Win)
             {
+                if (movesToWin < movesToWinMin)
+                {
+                    movesToWinMin = movesToWin;
+                }
                 PlayerWon?.Invoke(currentPlayer);
                 ResetGame();
             }

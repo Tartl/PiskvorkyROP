@@ -41,6 +41,8 @@
             this.uloženíToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ukončitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playingBoard1 = new Piskvorky.PlayingBoard();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -141,12 +143,14 @@
             this.otevřeníToolStripMenuItem.Name = "otevřeníToolStripMenuItem";
             this.otevřeníToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.otevřeníToolStripMenuItem.Text = "Otevření";
+            this.otevřeníToolStripMenuItem.Click += new System.EventHandler(this.otevřeníToolStripMenuItem_Click);
             // 
             // uloženíToolStripMenuItem
             // 
             this.uloženíToolStripMenuItem.Name = "uloženíToolStripMenuItem";
             this.uloženíToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.uloženíToolStripMenuItem.Text = "Uložení";
+            this.uloženíToolStripMenuItem.Click += new System.EventHandler(this.uloženíToolStripMenuItem_Click);
             // 
             // ukončitToolStripMenuItem
             // 
@@ -165,6 +169,7 @@
             this.playingBoard1.IsPlayingAI = false;
             this.playingBoard1.Location = new System.Drawing.Point(234, 48);
             this.playingBoard1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.playingBoard1.MovesToWinMin = 626;
             this.playingBoard1.Name = "playingBoard1";
             this.playingBoard1.Size = new System.Drawing.Size(305, 305);
             this.playingBoard1.Symbol1Color = System.Drawing.Color.Red;
@@ -172,6 +177,10 @@
             this.playingBoard1.Symbol2Color = System.Drawing.Color.Blue;
             this.playingBoard1.Symbol2Emoji = "⭕";
             this.playingBoard1.TabIndex = 3;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // FormBoard
             // 
@@ -211,6 +220,8 @@
         private System.Windows.Forms.ToolStripMenuItem uloženíToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ukončitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

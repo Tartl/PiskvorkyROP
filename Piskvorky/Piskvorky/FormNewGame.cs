@@ -49,14 +49,5 @@ namespace Piskvorky
                 textBox2.Text = "";
             }
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (textBox1.Text == "" || textBox2.Text == "")
-            {
-                MessageBox.Show("Zadejte název hráče!");
-                DialogResult = DialogResult.None;
-            }
-        }
     }
 }

@@ -15,7 +15,7 @@ namespace Piskvorky
         public FormSettings()
         {
             InitializeComponent();
-            string[] defaultSymbols = { "❌", "⭕", "⭐", "🍀", "🔥" };
+            string[] defaultSymbols = { "❌", "⭕", "⭐", "🌙"  , "🐱" , "🐶" , "🦄" , "🐉" ,"🍎", "🍊", "🌮", "🍕", "⚽", "🏀", "🔥", "💧", "🐧","🦩" ,"🎩", "👑", "🥒", "🥕", "🦖", "🦕" };
             comboBox1.Items.AddRange(defaultSymbols);
             comboBox2.Items.AddRange(defaultSymbols);
 
@@ -97,6 +97,18 @@ namespace Piskvorky
             
         }
 
+        public Color Player1Color
+        {
+            get { return button3.BackColor; }
+            set { button3.BackColor = value; }
+        }
+
+        public Color Player2Color
+        {
+            get { return button4.BackColor; }
+            set { button4.BackColor = value; }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (Player1Symbol == Player2Symbol)
@@ -131,6 +143,22 @@ namespace Piskvorky
                 radioButton3.Enabled = false;
                 radioButton2.Checked = false;
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            colorDialog1 = new ColorDialog();
+            colorDialog1.ShowDialog();
+            GameSettings.Player1Color = colorDialog1.Color;
+            button3.BackColor = colorDialog1.Color;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            colorDialog2 = new ColorDialog();
+            colorDialog2.ShowDialog();
+            GameSettings.Player2Color = colorDialog2.Color;
+            button4.BackColor = colorDialog2.Color;
         }
     }
 }

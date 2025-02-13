@@ -49,6 +49,10 @@
             this.button2 = new System.Windows.Forms.Button();
             this.IsWithAI_checkBox = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.colorDialog2 = new System.Windows.Forms.ColorDialog();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_winLenght)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_boardSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_gameLenght)).BeginInit();
@@ -274,11 +278,33 @@
             this.label9.TabIndex = 25;
             this.label9.Text = "barva hracích symbolů:";
             // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.Red;
+            this.button3.Location = new System.Drawing.Point(210, 81);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(42, 23);
+            this.button3.TabIndex = 26;
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.Blue;
+            this.button4.Location = new System.Drawing.Point(342, 81);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(42, 23);
+            this.button4.TabIndex = 27;
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(456, 395);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.IsWithAI_checkBox);
             this.Controls.Add(this.button2);
@@ -336,5 +362,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox IsWithAI_checkBox;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.ColorDialog colorDialog2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }
