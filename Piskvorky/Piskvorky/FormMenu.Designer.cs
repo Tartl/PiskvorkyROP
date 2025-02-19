@@ -32,9 +32,7 @@
             this.buttonNewGame = new System.Windows.Forms.Button();
             this.buttonSettings = new System.Windows.Forms.Button();
             this.buttonBest = new System.Windows.Forms.Button();
-            this.buttonLoad = new System.Windows.Forms.Button();
             this.buttonQuit = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.buttonDemo = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -43,7 +41,7 @@
             // buttonNewGame
             // 
             this.buttonNewGame.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonNewGame.Location = new System.Drawing.Point(225, 191);
+            this.buttonNewGame.Location = new System.Drawing.Point(224, 222);
             this.buttonNewGame.Name = "buttonNewGame";
             this.buttonNewGame.Size = new System.Drawing.Size(312, 35);
             this.buttonNewGame.TabIndex = 0;
@@ -54,7 +52,7 @@
             // buttonSettings
             // 
             this.buttonSettings.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonSettings.Location = new System.Drawing.Point(225, 232);
+            this.buttonSettings.Location = new System.Drawing.Point(224, 263);
             this.buttonSettings.Name = "buttonSettings";
             this.buttonSettings.Size = new System.Drawing.Size(312, 35);
             this.buttonSettings.TabIndex = 1;
@@ -65,7 +63,7 @@
             // buttonBest
             // 
             this.buttonBest.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonBest.Location = new System.Drawing.Point(384, 314);
+            this.buttonBest.Location = new System.Drawing.Point(383, 304);
             this.buttonBest.Name = "buttonBest";
             this.buttonBest.Size = new System.Drawing.Size(153, 35);
             this.buttonBest.TabIndex = 2;
@@ -73,21 +71,10 @@
             this.buttonBest.UseVisualStyleBackColor = true;
             this.buttonBest.Click += new System.EventHandler(this.buttonBest_Click);
             // 
-            // buttonLoad
-            // 
-            this.buttonLoad.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonLoad.Enabled = false;
-            this.buttonLoad.Location = new System.Drawing.Point(384, 273);
-            this.buttonLoad.Name = "buttonLoad";
-            this.buttonLoad.Size = new System.Drawing.Size(153, 35);
-            this.buttonLoad.TabIndex = 3;
-            this.buttonLoad.Text = "Otevření";
-            this.buttonLoad.UseVisualStyleBackColor = true;
-            // 
             // buttonQuit
             // 
             this.buttonQuit.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonQuit.Location = new System.Drawing.Point(225, 355);
+            this.buttonQuit.Location = new System.Drawing.Point(224, 345);
             this.buttonQuit.Name = "buttonQuit";
             this.buttonQuit.Size = new System.Drawing.Size(312, 35);
             this.buttonQuit.TabIndex = 4;
@@ -95,22 +82,11 @@
             this.buttonQuit.UseVisualStyleBackColor = true;
             this.buttonQuit.Click += new System.EventHandler(this.buttonQuit_Click);
             // 
-            // buttonSave
-            // 
-            this.buttonSave.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonSave.Enabled = false;
-            this.buttonSave.Location = new System.Drawing.Point(225, 273);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(153, 35);
-            this.buttonSave.TabIndex = 5;
-            this.buttonSave.Text = "Uložení";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            // 
             // buttonDemo
             // 
             this.buttonDemo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonDemo.Enabled = false;
-            this.buttonDemo.Location = new System.Drawing.Point(225, 314);
+            this.buttonDemo.Location = new System.Drawing.Point(224, 304);
             this.buttonDemo.Name = "buttonDemo";
             this.buttonDemo.Size = new System.Drawing.Size(153, 35);
             this.buttonDemo.TabIndex = 6;
@@ -136,9 +112,7 @@
             this.ClientSize = new System.Drawing.Size(784, 431);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonDemo);
-            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonQuit);
-            this.Controls.Add(this.buttonLoad);
             this.Controls.Add(this.buttonBest);
             this.Controls.Add(this.buttonSettings);
             this.Controls.Add(this.buttonNewGame);
@@ -157,9 +131,7 @@
         private System.Windows.Forms.Button buttonNewGame;
         private System.Windows.Forms.Button buttonSettings;
         private System.Windows.Forms.Button buttonBest;
-        private System.Windows.Forms.Button buttonLoad;
         private System.Windows.Forms.Button buttonQuit;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonDemo;
         private System.Windows.Forms.PictureBox pictureBox1;
     }

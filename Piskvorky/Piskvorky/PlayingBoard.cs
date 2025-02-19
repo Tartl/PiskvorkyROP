@@ -43,6 +43,19 @@ namespace Piskvorky
             }
             set { calc = value; }
         }
+
+        public GameSymbol CurrentPlayer
+        {
+            get
+            {
+                return currentPlayer;
+            }
+            set
+            {
+                currentPlayer = value;
+            }
+        }
+
         private GameSymbol Opponent
         {
             get 
@@ -120,6 +133,12 @@ namespace Piskvorky
         {
             get { return movesToWinMin; }
             set { movesToWinMin = value; }
+        }
+
+        public int MovesToWin
+        {
+            get { return movesToWin; }
+            set { movesToWin = value; }
         }
 
         private void PlayingBoard_Paint(object sender, PaintEventArgs e)

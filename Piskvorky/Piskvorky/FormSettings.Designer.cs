@@ -168,6 +168,16 @@
             // numUpDown_winLenght
             // 
             this.numUpDown_winLenght.Location = new System.Drawing.Point(210, 120);
+            this.numUpDown_winLenght.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.numUpDown_winLenght.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             this.numUpDown_winLenght.Name = "numUpDown_winLenght";
             this.numUpDown_winLenght.Size = new System.Drawing.Size(43, 20);
             this.numUpDown_winLenght.TabIndex = 17;
