@@ -149,6 +149,7 @@ namespace Piskvorky
                     AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
                 }
                 label_score.Text = "0:0";
+                Close();
             }
         }
 

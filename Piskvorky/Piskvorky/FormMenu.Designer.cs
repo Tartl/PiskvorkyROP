@@ -85,13 +85,13 @@
             // buttonDemo
             // 
             this.buttonDemo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonDemo.Enabled = false;
             this.buttonDemo.Location = new System.Drawing.Point(224, 304);
             this.buttonDemo.Name = "buttonDemo";
             this.buttonDemo.Size = new System.Drawing.Size(153, 35);
             this.buttonDemo.TabIndex = 6;
             this.buttonDemo.Text = "Demo";
             this.buttonDemo.UseVisualStyleBackColor = true;
+            this.buttonDemo.Click += new System.EventHandler(this.buttonDemo_Click);
             // 
             // pictureBox1
             // 

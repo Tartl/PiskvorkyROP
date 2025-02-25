@@ -66,5 +66,13 @@ namespace Piskvorky
             FormHistoryOfBest formHistoryOfBest = new FormHistoryOfBest();
             formHistoryOfBest.ShowDialog();
         }
+
+        private void buttonDemo_Click(object sender, EventArgs e)
+        {
+            GameSettings.DemoMode = true;
+            FormBoard board = new FormBoard(this);
+            board.Show();
+            Hide();
+        }
     }
 }

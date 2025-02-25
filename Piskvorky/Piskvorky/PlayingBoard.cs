@@ -272,25 +272,26 @@ namespace Piskvorky
                 Draw?.Invoke();
                 ResetGame();
             }
-            else if(isPlayingAI)
+            currentPlayer = Opponent;
+
+            if (GameSettings.DemoMode)
             {
-                currentPlayer = Opponent;
-                if (currentPlayer == GameSymbol.Symbol2)
-                {
-                    isAIThinking = true;
-                    await Task.Delay(1000);
-                    int optX;
-                    int optY;
-                    Calc.GetBestMove(GetDifficulty(AIDifficulty), out optX, out optY, currentPlayer);
-                    await AddMove(optX, optY);
-                    isAIThinking = false;
-                }
+                isAIThinking = true;
+                await Task.Delay(200);
+                int aiX, aiY;
+                Calc.GetBestMove(Difficulty.Easy, out aiX, out aiY, currentPlayer);
+                await AddMove(aiX, aiY);
             }
-            else
+            else if (isPlayingAI && currentPlayer == GameSymbol.Symbol2)
             {
-                currentPlayer = Opponent;
+                isAIThinking = true;
+                await Task.Delay(1000);
+                int optX, optY;
+                Calc.GetBestMove(GetDifficulty(AIDifficulty), out optX, out optY, currentPlayer);
+                await AddMove(optX, optY);
+                isAIThinking = false;
             }
-            
+
         }
     }   
 }

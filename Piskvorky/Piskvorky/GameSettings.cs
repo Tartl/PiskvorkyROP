@@ -20,6 +20,6 @@ namespace Piskvorky
         public static string AI_Difficulty { get; set; } = "střední";
         public static string Player1Name { get; set; } = "Hráč 1";
         public static string Player2Name { get; set; } = "Hráč 2";
-
+        public static bool DemoMode { get; set; } = false;
     }
 }
