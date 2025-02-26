@@ -19,7 +19,10 @@ namespace Piskvorky
         private Color gridColor = Color.Black;
         private Color symbol1Color = Color.Red;
         private Color symbol2Color = Color.Blue;
+        private Color lastDrawnColor = Color.Yellow;
         private Pen gridPen;
+        private int lastDrawnX = -1, 
+                    lastDrawnY = -1;
         private Calculations calc;
         private GameSymbol currentPlayer = GameSymbol.Symbol1;
         private float gridThickness = 1f;
@@ -114,6 +117,16 @@ namespace Piskvorky
                 Refresh();
             }
         }
+
+        public Color LastDrawnColor
+        {
+            get { return lastDrawnColor; }
+            set
+            {
+                lastDrawnColor = value;
+                Refresh();
+            }
+        }
         public Pen GridPen {
             get {
                 if ( gridPen == null ) gridPen = new Pen(GridColor, gridThickness);
@@ -144,7 +157,16 @@ namespace Piskvorky
         private void PlayingBoard_Paint(object sender, PaintEventArgs e)
         {
             DrawBoard(e.Graphics);
+            HighlightLastMove(e.Graphics);
             DrawSymbols(e.Graphics);
+        }
+
+        private void HighlightLastMove(Graphics graphics)
+        {
+            if (Calc.CordsOnBoard(lastDrawnX,lastDrawnY))
+            {
+                graphics.FillRectangle(new SolidBrush(lastDrawnColor), lastDrawnX * fieldSize + 1, lastDrawnY * fieldSize + 1, fieldSize - 1, fieldSize - 1);
+            }
         }
 
         private void DrawBoard (Graphics graphics)
@@ -257,6 +279,8 @@ namespace Piskvorky
             }
             movesToWin++;
             GameResult result = Calc.AddSymbol(x, y, currentPlayer);
+            lastDrawnX = x;
+            lastDrawnY = y;
             Refresh();
             if (result == GameResult.Win)
             {
@@ -279,10 +303,10 @@ namespace Piskvorky
                 isAIThinking = true;
                 await Task.Delay(200);
                 int aiX, aiY;
-                Calc.GetBestMove(Difficulty.Easy, out aiX, out aiY, currentPlayer);
+                    Calc.GetBestMove(Difficulty.Easy, out aiX, out aiY, currentPlayer);
                 await AddMove(aiX, aiY);
             }
-            else if (isPlayingAI && currentPlayer == GameSymbol.Symbol2)
+            if (isPlayingAI && currentPlayer == GameSymbol.Symbol2)
             {
                 isAIThinking = true;
                 await Task.Delay(1000);
