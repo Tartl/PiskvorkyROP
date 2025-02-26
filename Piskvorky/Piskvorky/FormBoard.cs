@@ -244,6 +244,7 @@ namespace Piskvorky
             var calc = playingBoard1.Calc;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                playingBoard1.ResetGame();
                 string path = openFileDialog1.FileName;
                 string encoded = File.ReadAllText(path);
                 string xmlContent = Encoding.UTF8.GetString(Convert.FromBase64String(encoded));
