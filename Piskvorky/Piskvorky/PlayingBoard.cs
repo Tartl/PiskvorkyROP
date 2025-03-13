@@ -169,6 +169,13 @@ namespace Piskvorky
             }
         }
 
+        private void ClearHighlightedMove()
+        {
+            lastDrawnX = -1;
+            lastDrawnY = -1;
+            Refresh();
+        }
+
         private void DrawBoard (Graphics graphics)
         {
             for (int i = 0; i <= boardSize; i++)
@@ -217,25 +224,12 @@ namespace Piskvorky
             DoubleBuffered = true;
         }
 
-        public void UpdateScore(Label scoreLabel, GameSymbol winner)
-        {
-            string[] scores = scoreLabel.Text.Split(':');
-            int player1Score = int.Parse(scores[0]);
-            int player2Score = int.Parse(scores[1]);
-
-            if (winner == GameSymbol.Symbol1)
-                player1Score++;
-            else if (winner == GameSymbol.Symbol2)
-                player2Score++;
-
-            scoreLabel.Text = $"{player1Score}:{player2Score}";
-        }
-
         public void ResetGame()
         {
             Calc.ClearBoard();
             Calc.ClearSymbolsInRow();
             Calc.ClearFieldValues();
+            ClearHighlightedMove();
             currentPlayer = GameSymbol.Symbol1;
             isAIThinking = false;
             movesToWin = 0;
@@ -290,11 +284,13 @@ namespace Piskvorky
                 }
                 PlayerWon?.Invoke(currentPlayer);
                 ResetGame();
+                return;
             }
             else if (result == GameResult.Draw)
             {
                 Draw?.Invoke();
                 ResetGame();
+                return;
             }
             currentPlayer = Opponent;
 
@@ -303,8 +299,16 @@ namespace Piskvorky
                 isAIThinking = true;
                 await Task.Delay(200);
                 int aiX, aiY;
-                    Calc.GetBestMove(Difficulty.Easy, out aiX, out aiY, currentPlayer);
+                if (currentPlayer == GameSymbol.Symbol1)
+                {
+                    Calc.GetBestMove(Difficulty.Hard, out aiX, out aiY, currentPlayer);
+                }
+                else
+                {
+                    Calc.GetBestMove(Difficulty.Medium, out aiX, out aiY, currentPlayer);
+                }
                 await AddMove(aiX, aiY);
+                isAIThinking = false;
             }
             if (isPlayingAI && currentPlayer == GameSymbol.Symbol2)
             {

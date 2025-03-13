@@ -23,8 +23,14 @@ namespace Piskvorky
             formNewGame.ShowDialog();
             if (formNewGame.DialogResult == DialogResult.OK)
             {
-                GameSettings.Player1Name = formNewGame.textBox1.Text;
-                GameSettings.Player2Name = formNewGame.textBox2.Text;
+                if (formNewGame.textBox1.Text != "")
+                {
+                    GameSettings.Player1Name = formNewGame.textBox1.Text;
+                }
+                if (formNewGame.textBox2.Text != "")
+                {
+                    GameSettings.Player2Name = formNewGame.textBox2.Text;
+                }
                 FormBoard board = new FormBoard(this);
                 board.Show();
                 Hide();

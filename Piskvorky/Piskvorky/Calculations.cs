@@ -1,54 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Piskvorky
 {
     public class Calculations
     {
-        private int boardSize = 15; // Velikost hrací plochy (např. 15x15 políček)
-        private GameSymbol[,] symbolsOnBoard; // Symboly na hrací ploše
-        private short winLength = 5; // Počet symbolů v řadě potřebný k výhře
-        private short[,,,] symbolsInRow; // Počty symbolů v jednotlivých směrech
-        private short[,,,] openEnds; // Počet otevřených konců (možné pokračování v řadě)
-        private short[,] DirectionSigns; // Značky určující směr (horizontální, diagonální, vertikální)
-        private int rowsLeftOnBoard; // Počet zbývajících možných řad na ploše
-        private int[,,] fieldValues; // Hodnoty polí pro výpočet nejlepších tahů
-        private int[] Values; // Hodnoty podle počtu symbolů v řadě (např. 4, 20, 100, 500)
+        private int boardSize = 15; // Board size (e.g., 15x15)
+        private GameSymbol[,] symbolsOnBoard; // Symbols on the board
+        private short winLength = 5; // Number of symbols in a row needed to win
+        private short[,,,] symbolsInRow; // Counts of symbols in each direction
+        private short[,,,] openEnds; // Number of open ends (potential extensions of a sequence)
+        private short[,] DirectionSigns; // Direction signs for horizontal, diagonal, vertical
+        private int rowsLeftOnBoard; // Remaining possible winning rows on the board
+        private int[,,] fieldValues; // Field values used to choose moves in heuristic approaches
+        private int[] Values; // Values based on number of symbols in a row (e.g., 4, 20, 100, 500)
 
-        // Konstruktor třídy, inicializace základních proměnných
+        // Constructor: initializes key variables
         public Calculations(int boardSize)
         {
             this.boardSize = boardSize;
 
-            // Směry: horizontální, vertikální, diagonální 1, diagonální 2
+            // Directions: horizontal, diagonal1, vertical, diagonal2
             DirectionSigns = new short[(short)Direction.Diag2 + 1, (short)Coordinate.Y + 1]
             {
-                { -1,  0 }, // Horizontální
-                { -1, -1 }, // Diagonální 1
-                {  0, -1 }, // Vertikální
-                {  1, -1 }  // Diagonální 2
+                { -1,  0 }, // Horizontal
+                { -1, -1 }, // Diagonal 1
+                {  0, -1 }, // Vertical
+                {  1, -1 }  // Diagonal 2
             };
 
-            // Hodnoty podle délky řady: čím delší řada, tím vyšší hodnota
+            // Values according to sequence length: the longer the sequence, the higher the value.
             Values = new int[7] { 0, 0, 4, 20, 100, 500, 0 };
         }
 
-        // Nastavení nové velikosti hrací plochy
+        // Sets a new board size and clears the board and sequence counts
         public void SetBoardSize(int newSize)
         {
             boardSize = newSize;
-            ClearBoard(); // Vyčištění hrací plochy
-            ClearSymbolsInRow(); // Vyčištění počtů symbolů v řadě
+            ClearBoard();
+            ClearSymbolsInRow();
         }
 
-        // Délka řady potřebná k výhře
+        // The win length needed
         public short WinLength
         {
             get { return winLength; }
             set { winLength = value; }
         }
 
-        // Počty symbolů v jednotlivých směrech
+        // Counts of symbols in each direction
         public short[,,,] SymbolsInRow
         {
             get
@@ -58,7 +59,7 @@ namespace Piskvorky
             }
         }
 
-        // Symboly na hrací ploše
+        // The board’s symbols
         public GameSymbol[,] SymbolsOnBoard
         {
             get
@@ -68,7 +69,7 @@ namespace Piskvorky
             }
         }
 
-        // Hodnoty polí na hrací ploše
+        // Field values for heuristic evaluations
         public int[,,] FieldValues
         {
             get
@@ -78,7 +79,7 @@ namespace Piskvorky
             }
         }
 
-        // Vyčištění počtů symbolů v řadě
+        // Clears the sequence counts arrays
         public void ClearSymbolsInRow()
         {
             symbolsInRow = new short[boardSize, boardSize, (short)Direction.Diag2 + 1, (short)GameSymbol.Symbol2 + 1];
@@ -97,12 +98,11 @@ namespace Piskvorky
                     }
                 }
             }
-
-            // Počet možných řad na ploše
+            // Total possible winning sequences on the board
             rowsLeftOnBoard = 4 * (2 * boardSize - (winLength - 1)) * (boardSize - (winLength - 1));
         }
 
-        // Vyčištění hrací plochy (nastavení všech políček na "volné")
+        // Clears the board (sets all cells to Free)
         public void ClearBoard()
         {
             symbolsOnBoard = new GameSymbol[boardSize, boardSize];
@@ -115,7 +115,7 @@ namespace Piskvorky
             }
         }
 
-        // Vyčištění hodnot polí (nastavení všech hodnot na 0)
+        // Clears the field values array (all to 0)
         public void ClearFieldValues()
         {
             fieldValues = new int[boardSize, boardSize, (short)GameSymbol.Symbol2 + 1];
@@ -131,24 +131,24 @@ namespace Piskvorky
             }
         }
 
-        // Kontrola, zda jsou souřadnice na hrací ploše
+        // Checks whether coordinates (x,y) are on the board
         public bool CordsOnBoard(int x, int y)
         {
             return x >= 0 && x < boardSize && y >= 0 && y < boardSize;
         }
 
-        // Vrací symbol soupeře aktuálního hráče
+        // Returns the opponent's symbol
         private GameSymbol GetOpponent(GameSymbol currentPlayer)
         {
             if (currentPlayer == GameSymbol.Symbol1) return GameSymbol.Symbol2;
             if (currentPlayer == GameSymbol.Symbol2) return GameSymbol.Symbol1;
-            throw new Exception("Neplatný symbol hráče!");
+            throw new Exception("Invalid player symbol!");
         }
 
-        // Přidání symbolu na dané políčko hrací plochy
+        // Adds a symbol on the board at (x,y) and updates internal counters
         public GameResult AddSymbol(int x, int y, GameSymbol player)
         {
-            GameResult result = GameResult.Continue; // Výchozí stav hry
+            GameResult result = GameResult.Continue;
             foreach (Direction dir in Enum.GetValues(typeof(Direction)))
             {
                 short dirHor = DirectionSigns[(short)dir, (short)Coordinate.X];
@@ -187,14 +187,14 @@ namespace Piskvorky
                 }
             }
 
-            SymbolsOnBoard[x, y] = player; // Aktualizace symbolu na ploše
+            SymbolsOnBoard[x, y] = player; // Update the board
             if (result == GameResult.Continue && rowsLeftOnBoard <= 0)
-                result = GameResult.Draw; // Remíza, pokud nejsou tahy
+                result = GameResult.Draw; // Draw if no moves left
 
             return result;
         }
 
-        // Kontrola, zda je pozice v rámci hranic plochy
+        // Checks if position (posX, posY) is within bounds for a given direction
         private bool PositionWithinBounds(int posX, int posY, short dirHor, short dirVer)
         {
             bool withinHorizontalBounds =
@@ -210,20 +210,18 @@ namespace Piskvorky
             return withinHorizontalBounds && withinVerticalBounds;
         }
 
-        // Zvýšení počtu symbolů v řadě, kontrola výhry/remízy
+        // Increments the count of symbols in a row; returns Win if the sequence reaches winLength
         private GameResult IncludeDraw(ref short numberInRow)
         {
             numberInRow++;
             if (numberInRow == winLength)
-                return GameResult.Win; // Výhra, pokud je dosažena požadovaná délka řady
-
+                return GameResult.Win;
             if (numberInRow == 1)
-                rowsLeftOnBoard--; // Snížení počtu zbývajících řad
-
+                rowsLeftOnBoard--;
             return GameResult.Continue;
         }
 
-        // Přepočítání hodnoty políčka v závislosti na aktuálním stavu řady
+        // Recalculates the heuristic value of a field based on current sequences
         private void RecalcValue(
             short symbolsInRowCurrentPlayer,
             short symbolsInRowOpponent,
@@ -232,129 +230,107 @@ namespace Piskvorky
             ref int fieldValueForCurrentPlayer,
             ref int fieldValueForOpponent)
         {
-            // Pokud soupeř nemá kameny v této řadě, přidáme "útočné" body
             if (symbolsInRowOpponent == 0)
             {
                 int baseIncrement = Values[symbolsInRowCurrentPlayer + 1] - Values[symbolsInRowCurrentPlayer];
-
                 if (openEndsCurrentPlayer == 0)
                 {
-                    // Pokud nejsou otevřené konce, bodový přírůstek se zmenší
                     baseIncrement /= 5;
                 }
                 else if (openEndsCurrentPlayer == 2)
                 {
-                    // Pokud jsou dva otevřené konce, bodový přírůstek se zdvojnásobí
                     baseIncrement *= 2;
                 }
                 else if (openEndsCurrentPlayer == 1)
                 {
-                    // Jeden otevřený konec přidá 50 % bodů navíc
                     baseIncrement += baseIncrement / 2;
                 }
-
                 fieldValueForCurrentPlayer += baseIncrement;
             }
-            // Pokud máme přesně jeden symbol v řadě, snižujeme hodnotu soupeřova políčka
             else if (symbolsInRowCurrentPlayer == 1)
             {
                 fieldValueForOpponent -= Values[symbolsInRowOpponent];
             }
         }
 
-        // Získání nejlepšího tahu podle úrovně obtížnosti
+        // Public interface to get the best move according to difficulty
         public void GetBestMove(Difficulty difficulty, out int x, out int y, GameSymbol player)
         {
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    GetBestMove_Easy(out x, out y, player); // Jednoduchá AI
+                    GetBestMove_Easy(out x, out y, player);
                     break;
                 case Difficulty.Medium:
-                    GetBestMove_Medium(out x, out y, player); // Středně obtížná AI
+                    GetBestMove_Medium(out x, out y, player);
                     break;
                 case Difficulty.Hard:
-                    GetBestMove_Hard(out x, out y, player); // Obtížná AI
+                    GetBestMove_Hard(out x, out y, player);
                     break;
                 default:
-                    GetBestMove_Medium(out x, out y, player); // Výchozí střední obtížnost
+                    GetBestMove_Medium(out x, out y, player);
                     break;
             }
         }
 
-        // Nejlepší tah pro jednoduchou obtížnost
+        // Easy difficulty: uses chance and immediate win/block checks plus a suboptimal move
         public void GetBestMove_Easy(out int x, out int y, GameSymbol player)
         {
             Random random = new Random();
             int chance = random.Next(0, 100);
-
-            GameSymbol opponent = GetOpponent(player); // Symbol soupeře
-
-            // 80% šance na okamžitou výhru nebo blokování soupeře
+            GameSymbol opponent = GetOpponent(player);
             if (chance < 80)
             {
-                // Pokud můžeme okamžitě vyhrát
                 if (TryFindWinningMove(player, out x, out y))
                     return;
-
-                // Pokud soupeř může vyhrát v dalším tahu, blokujeme
                 if (TryFindWinningMove(opponent, out x, out y))
                     return;
-
-                // Blokování otevřené trojky nebo čtyřky soupeře
                 if (TryFindOpenThreeOrFour(opponent, out x, out y))
                     return;
             }
-
-            // Pokud nic z výše uvedeného neplatí, vybereme suboptimální tah
             PickMoveSuboptimalByFieldValue(out x, out y, player, opponent, topN: 3);
         }
 
-        // Nejlepší tah pro střední obtížnost
+        // Medium difficulty: immediate win/block then a heuristic field value move
         public void GetBestMove_Medium(out int x, out int y, GameSymbol player)
         {
             if (TryFindWinningMove(player, out x, out y))
                 return;
-
-            GameSymbol opponent = GetOpponent(player); 
-
+            GameSymbol opponent = GetOpponent(player);
             if (TryFindWinningMove(opponent, out x, out y))
                 return;
-
-
             PickMoveByFieldValue_Medium(out x, out y, player, opponent);
         }
 
-        // Nejlepší tah pro obtížnou obtížnost
+        // Hard difficulty: immediate win/block then iterative deepening minimax with alpha-beta
         public void GetBestMove_Hard(out int x, out int y, GameSymbol player)
         {
             if (TryFindWinningMove(player, out x, out y))
                 return;
-
-            GameSymbol opponent = GetOpponent(player); 
-
+            GameSymbol opponent = GetOpponent(player);
             if (TryFindWinningMove(opponent, out x, out y))
                 return;
 
-            PickMoveByFieldValue_Hard(out x, out y, player, opponent);
+            // Use iterative deepening search with a 500ms time limit
+            (int bestX, int bestY) = FindBestMoveIterative(player, 500);
+            x = bestX;
+            y = bestY;
         }
 
-        // Hledání tahu, který vede k okamžité výhře
+        // Searches for an immediate winning move for checkPlayer
         private bool TryFindWinningMove(GameSymbol checkPlayer, out int winX, out int winY)
         {
             winX = -1;
             winY = -1;
-
             for (int x = 0; x < boardSize; x++)
             {
                 for (int y = 0; y < boardSize; y++)
                 {
                     if (SymbolsOnBoard[x, y] == GameSymbol.Free)
                     {
-                        SymbolsOnBoard[x, y] = checkPlayer; // Simulace tahu
-                        bool isWinning = WouldThisMoveWin(x, y, checkPlayer); // Kontrola výhry
-                        SymbolsOnBoard[x, y] = GameSymbol.Free; // Vrácení do původního stavu
-
+                        SymbolsOnBoard[x, y] = checkPlayer;
+                        bool isWinning = WouldThisMoveWin(x, y, checkPlayer);
+                        SymbolsOnBoard[x, y] = GameSymbol.Free;
                         if (isWinning)
                         {
                             winX = x;
@@ -367,29 +343,28 @@ namespace Piskvorky
             return false;
         }
 
-        // Kontrola, zda tah vede k výhře
+        // Checks whether placing checkPlayer's symbol at (x,y) wins the game
         private bool WouldThisMoveWin(int x, int y, GameSymbol checkPlayer)
         {
             int[][] directions = new int[][]
             {
-                new int[]{1, 0}, // Horizontální
-                new int[]{0, 1}, // Vertikální
-                new int[]{1, 1}, // Diagonální 1
-                new int[]{1, -1} // Diagonální 2
+                new int[]{1, 0}, // Horizontal
+                new int[]{0, 1}, // Vertical
+                new int[]{1, 1}, // Diagonal \
+                new int[]{1, -1} // Diagonal /
             };
-
             foreach (var d in directions)
             {
                 int count = 1;
-                count += CountDirection(x, y, d[0], d[1], checkPlayer); // Počítání symbolů v jednom směru
-                count += CountDirection(x, y, -d[0], -d[1], checkPlayer); // Počítání symbolů v opačném směru
-
-                if (count >= winLength) return true; // Pokud je dosažena délka řady
+                count += CountDirection(x, y, d[0], d[1], checkPlayer);
+                count += CountDirection(x, y, -d[0], -d[1], checkPlayer);
+                if (count >= winLength)
+                    return true;
             }
             return false;
         }
 
-        // Počítání symbolů v určitém směru
+        // Counts consecutive symbols in a given direction
         private int CountDirection(int startX, int startY, int dx, int dy, GameSymbol checkPlayer)
         {
             int cnt = 0;
@@ -403,148 +378,100 @@ namespace Piskvorky
             }
             return cnt;
         }
+
+        // Tries to find a move that blocks an open three or four for the opponent
         private bool TryFindOpenThreeOrFour(GameSymbol opponent, out int blockX, out int blockY)
         {
             blockX = -1;
             blockY = -1;
-
             for (int x = 0; x < boardSize; x++)
             {
                 for (int y = 0; y < boardSize; y++)
                 {
                     if (SymbolsOnBoard[x, y] == GameSymbol.Free)
                     {
-                        // Simulace umístění symbolu soupeře
                         SymbolsOnBoard[x, y] = opponent;
                         bool dangerous = IsOpenThreeOrFour(x, y, opponent);
                         SymbolsOnBoard[x, y] = GameSymbol.Free;
-
                         if (dangerous)
                         {
                             blockX = x;
                             blockY = y;
-                            return true; // Nebezpečný tah nalezen
+                            return true;
                         }
                     }
                 }
             }
-            return false; // Žádná otevřená trojka nebo čtyřka nenalezena
+            return false;
         }
 
-        // Kontrola, zda tah vytváří otevřenou trojku nebo čtyřku
+        // Checks whether placing a symbol creates an open three or four
         private bool IsOpenThreeOrFour(int placedX, int placedY, GameSymbol symbol)
         {
             int[][] directions = new int[][]
             {
-                new int[]{1, 0}, // Horizontální
-                new int[]{0, 1}, // Vertikální
-                new int[]{1, 1}, // Diagonální 1
-                new int[]{1, -1} // Diagonální 2
+                new int[]{1, 0},
+                new int[]{0, 1},
+                new int[]{1, 1},
+                new int[]{1, -1}
             };
-
             foreach (var d in directions)
             {
                 int count = 1;
                 int leftCount = CountDirection(placedX, placedY, -d[0], -d[1], symbol);
                 int rightCount = CountDirection(placedX, placedY, d[0], d[1], symbol);
                 count += leftCount + rightCount;
-
                 bool leftOpen = IsOpenEnd(placedX, placedY, -d[0], -d[1]);
                 bool rightOpen = IsOpenEnd(placedX, placedY, d[0], d[1]);
-                int openEndsCount = (leftOpen ? 1 : 0) + (rightOpen ? 1 : 0);
-
-                // Otevřená čtyřka: 4 v řadě s alespoň jedním otevřeným koncem
-                if (count == 4 && openEndsCount >= 1) return true;
-
-                // Otevřená trojka: 3 v řadě se dvěma otevřenými konci
-                if (count == 3 && openEndsCount == 2) return true;
+                int openEnds = (leftOpen ? 1 : 0) + (rightOpen ? 1 : 0);
+                if (count == 4 && openEnds >= 1)
+                    return true;
+                if (count == 3 && openEnds == 2)
+                    return true;
             }
             return false;
         }
 
-        // Kontrola, zda je konec směru otevřený (volný)
+        // Checks whether the cell at (startX+dx, startY+dy) is open
         private bool IsOpenEnd(int startX, int startY, int dx, int dy)
         {
             int x = startX + dx;
             int y = startY + dy;
-            if (!CordsOnBoard(x, y)) return false; // Souřadnice mimo hrací plochu
-            return (SymbolsOnBoard[x, y] == GameSymbol.Free); // Pole je volné
+            if (!CordsOnBoard(x, y))
+                return false;
+            return (SymbolsOnBoard[x, y] == GameSymbol.Free);
         }
 
-        // Přidání bonusu za blízkost k centru hrací plochy
+        // Returns a bonus based on closeness to the board center
         private int GetCenterBonus(int row, int col)
         {
-            int center = boardSize / 2; // Střed hrací plochy
+            int center = boardSize / 2;
             int dx = Math.Abs(row - center);
             int dy = Math.Abs(col - center);
-            int dist = dx + dy; // Manhattan vzdálenost od středu
-
-            int radius = center * 2; // Maximální vzdálenost od středu
-            int bonus = radius - dist; // Bonus klesá s rostoucí vzdáleností
-            return bonus < 0 ? 0 : bonus; // Pokud je bonus záporný, vrátí 0
+            int dist = dx + dy; // Manhattan distance
+            int radius = center * 2;
+            int bonus = radius - dist;
+            return bonus < 0 ? 0 : bonus;
         }
 
-        // Výběr nejlepšího tahu na střední obtížnost
+        // Picks a move for medium difficulty using field values
         private void PickMoveByFieldValue_Medium(out int bestX, out int bestY, GameSymbol player, GameSymbol opponent)
         {
-            int bestValue = int.MinValue; // Počáteční minimální hodnota
-
-            bestX = boardSize / 2;
-            bestY = boardSize / 2;
-            if (SymbolsOnBoard[bestX, bestY] == GameSymbol.Free)
-            {
-                bestValue = 4; // Základní hodnota pro tah ve středu
-            }
-
-            for (int i = 0; i < boardSize; i++)
-            {
-                for (int j = 0; j < boardSize; j++)
-                {
-                    if (SymbolsOnBoard[i, j] == GameSymbol.Free)
-                    {
-                        int value =
-                            (FieldValues[i, j, (short)player] * 16) // Hodnoty polí hráče
-                            + 1
-                            + (FieldValues[i, j, (short)opponent] * 32); // Hodnoty polí soupeře
-
-                        value += GetCenterBonus(i, j); // Bonus za blízkost ke středu
-
-                        if (value > bestValue)
-                        {
-                            bestValue = value;
-                            bestX = i;
-                            bestY = j;
-                        }
-                    }
-                }
-            }
-        }
-
-        // Výběr nejlepšího tahu na těžkou obtížnost
-        private void PickMoveByFieldValue_Hard(out int bestX, out int bestY, GameSymbol player, GameSymbol opponent)
-        {
             int bestValue = int.MinValue;
-
             bestX = boardSize / 2;
             bestY = boardSize / 2;
             if (SymbolsOnBoard[bestX, bestY] == GameSymbol.Free)
-            {
-                bestValue = 4; // Základní hodnota pro tah ve středu
-            }
-
+                bestValue = 4;
             for (int i = 0; i < boardSize; i++)
             {
                 for (int j = 0; j < boardSize; j++)
                 {
                     if (SymbolsOnBoard[i, j] == GameSymbol.Free)
                     {
-                        int value =
-                            (FieldValues[i, j, (short)player] * 16)
-                            + 1
-                            + (FieldValues[i, j, (short)opponent] * 8); // Větší váha pro soupeřova pole
-
-                        value += GetCenterBonus(i, j); // Bonus za blízkost ke středu
-
+                        int value = (FieldValues[i, j, (short)player] * 16)
+                                    + 1
+                                    + (FieldValues[i, j, (short)opponent] * 32)
+                                    + GetCenterBonus(i, j);
                         if (value > bestValue)
                         {
                             bestValue = value;
@@ -556,51 +483,296 @@ namespace Piskvorky
             }
         }
 
-        // Výběr suboptimálního tahu
+        // Picks a suboptimal move based on field values (used for easy mode)
         private void PickMoveSuboptimalByFieldValue(
             out int bestX,
             out int bestY,
             GameSymbol player,
             GameSymbol opponent,
-            int topN = 3) // Počet nejlepších kandidátů, ze kterých se vybírá
+            int topN = 3)
         {
             var candidates = new List<(int X, int Y, int Score)>();
-
             for (int i = 0; i < boardSize; i++)
             {
                 for (int j = 0; j < boardSize; j++)
                 {
                     if (SymbolsOnBoard[i, j] == GameSymbol.Free)
                     {
-                        int value =
-                            (FieldValues[i, j, (short)player] * 16)
-                            + 1
-                            + (FieldValues[i, j, (short)opponent] * 4);
-
-                        value += GetCenterBonus(i, j); // Bonus za blízkost ke středu
-
+                        int value = (FieldValues[i, j, (short)player] * 16)
+                                    + 1
+                                    + (FieldValues[i, j, (short)opponent] * 4)
+                                    + GetCenterBonus(i, j);
                         candidates.Add((i, j, value));
                     }
                 }
             }
-
             if (candidates.Count == 0)
             {
                 bestX = -1;
                 bestY = -1;
-                return; // Žádní kandidáti
+                return;
             }
-
-            candidates.Sort((a, b) => b.Score.CompareTo(a.Score)); // Seřazení podle skóre
-
+            candidates.Sort((a, b) => b.Score.CompareTo(a.Score));
             if (topN > candidates.Count)
                 topN = candidates.Count;
-
             Random rnd = new Random();
-            var chosen = candidates[rnd.Next(topN)]; // Náhodný výběr z nejlepších kandidátů
+            var chosen = candidates[rnd.Next(topN)];
             bestX = chosen.X;
             bestY = chosen.Y;
         }
-    
+
+        // ------------------ Minimax with Alpha–Beta Pruning and Iterative Deepening ------------------
+
+        /// <summary>
+        /// Minimax search with alpha-beta pruning.
+        /// </summary>
+        /// <param name="depth">Current depth.</param>
+        /// <param name="maxDepth">Maximum depth to search.</param>
+        /// <param name="currentPlayer">The player making the move in this call.</param>
+        /// <param name="maximizingPlayer">The player for whom we are optimizing.</param>
+        /// <param name="alpha">Alpha value for pruning.</param>
+        /// <param name="beta">Beta value for pruning.</param>
+        /// <param name="bestMove">Best move found at this node.</param>
+        /// <returns>The evaluated score for this branch.</returns>
+        private int Minimax(int depth, int maxDepth, GameSymbol currentPlayer, GameSymbol maximizingPlayer, int alpha, int beta, out (int x, int y) bestMove)
+        {
+            bestMove = (-1, -1);
+
+            // Terminal conditions: board full or reached depth limit.
+            bool isFull = true;
+            for (int i = 0; i < boardSize && isFull; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (SymbolsOnBoard[i, j] == GameSymbol.Free)
+                    {
+                        isFull = false;
+                        break;
+                    }
+                }
+            }
+            if (isFull) return EvaluateBoard(maximizingPlayer);
+            if (depth == maxDepth) return EvaluateBoard(maximizingPlayer);
+
+            List<(int x, int y)> candidates = GetCandidateMoves();
+            if (candidates.Count == 0)
+                return EvaluateBoard(maximizingPlayer);
+
+            int bestScore;
+            if (currentPlayer == maximizingPlayer)
+            {
+                bestScore = int.MinValue;
+                foreach (var move in candidates)
+                {
+                    SymbolsOnBoard[move.x, move.y] = currentPlayer;
+                    if (WouldThisMoveWin(move.x, move.y, currentPlayer))
+                    {
+                        SymbolsOnBoard[move.x, move.y] = GameSymbol.Free;
+                        bestMove = move;
+                        return 10000 - depth;
+                    }
+                    int score = Minimax(depth + 1, maxDepth, GetOpponent(currentPlayer), maximizingPlayer, alpha, beta, out _);
+                    SymbolsOnBoard[move.x, move.y] = GameSymbol.Free;
+                    if (score > bestScore)
+                    {
+                        bestScore = score;
+                        bestMove = move;
+                    }
+                    alpha = Math.Max(alpha, score);
+                    if (beta <= alpha)
+                        break;
+                }
+            }
+            else
+            {
+                bestScore = int.MaxValue;
+                foreach (var move in candidates)
+                {
+                    SymbolsOnBoard[move.x, move.y] = currentPlayer;
+                    if (WouldThisMoveWin(move.x, move.y, currentPlayer))
+                    {
+                        SymbolsOnBoard[move.x, move.y] = GameSymbol.Free;
+                        bestMove = move;
+                        return -10000 + depth;
+                    }
+                    int score = Minimax(depth + 1, maxDepth, GetOpponent(currentPlayer), maximizingPlayer, alpha, beta, out _);
+                    SymbolsOnBoard[move.x, move.y] = GameSymbol.Free;
+                    if (score < bestScore)
+                    {
+                        bestScore = score;
+                        bestMove = move;
+                    }
+                    beta = Math.Min(beta, score);
+                    if (beta <= alpha)
+                        break;
+                }
+            }
+            return bestScore;
+        }
+
+        /// <summary>
+        /// Returns a list of candidate moves – empty cells adjacent to an occupied cell.
+        /// </summary>
+        private List<(int x, int y)> GetCandidateMoves()
+        {
+            var candidates = new List<(int, int)>();
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (SymbolsOnBoard[i, j] == GameSymbol.Free)
+                    {
+                        bool adjacent = false;
+                        for (int dx = -1; dx <= 1 && !adjacent; dx++)
+                        {
+                            for (int dy = -1; dy <= 1; dy++)
+                            {
+                                if (dx == 0 && dy == 0)
+                                    continue;
+                                int nx = i + dx, ny = j + dy;
+                                if (CordsOnBoard(nx, ny) && SymbolsOnBoard[nx, ny] != GameSymbol.Free)
+                                {
+                                    adjacent = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (adjacent)
+                            candidates.Add((i, j));
+                    }
+                }
+            }
+            // If no adjacent candidate is found, add all free cells.
+            if (candidates.Count == 0)
+            {
+                for (int i = 0; i < boardSize; i++)
+                {
+                    for (int j = 0; j < boardSize; j++)
+                    {
+                        if (SymbolsOnBoard[i, j] == GameSymbol.Free)
+                            candidates.Add((i, j));
+                    }
+                }
+            }
+            return candidates;
+        }
+
+        /// <summary>
+        /// Advanced board evaluation: scans the board for sequences (lines) and computes a score.
+        /// </summary>
+        private int EvaluateBoardAdvanced(GameSymbol player)
+        {
+            int score = 0;
+            int[][] directions = new int[][]
+            {
+                new int[]{1, 0},   // Horizontal
+                new int[]{0, 1},   // Vertical
+                new int[]{1, 1},   // Diagonal \
+                new int[]{1, -1}   // Diagonal /
+            };
+
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    if (SymbolsOnBoard[i, j] == player)
+                    {
+                        foreach (var d in directions)
+                        {
+                            int prevX = i - d[0], prevY = j - d[1];
+                            if (CordsOnBoard(prevX, prevY) && SymbolsOnBoard[prevX, prevY] == player)
+                                continue; // Only count from the beginning of the line
+
+                            int count = 0;
+                            int x = i, y = j;
+                            while (CordsOnBoard(x, y) && SymbolsOnBoard[x, y] == player)
+                            {
+                                count++;
+                                x += d[0];
+                                y += d[1];
+                            }
+                            int openEnds = 0;
+                            if (CordsOnBoard(i - d[0], j - d[1]) && SymbolsOnBoard[i - d[0], j - d[1]] == GameSymbol.Free)
+                                openEnds++;
+                            if (CordsOnBoard(x, y) && SymbolsOnBoard[x, y] == GameSymbol.Free)
+                                openEnds++;
+
+                            score += EvaluateLine(count, openEnds);
+                        }
+                    }
+                }
+            }
+            return score;
+        }
+
+        /// <summary>
+        /// Returns a score for a line with a given count of consecutive symbols and number of open ends.
+        /// </summary>
+        private int EvaluateLine(int count, int openEnds)
+        {
+            if (count >= winLength)
+                return 100000; // Immediate win
+            if (count == 4)
+            {
+                if (openEnds == 2) return 10000;
+                else if (openEnds == 1) return 1000;
+            }
+            if (count == 3)
+            {
+                if (openEnds == 2) return 1000;
+                else if (openEnds == 1) return 100;
+            }
+            if (count == 2)
+            {
+                if (openEnds == 2) return 100;
+                else if (openEnds == 1) return 10;
+            }
+            if (count == 1)
+            {
+                return 10;
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Overall board evaluation for minimax: difference between AI and opponent scores.
+        /// </summary>
+        private int EvaluateBoard(GameSymbol maximizingPlayer)
+        {
+            GameSymbol opponent = GetOpponent(maximizingPlayer);
+            int myScore = EvaluateBoardAdvanced(maximizingPlayer);
+            int opponentScore = EvaluateBoardAdvanced(opponent);
+            return myScore - opponentScore;
+        }
+
+        /// <summary>
+        /// Iterative deepening search: repeatedly calls minimax with increasing depth until time runs out.
+        /// </summary>
+        /// <param name="player">The player for whom to find the move.</param>
+        /// <param name="timeLimitMs">Time limit in milliseconds.</param>
+        /// <returns>The best move found within the time limit.</returns>
+        private (int x, int y) FindBestMoveIterative(GameSymbol player, int timeLimitMs)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            (int bestX, int bestY) bestMove = (-1, -1);
+            int depth = 1;
+            int lastCompletedScore = int.MinValue;
+
+            // Iteratively deepen until time runs out.
+            while (stopwatch.ElapsedMilliseconds < timeLimitMs)
+            {
+                int score = Minimax(0, depth, player, player, int.MinValue, int.MaxValue, out (int x, int y) currentBest);
+                // Only update best move if the full search at this depth finished within time.
+                if (stopwatch.ElapsedMilliseconds < timeLimitMs)
+                {
+                    lastCompletedScore = score;
+                    bestMove = currentBest;
+                }
+                depth++;
+            }
+            return bestMove;
+        }
+        // -------------------------------------------------------------------------------------
     }
 }

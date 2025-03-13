@@ -28,6 +28,8 @@ namespace Piskvorky
         int player_losses = 0;
         int player_draws = 0;
         int player_bestWinMoves = 0;
+        double player1Score = 0;
+        double player2Score = 0;
         double player_winPercentage = 0;
         int movesCount = 0;
         FormMenu formMenu;
@@ -99,11 +101,13 @@ namespace Piskvorky
             playingBoard1.Location = new Point((this.ClientSize.Width - playingBoard1.Width) / 2, playingBoard1.Location.Y);
         }
 
+        private void UpdateScoreLabel()
+        {
+            label_score.Text = $"{player1Score}:{player2Score}";
+        }
+
         private void OnPlayerWon(GameSymbol winner)
         {
-            string[] scores = label_score.Text.Split(':');
-            double player1Score = double.Parse(scores[0]);
-            double player2Score = double.Parse(scores[1]);
             gamesPlayed++;
             if (GameSettings.IsAgainstAI)
             {
@@ -133,11 +137,11 @@ namespace Piskvorky
                 else
                 {
                     winSound.Play();
-                    MessageBox.Show($"Partii vyhrál {player2_name}");
+                    MessageBox.Show($"Partii vyhrál {player2_name}!");
                     player2Score++;
                 }
             }
-            label_score.Text = $"{player1Score}:{player2Score}";
+            UpdateScoreLabel();
             if (gamesPlayed == gameLength)
             {
                 player_bestWinMoves = playingBoard1.MovesToWinMin;
@@ -148,21 +152,21 @@ namespace Piskvorky
                     player_winPercentage = (double)player_wins / gamesPlayed * 100;
                     AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
                 }
-                label_score.Text = "0:0";
+                player1Score = 0;
+                player2Score = 0;
+                UpdateScoreLabel();
                 Close();
             }
         }
 
         private void OnDraw()
         {
+            gamesPlayed++;
             MessageBox.Show("Na hrací ploše již nejsou žádné výhry, došlo k remíze!");
-            string[] scores = label_score.Text.Split(':');
-            double player1Score = double.Parse(scores[0]);
-            double player2Score = double.Parse(scores[1]);
             player_draws++;
             player1Score += 0.5;
             player2Score += 0.5;
-            label_score.Text = $"{player1Score}:{player2Score}";
+            UpdateScoreLabel();
         }
 
         private void nováHraToolStripMenuItem_Click(object sender, EventArgs e)
