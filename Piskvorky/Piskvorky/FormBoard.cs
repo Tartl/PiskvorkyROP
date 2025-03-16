@@ -49,9 +49,14 @@ namespace Piskvorky
                 player1_name = GameSettings.Player1Name;
                 player2_name = GameSettings.Player2Name;
             }
+            else
+            {
+                GameSettings.Player1Name = player1_name;
+                GameSettings.Player2Name = player2_name;
+            }
             label_hrac1.Text = player1_name;
             label_hrac2.Text = player2_name;
-            leaderboard = LoadLeaderboardBase64(leaderboardFilePath);
+            leaderboard = LoadLeaderboard(leaderboardFilePath);
         }
 
         private const int ResizeThreshold = 5;
@@ -87,12 +92,16 @@ namespace Piskvorky
 
         private void FormBoard_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveLeaderboardBase64(leaderboardFilePath, leaderboard);
+            SaveLeaderboard(leaderboardFilePath, leaderboard);
         }
 
         private void FormBoard_FormClosed(object sender, FormClosedEventArgs e)
         {
             formMenu.Show();
+            if (GameSettings.DemoMode)
+            {
+                GameSettings.DemoMode = false;
+            }
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -201,7 +210,15 @@ namespace Piskvorky
 
         private void uloženíToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string saveFolder = Path.Combine(Application.StartupPath, "save");
+            if (!Directory.Exists(saveFolder))
+            {
+                Directory.CreateDirectory(saveFolder);
+            }
             var calc = playingBoard1.Calc;
+            saveFileDialog1.InitialDirectory = saveFolder;
+            saveFileDialog1.Filter = "DAT files (*.dat)|*.dat";
+            saveFileDialog1.DefaultExt = "dat";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string path = saveFileDialog1.FileName;
@@ -231,33 +248,62 @@ namespace Piskvorky
                     }
                     data.BoardRows.Add(string.Join(";", rowSymbols));
                 }
+
+                // Serialize the SaveData object to XML
                 XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
                 using (StringWriter stringWriter = new StringWriter())
                 {
                     serializer.Serialize(stringWriter, data);
                     string xmlContent = stringWriter.ToString();
-                    string encodedContent = Convert.ToBase64String(Encoding.UTF8.GetBytes(xmlContent));
-                    File.WriteAllText(path, encodedContent);
+
+                    // Convert the XML content into a byte array.
+                    byte[] bytesToWrite = Encoding.UTF8.GetBytes(xmlContent);
+
+                    // Use BinaryWriter to create the file in binary format.
+                    using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.Create)))
+                    {
+                        // Optionally, you can write a file header or the length of the data here.
+                        // For example: bw.Write(bytesToWrite.Length);
+                        bw.Write(bytesToWrite);
+                    }
                 }
                 MessageBox.Show("Hra byla úspěšně uložena!");
             }
         }
 
+
         private void otevřeníToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var calc = playingBoard1.Calc;
+            string saveFolder = Path.Combine(Application.StartupPath, "save");
+            if (!Directory.Exists(saveFolder))
+            {
+                Directory.CreateDirectory(saveFolder);
+            }
+            openFileDialog1.InitialDirectory = saveFolder;
+            openFileDialog1.Filter = "DAT files (*.dat)|*.dat";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 playingBoard1.ResetGame();
                 string path = openFileDialog1.FileName;
-                string encoded = File.ReadAllText(path);
-                string xmlContent = Encoding.UTF8.GetString(Convert.FromBase64String(encoded));
+
+                // Read the file using BinaryReader.
+                string xmlContent;
+                using (BinaryReader br = new BinaryReader(File.Open(path, FileMode.Open)))
+                {
+                    byte[] fileBytes = br.ReadBytes((int)br.BaseStream.Length);
+                    xmlContent = Encoding.UTF8.GetString(fileBytes);
+                }
+
+                // Deserialize the XML string back into the SaveData object.
                 XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
                 SaveData data;
                 using (StringReader sr = new StringReader(xmlContent))
                 {
                     data = (SaveData)serializer.Deserialize(sr);
                 }
+
+                // Update the game state from the loaded data.
                 calc.SetBoardSize(data.BoardSize);
                 calc.WinLength = data.WinLength;
                 playingBoard1.CurrentPlayer = (GameSymbol)data.NextPlayer;
@@ -277,6 +323,8 @@ namespace Piskvorky
                 player2_name = GameSettings.Player2Name;
                 label_hrac1.Text = player1_name;
                 label_hrac2.Text = player2_name;
+
+                // Parse the board rows and update the board.
                 for (int x = 0; x < data.BoardSize; x++)
                 {
                     string[] symbols = data.BoardRows[x].Split(';');
@@ -301,7 +349,8 @@ namespace Piskvorky
             }
         }
 
-        public void SaveLeaderboardBase64(string filePath, List<BestOfLeaderboard> leaderboard)
+
+        public void SaveLeaderboard(string filePath, List<BestOfLeaderboard> leaderboard)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
             using (StringWriter stringWriter = new StringWriter())
@@ -313,7 +362,7 @@ namespace Piskvorky
             }
         }
 
-        public List<BestOfLeaderboard> LoadLeaderboardBase64(string filePath)
+        public List<BestOfLeaderboard> LoadLeaderboard(string filePath)
         {
             if (!File.Exists(filePath)) return new List<BestOfLeaderboard>();
             string encodedContent = File.ReadAllText(filePath);
@@ -343,7 +392,7 @@ namespace Piskvorky
                 .ThenBy(entry => entry.BestWinMoves)
                 .Take(10)
                 .ToList();
-            SaveLeaderboardBase64(leaderboardFilePath, leaderboard);
+            SaveLeaderboard(leaderboardFilePath, leaderboard);
         }
     }
 }

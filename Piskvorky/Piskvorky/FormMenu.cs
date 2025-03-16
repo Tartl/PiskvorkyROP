@@ -23,14 +23,8 @@ namespace Piskvorky
             formNewGame.ShowDialog();
             if (formNewGame.DialogResult == DialogResult.OK)
             {
-                if (formNewGame.textBox1.Text != "")
-                {
-                    GameSettings.Player1Name = formNewGame.textBox1.Text;
-                }
-                if (formNewGame.textBox2.Text != "")
-                {
-                    GameSettings.Player2Name = formNewGame.textBox2.Text;
-                }
+                GameSettings.Player1Name = formNewGame.textBox1.Text;
+                GameSettings.Player2Name = formNewGame.textBox2.Text;
                 FormBoard board = new FormBoard(this);
                 board.Show();
                 Hide();
@@ -79,6 +73,11 @@ namespace Piskvorky
             FormBoard board = new FormBoard(this);
             board.Show();
             Hide();
+        }
+
+        private void buttonLoadGame_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Piskvorky save files (*.txt)|*.txt";
         }
     }
 }

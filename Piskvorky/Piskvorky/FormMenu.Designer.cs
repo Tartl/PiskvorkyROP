@@ -35,13 +35,15 @@
             this.buttonQuit = new System.Windows.Forms.Button();
             this.buttonDemo = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.buttonLoadGame = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonNewGame
             // 
             this.buttonNewGame.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonNewGame.Location = new System.Drawing.Point(224, 222);
+            this.buttonNewGame.Location = new System.Drawing.Point(224, 191);
             this.buttonNewGame.Name = "buttonNewGame";
             this.buttonNewGame.Size = new System.Drawing.Size(312, 35);
             this.buttonNewGame.TabIndex = 0;
@@ -52,7 +54,7 @@
             // buttonSettings
             // 
             this.buttonSettings.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonSettings.Location = new System.Drawing.Point(224, 263);
+            this.buttonSettings.Location = new System.Drawing.Point(224, 273);
             this.buttonSettings.Name = "buttonSettings";
             this.buttonSettings.Size = new System.Drawing.Size(312, 35);
             this.buttonSettings.TabIndex = 1;
@@ -63,7 +65,7 @@
             // buttonBest
             // 
             this.buttonBest.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonBest.Location = new System.Drawing.Point(383, 304);
+            this.buttonBest.Location = new System.Drawing.Point(383, 314);
             this.buttonBest.Name = "buttonBest";
             this.buttonBest.Size = new System.Drawing.Size(153, 35);
             this.buttonBest.TabIndex = 2;
@@ -74,7 +76,7 @@
             // buttonQuit
             // 
             this.buttonQuit.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonQuit.Location = new System.Drawing.Point(224, 345);
+            this.buttonQuit.Location = new System.Drawing.Point(224, 355);
             this.buttonQuit.Name = "buttonQuit";
             this.buttonQuit.Size = new System.Drawing.Size(312, 35);
             this.buttonQuit.TabIndex = 4;
@@ -85,7 +87,7 @@
             // buttonDemo
             // 
             this.buttonDemo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonDemo.Location = new System.Drawing.Point(224, 304);
+            this.buttonDemo.Location = new System.Drawing.Point(224, 314);
             this.buttonDemo.Name = "buttonDemo";
             this.buttonDemo.Size = new System.Drawing.Size(153, 35);
             this.buttonDemo.TabIndex = 6;
@@ -105,11 +107,27 @@
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
+            // buttonLoadGame
+            // 
+            this.buttonLoadGame.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonLoadGame.Location = new System.Drawing.Point(224, 232);
+            this.buttonLoadGame.Name = "buttonLoadGame";
+            this.buttonLoadGame.Size = new System.Drawing.Size(312, 35);
+            this.buttonLoadGame.TabIndex = 8;
+            this.buttonLoadGame.Text = "Nahrát hru";
+            this.buttonLoadGame.UseVisualStyleBackColor = true;
+            this.buttonLoadGame.Click += new System.EventHandler(this.buttonLoadGame_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // FormMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 431);
+            this.Controls.Add(this.buttonLoadGame);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonDemo);
             this.Controls.Add(this.buttonQuit);
@@ -134,5 +152,7 @@
         private System.Windows.Forms.Button buttonQuit;
         private System.Windows.Forms.Button buttonDemo;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button buttonLoadGame;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
