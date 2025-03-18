@@ -297,16 +297,17 @@ namespace Piskvorky
             if (GameSettings.DemoMode)
             {
                 isAIThinking = true;
-                await Task.Delay(200);
+                await Task.Delay(1000);
                 int aiX, aiY;
-                if (currentPlayer == GameSymbol.Symbol1)
+                Calc.GetBestMove(Difficulty.Hard, out aiX, out aiY, currentPlayer);
+                /*if (currentPlayer == GameSymbol.Symbol1)
                 {
                     Calc.GetBestMove(Difficulty.Hard, out aiX, out aiY, currentPlayer);
                 }
                 else
                 {
                     Calc.GetBestMove(Difficulty.Medium, out aiX, out aiY, currentPlayer);
-                }
+                }*/
                 await AddMove(aiX, aiY);
                 isAIThinking = false;
             }

@@ -57,6 +57,14 @@ namespace Piskvorky
             label_hrac1.Text = player1_name;
             label_hrac2.Text = player2_name;
             leaderboard = LoadLeaderboard(leaderboardFilePath);
+            if (GameSettings.DemoMode)
+            {
+                label_score.Text = "Pro start dema klikněte na hrací plochu";
+                nováHraToolStripMenuItem.Enabled = false;
+                player1_name = "Počítač 1";
+                player2_name = "Počítač 2";
+            }
+                
         }
 
         private const int ResizeThreshold = 5;
@@ -77,16 +85,14 @@ namespace Piskvorky
 
         public void BoardRedraw()
         {
-            if (Math.Abs(width - Width) > ResizeThreshold || Math.Abs(height - Height) > ResizeThreshold)
+            if (Math.Abs(height - Height) > ResizeThreshold)
             {
-                if ((float)Width / Height < 2f)
-                {
-                    int currentAvg = (Width + Height) / 2;
-                    int minAvg = (this.MinimumSize.Width + this.MinimumSize.Height) / 2;
-                    playingBoard1.FieldSize = (int)(fieldSize * (float)currentAvg / minAvg);
-                    width = Width;
-                    height = Height;
-                }
+                int currentAvg = (Width + Height) / 2;
+                int minAvg = (this.MinimumSize.Width + this.MinimumSize.Height) / 2;
+                playingBoard1.FieldSize = (int)(fieldSize * (float)currentAvg / minAvg);
+                width = Width;
+                height = Height;
+                
             }
         }
 
@@ -118,21 +124,55 @@ namespace Piskvorky
         private void OnPlayerWon(GameSymbol winner)
         {
             gamesPlayed++;
-            if (GameSettings.IsAgainstAI)
+            if (!GameSettings.DemoMode)
             {
-                if (winner == GameSymbol.Symbol1)
+                if (GameSettings.IsAgainstAI)
                 {
-                    winSound.Play();
-                    MessageBox.Show($"Partii vyhrál {player1_name}!");
-                    player1Score++;
-                    player_wins++;
+                    if (winner == GameSymbol.Symbol1)
+                    {
+                        winSound.Play();
+                        MessageBox.Show($"Partii vyhrál {player1_name}!");
+                        player1Score++;
+                        player_wins++;
+                    }
+                    else
+                    {
+                        winSound.Play();
+                        MessageBox.Show("Partii vyhrál Počítač!");
+                        player2Score++;
+                        player_losses++;
+                    }
                 }
                 else
                 {
-                    winSound.Play();
-                    MessageBox.Show("Partii vyhrál Počítač!");
-                    player2Score++;
-                    player_losses++;
+                    if (winner == GameSymbol.Symbol1)
+                    {
+                        winSound.Play();
+                        MessageBox.Show($"Partii vyhrál {player1_name}!");
+                        player1Score++;
+                    }
+                    else
+                    {
+                        winSound.Play();
+                        MessageBox.Show($"Partii vyhrál {player2_name}!");
+                        player2Score++;
+                    }
+                }
+                UpdateScoreLabel();
+                if (gamesPlayed == gameLength)
+                {
+                    player_bestWinMoves = playingBoard1.MovesToWinMin;
+                    MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text} a nejkratší hra měla {player_bestWinMoves} tahů");
+                    if (GameSettings.AI_Difficulty == "těžká" && GameSettings.IsAgainstAI)
+                    {
+                        player_score = (int)player1Score * 100 - player_losses * 25 - player_bestWinMoves;
+                        player_winPercentage = (double)player_wins / gamesPlayed * 100;
+                        AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
+                    }
+                    player1Score = 0;
+                    player2Score = 0;
+                    UpdateScoreLabel();
+                    Close();
                 }
             }
             else
@@ -140,31 +180,13 @@ namespace Piskvorky
                 if (winner == GameSymbol.Symbol1)
                 {
                     winSound.Play();
-                    MessageBox.Show($"Partii vyhrál {player1_name}!");
-                    player1Score++;
+                    MessageBox.Show($"Partii vyhrál {GameSettings.Player1Symbol}!");
                 }
                 else
                 {
                     winSound.Play();
-                    MessageBox.Show($"Partii vyhrál {player2_name}!");
-                    player2Score++;
+                    MessageBox.Show($"Partii vyhrál {GameSettings.Player2Symbol}!");
                 }
-            }
-            UpdateScoreLabel();
-            if (gamesPlayed == gameLength)
-            {
-                player_bestWinMoves = playingBoard1.MovesToWinMin;
-                MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text} a nejkratší hra měla {player_bestWinMoves} tahů");
-                if (GameSettings.AI_Difficulty == "těžká" && GameSettings.IsAgainstAI)
-                {
-                    player_score = (int)player1Score * 100 - player_losses * 25 - player_bestWinMoves;
-                    player_winPercentage = (double)player_wins / gamesPlayed * 100;
-                    AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
-                }
-                player1Score = 0;
-                player2Score = 0;
-                UpdateScoreLabel();
-                Close();
             }
         }
 
@@ -175,7 +197,27 @@ namespace Piskvorky
             player_draws++;
             player1Score += 0.5;
             player2Score += 0.5;
-            UpdateScoreLabel();
+            if(!GameSettings.DemoMode)
+            {
+                UpdateScoreLabel();
+
+                if (gamesPlayed == gameLength)
+                {
+                    player_bestWinMoves = playingBoard1.MovesToWinMin;
+                    MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text} a nejkratší hra měla {player_bestWinMoves} tahů");
+                    if (GameSettings.AI_Difficulty == "těžká" && GameSettings.IsAgainstAI)
+                    {
+                        player_score = (int)player1Score * 100 - player_losses * 25 - player_bestWinMoves;
+                        player_winPercentage = (double)player_wins / gamesPlayed * 100;
+                        AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
+                    }
+                    player1Score = 0;
+                    player2Score = 0;
+                    UpdateScoreLabel();
+                    Close();
+                }
+            }
+                
         }
 
         private void nováHraToolStripMenuItem_Click(object sender, EventArgs e)

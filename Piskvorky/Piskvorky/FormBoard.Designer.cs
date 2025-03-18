@@ -168,11 +168,14 @@
             this.playingBoard1.AIDifficulty = null;
             this.playingBoard1.BackColor = System.Drawing.Color.Transparent;
             this.playingBoard1.BoardSize = 15;
+            this.playingBoard1.CurrentPlayer = Piskvorky.GameSymbol.Symbol1;
             this.playingBoard1.FieldSize = 20;
             this.playingBoard1.GridColor = System.Drawing.Color.Black;
             this.playingBoard1.IsPlayingAI = false;
+            this.playingBoard1.LastDrawnColor = System.Drawing.Color.Yellow;
             this.playingBoard1.Location = new System.Drawing.Point(237, 45);
             this.playingBoard1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.playingBoard1.MovesToWin = 0;
             this.playingBoard1.MovesToWinMin = 626;
             this.playingBoard1.Name = "playingBoard1";
             this.playingBoard1.Size = new System.Drawing.Size(305, 305);
