@@ -52,6 +52,14 @@ namespace Piskvorky
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (textBox1.Text == "")
+                GameSettings.Player1Name = "Hráč 1";
+            else            
+                GameSettings.Player1Name = textBox1.Text;            
+            if (textBox2.Text == "")
+                GameSettings.Player2Name = "Hráč 2";
+            else
+                GameSettings.Player2Name = textBox2.Text;
 
         }
     }

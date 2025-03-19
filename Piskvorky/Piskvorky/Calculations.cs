@@ -15,7 +15,7 @@ namespace Piskvorky
         private int rowsLeftOnBoard; // Remaining possible winning rows on the board
         private int[,,] fieldValues; // Field values used to choose moves in heuristic approaches
         private int[] Values; // Values based on number of symbols in a row (e.g., 4, 20, 100, 500)
-
+        private Random random = new Random();
         // Constructor: initializes key variables
         public Calculations(int boardSize)
         {
@@ -312,7 +312,7 @@ namespace Piskvorky
                 return;
 
             // Use iterative deepening search with a 500ms time limit
-            (int bestX, int bestY) = FindBestMoveIterative(player, 500);
+            (int bestX, int bestY) = FindBestMoveIterative(player, 200);
             x = bestX;
             y = bestY;
         }
@@ -610,15 +610,65 @@ namespace Piskvorky
             return bestScore;
         }
 
+        private void Shuffle<T>(IList<T> list)
+        {
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                T temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
+            }
+        }
+
         /// <summary>
         /// Returns a list of candidate moves – empty cells adjacent to an occupied cell.
         /// </summary>
         private List<(int x, int y)> GetCandidateMoves()
         {
             var candidates = new List<(int, int)>();
+
+            // Determine the bounding box of all occupied cells.
+            int minX = boardSize, maxX = -1, minY = boardSize, maxY = -1;
             for (int i = 0; i < boardSize; i++)
             {
                 for (int j = 0; j < boardSize; j++)
+                {
+                    if (SymbolsOnBoard[i, j] != GameSymbol.Free)
+                    {
+                        if (i < minX) minX = i;
+                        if (i > maxX) maxX = i;
+                        if (j < minY) minY = j;
+                        if (j > maxY) maxY = j;
+                    }
+                }
+            }
+
+            // If the board is empty, return all free cells.
+            if (maxX == -1)
+            {
+                for (int i = 0; i < boardSize; i++)
+                {
+                    for (int j = 0; j < boardSize; j++)
+                    {
+                        if (SymbolsOnBoard[i, j] == GameSymbol.Free)
+                            candidates.Add((i, j));
+                    }
+                }
+                return candidates;
+            }
+
+            // Add a margin (adjustable) around the occupied area.
+            int margin = 2; // You can tweak this value
+            int startX = Math.Max(0, minX - margin);
+            int endX = Math.Min(boardSize - 1, maxX + margin);
+            int startY = Math.Max(0, minY - margin);
+            int endY = Math.Min(boardSize - 1, maxY + margin);
+
+            // Iterate only within the bounding box.
+            for (int i = startX; i <= endX; i++)
+            {
+                for (int j = startY; j <= endY; j++)
                 {
                     if (SymbolsOnBoard[i, j] == GameSymbol.Free)
                     {
@@ -642,20 +692,25 @@ namespace Piskvorky
                     }
                 }
             }
-            // If no adjacent candidate is found, add all free cells.
+
+            // Fallback: if no candidate is found in the box, add all free cells in the bounding box.
             if (candidates.Count == 0)
             {
-                for (int i = 0; i < boardSize; i++)
+                for (int i = startX; i <= endX; i++)
                 {
-                    for (int j = 0; j < boardSize; j++)
+                    for (int j = startY; j <= endY; j++)
                     {
                         if (SymbolsOnBoard[i, j] == GameSymbol.Free)
                             candidates.Add((i, j));
                     }
                 }
             }
+
+            Shuffle(candidates);
+
             return candidates;
         }
+
 
         /// <summary>
         /// Advanced board evaluation: scans the board for sequences (lines) and computes a score.
@@ -769,7 +824,10 @@ namespace Piskvorky
                     lastCompletedScore = score;
                     bestMove = currentBest;
                 }
-                depth++;
+
+                    depth++;
+                
+                
             }
             return bestMove;
         }

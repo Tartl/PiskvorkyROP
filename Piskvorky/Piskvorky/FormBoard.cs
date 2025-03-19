@@ -44,19 +44,6 @@ namespace Piskvorky
             this.formMenu = formMenu;
             playingBoard1.PlayerWon += OnPlayerWon;
             playingBoard1.Draw += OnDraw;
-            if (GameSettings.Player1Name != "" && GameSettings.Player2Name != "")
-            {
-                player1_name = GameSettings.Player1Name;
-                player2_name = GameSettings.Player2Name;
-            }
-            else
-            {
-                GameSettings.Player1Name = player1_name;
-                GameSettings.Player2Name = player2_name;
-            }
-            label_hrac1.Text = player1_name;
-            label_hrac2.Text = player2_name;
-            leaderboard = LoadLeaderboard(leaderboardFilePath);
             if (GameSettings.DemoMode)
             {
                 label_score.Text = "Pro start dema klikněte na hrací plochu";
@@ -64,6 +51,19 @@ namespace Piskvorky
                 player1_name = "Počítač 1";
                 player2_name = "Počítač 2";
             }
+            else
+            {
+                if (GameSettings.Player1Name != "")
+                    player1_name = GameSettings.Player1Name;
+                if (GameSettings.Player2Name != "")
+                    player2_name = GameSettings.Player2Name;
+            }
+            GameSettings.Player1Name = player1_name;
+            GameSettings.Player2Name = player2_name;
+            label_hrac1.Text = player1_name;
+            label_hrac2.Text = player2_name;
+            leaderboard = LoadLeaderboard(leaderboardFilePath);
+
                 
         }
 
@@ -226,10 +226,11 @@ namespace Piskvorky
             formNewGame.ShowDialog();
             if (formNewGame.DialogResult == DialogResult.OK)
             {
-                GameSettings.Player1Name = formNewGame.textBox1.Text;
-                GameSettings.Player2Name = formNewGame.textBox2.Text;
-                FormBoard board = new FormBoard(formMenu);
-                board.Show();
+                playingBoard1.ResetGame();
+                label_hrac1.Text = GameSettings.Player1Name;
+                label_hrac2.Text = GameSettings.Player2Name;
+                label_score.Text = "0:0";
+                InitializeGameSettings();
             }
         }
 
