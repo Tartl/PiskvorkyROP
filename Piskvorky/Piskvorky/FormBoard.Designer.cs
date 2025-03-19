@@ -49,6 +49,8 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.RosyBrown;
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.27273F));
@@ -58,21 +60,23 @@
             this.tableLayoutPanel1.Controls.Add(this.label_hrac1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label_score, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 395);
+            this.tableLayoutPanel1.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 409);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 66);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 52);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // label_hrac2
             // 
             this.label_hrac2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label_hrac2.AutoSize = true;
-            this.label_hrac2.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_hrac2.Location = new System.Drawing.Point(666, 14);
+            this.label_hrac2.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label_hrac2.Location = new System.Drawing.Point(683, 10);
             this.label_hrac2.Name = "label_hrac2";
-            this.label_hrac2.Size = new System.Drawing.Size(115, 37);
+            this.label_hrac2.Size = new System.Drawing.Size(98, 32);
             this.label_hrac2.TabIndex = 2;
             this.label_hrac2.Text = "Hráč 2";
             // 
@@ -80,10 +84,10 @@
             // 
             this.label_hrac1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label_hrac1.AutoSize = true;
-            this.label_hrac1.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_hrac1.Location = new System.Drawing.Point(3, 14);
+            this.label_hrac1.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label_hrac1.Location = new System.Drawing.Point(3, 10);
             this.label_hrac1.Name = "label_hrac1";
-            this.label_hrac1.Size = new System.Drawing.Size(115, 37);
+            this.label_hrac1.Size = new System.Drawing.Size(98, 32);
             this.label_hrac1.TabIndex = 1;
             this.label_hrac1.Text = "Hráč 1";
             // 
@@ -91,10 +95,10 @@
             // 
             this.label_score.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label_score.AutoSize = true;
-            this.label_score.Font = new System.Drawing.Font("Arial", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_score.Location = new System.Drawing.Point(359, 14);
+            this.label_score.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label_score.Location = new System.Drawing.Point(364, 10);
             this.label_score.Name = "label_score";
-            this.label_score.Size = new System.Drawing.Size(63, 37);
+            this.label_score.Size = new System.Drawing.Size(54, 32);
             this.label_score.TabIndex = 4;
             this.label_score.Text = "0:0";
             // 
@@ -197,7 +201,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "FormBoard";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Piškvorky";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormBoard_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormBoard_FormClosed);
             this.Resize += new System.EventHandler(this.Form1_Resize);

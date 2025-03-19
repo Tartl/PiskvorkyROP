@@ -79,5 +79,6 @@ namespace Piskvorky
         {
             openFileDialog1.Filter = "Piskvorky save files (*.txt)|*.txt";
         }
+
     }
 }

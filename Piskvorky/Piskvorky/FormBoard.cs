@@ -292,21 +292,16 @@ namespace Piskvorky
                     data.BoardRows.Add(string.Join(";", rowSymbols));
                 }
 
-                // Serialize the SaveData object to XML
                 XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
                 using (StringWriter stringWriter = new StringWriter())
                 {
                     serializer.Serialize(stringWriter, data);
                     string xmlContent = stringWriter.ToString();
 
-                    // Convert the XML content into a byte array.
                     byte[] bytesToWrite = Encoding.UTF8.GetBytes(xmlContent);
 
-                    // Use BinaryWriter to create the file in binary format.
                     using (BinaryWriter bw = new BinaryWriter(File.Open(path, FileMode.Create)))
                     {
-                        // Optionally, you can write a file header or the length of the data here.
-                        // For example: bw.Write(bytesToWrite.Length);
                         bw.Write(bytesToWrite);
                     }
                 }
@@ -330,7 +325,6 @@ namespace Piskvorky
                 playingBoard1.ResetGame();
                 string path = openFileDialog1.FileName;
 
-                // Read the file using BinaryReader.
                 string xmlContent;
                 using (BinaryReader br = new BinaryReader(File.Open(path, FileMode.Open)))
                 {
@@ -338,7 +332,6 @@ namespace Piskvorky
                     xmlContent = Encoding.UTF8.GetString(fileBytes);
                 }
 
-                // Deserialize the XML string back into the SaveData object.
                 XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
                 SaveData data;
                 using (StringReader sr = new StringReader(xmlContent))
@@ -354,7 +347,6 @@ namespace Piskvorky
                 player_wins = data.PlayerWins;
                 player_losses = data.PlayerLosses;
                 player_draws = data.PlayerDraws;
-                label_score.Text = data.ScoreText;
                 GameSettings.IsAgainstAI = data.IsAI;
                 GameSettings.Player1Name = data.Player1Name;
                 GameSettings.Player2Name = data.Player2Name;
@@ -364,8 +356,12 @@ namespace Piskvorky
                 playingBoard1.AIDifficulty = GameSettings.AI_Difficulty;
                 player1_name = GameSettings.Player1Name;
                 player2_name = GameSettings.Player2Name;
-                label_hrac1.Text = player1_name;
-                label_hrac2.Text = player2_name;
+                if (!GameSettings.DemoMode)
+                {
+                    label_hrac1.Text = player1_name;
+                    label_hrac2.Text = player2_name;
+                    label_score.Text = data.ScoreText;
+                }
 
                 // Parse the board rows and update the board.
                 for (int x = 0; x < data.BoardSize; x++)
