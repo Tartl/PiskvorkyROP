@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Piskvorky
 {
@@ -15,7 +16,9 @@ namespace Piskvorky
         private int rowsLeftOnBoard; // Remaining possible winning rows on the board
         private int[,,] fieldValues; // Field values used to choose moves in heuristic approaches
         private int[] Values; // Values based on number of symbols in a row (e.g., 4, 20, 100, 500)
+        private short winRowsCount = 0;
         private Random random = new Random();
+
         // Constructor: initializes key variables
         public Calculations(int boardSize)
         {
@@ -47,6 +50,11 @@ namespace Piskvorky
         {
             get { return winLength; }
             set { winLength = value; }
+        }
+
+        public short GetWinRowsCount
+        {
+            get { return winRowsCount; }
         }
 
         // Counts of symbols in each direction
@@ -145,9 +153,52 @@ namespace Piskvorky
             throw new Exception("Invalid player symbol!");
         }
 
-        // Adds a symbol on the board at (x,y) and updates internal counters
-        public GameResult AddSymbol(int x, int y, GameSymbol player)
+        //Stores the winning row
+        private List<Point> GetWinningRow(int x, int y, Direction dir, GameSymbol player)
         {
+            List<Point> winRow = new List<Point>();
+
+            short signX = DirectionSigns[(short)dir, (short)Coordinate.X];
+            short signY = DirectionSigns[(short)dir, (short)Coordinate.Y];
+
+            while (CordsOnBoard(x - signX, y - signY) && SymbolsOnBoard[x - signX, y-signY] == player)
+            {
+                x -= signX;
+                y -= signY;
+            }
+            while (CordsOnBoard(x, y) && SymbolsOnBoard[x, y] == player)
+            {
+                winRow.Add(new Point(x, y));
+                x += signX;
+                y += signY;
+            }
+
+            return winRow;
+        }
+
+        private List<List<Point>> GetWinningRows(int x, int y, GameSymbol player)
+        {
+            List<List<Point>> winRows = new List<List<Point>>();
+
+            foreach (Direction dir in Enum.GetValues(typeof(Direction)))
+            {
+                List<Point> currentWinRow = GetWinningRow(x, y, dir, player);
+                // Only add the row if it has at least winLength points.
+                if (currentWinRow.Count >= winLength)
+                {
+                    winRows.Add(currentWinRow);
+                }
+            }
+
+            return winRows;
+        }
+
+
+        // Adds a symbol on the board at (x,y) and updates internal counters
+        public GameResult AddSymbol(int x, int y, GameSymbol player, out List<List<Point>> winRows, out List<Point> winRow)
+        {
+            winRow = null;
+            winRows = new List<List<Point>>();
             GameResult result = GameResult.Continue;
             foreach (Direction dir in Enum.GetValues(typeof(Direction)))
             {
@@ -163,6 +214,13 @@ namespace Piskvorky
                         result = IncludeDraw(ref symbolsInRow[posX, posY, (short)dir, (short)player]);
                         if (result != GameResult.Continue)
                         {
+                            if (result == GameResult.Win)
+                            {
+                                SymbolsOnBoard[x, y] = player;
+                                winRows = GetWinningRows(x, y, player);
+                                winRowsCount = (short)winRows.Count;
+                            }
+                                
                             break;
                         }
 
@@ -534,11 +592,11 @@ namespace Piskvorky
         /// <param name="beta">Beta value for pruning.</param>
         /// <param name="bestMove">Best move found at this node.</param>
         /// <returns>The evaluated score for this branch.</returns>
+        
         private int Minimax(int depth, int maxDepth, GameSymbol currentPlayer, GameSymbol maximizingPlayer, int alpha, int beta, out (int x, int y) bestMove)
         {
             bestMove = (-1, -1);
 
-            // Terminal conditions: board full or reached depth limit.
             bool isFull = true;
             for (int i = 0; i < boardSize && isFull; i++)
             {
@@ -559,6 +617,7 @@ namespace Piskvorky
                 return EvaluateBoard(maximizingPlayer);
 
             int bestScore;
+
             if (currentPlayer == maximizingPlayer)
             {
                 bestScore = int.MinValue;

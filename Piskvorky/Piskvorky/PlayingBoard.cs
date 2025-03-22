@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Media;
@@ -20,19 +21,20 @@ namespace Piskvorky
         private Color symbol1Color = Color.Red;
         private Color symbol2Color = Color.Blue;
         private Color lastDrawnColor = Color.Yellow;
+        private Color winRowColor = Color.LimeGreen;
         private Pen gridPen;
         private int lastDrawnX = -1, 
                     lastDrawnY = -1;
         private Calculations calc;
         private GameSymbol currentPlayer = GameSymbol.Symbol1;
         private float gridThickness = 1f;
-        private float GridThickness {  get; set; }
         SoundPlayer fieldFullSound = new SoundPlayer(@"sound\symbolExists-effect.wav");
         private bool isPlayingAI;
         private bool isAIThinking = false;
         private string aiDifficulty;
         private int movesToWin = 0;
         private int movesToWinMin = 626;
+        private List<List<Point>> winningRows;
 
         public event Action<GameSymbol> PlayerWon;
         public event Action Draw;
@@ -158,14 +160,35 @@ namespace Piskvorky
         {
             DrawBoard(e.Graphics);
             HighlightLastMove(e.Graphics);
+            HighlightWinRows(e.Graphics, winningRows);
             DrawSymbols(e.Graphics);
         }
 
         private void HighlightLastMove(Graphics graphics)
         {
-            if (Calc.CordsOnBoard(lastDrawnX,lastDrawnY))
+            HighlightMove(graphics, lastDrawnColor, lastDrawnX, lastDrawnY);
+            
+        }
+
+        private void HighlightMove(Graphics graphics, Color color, int x, int y)
+        {
+            if (Calc.CordsOnBoard(lastDrawnX, lastDrawnY))
             {
-                graphics.FillRectangle(new SolidBrush(lastDrawnColor), lastDrawnX * fieldSize + 1, lastDrawnY * fieldSize + 1, fieldSize - 1, fieldSize - 1);
+                graphics.FillRectangle(new SolidBrush(color), x * fieldSize + 1, y * fieldSize + 1, fieldSize - 1, fieldSize - 1);
+            }
+        }
+
+        private void HighlightWinRows(Graphics graphics, List<List<Point>> winRows)
+        {
+            if (winRows != null)
+            {
+                foreach (List<Point> winRow in winRows)
+                {
+                    foreach (Point p in winRow)
+                    {
+                        HighlightMove(graphics, winRowColor, p.X, p.Y);
+                    }
+                }
             }
         }
 
@@ -272,7 +295,7 @@ namespace Piskvorky
                 return;
             }
             movesToWin++;
-            GameResult result = Calc.AddSymbol(x, y, currentPlayer);
+            GameResult result = Calc.AddSymbol(x, y, currentPlayer, out winningRows, out _);
             lastDrawnX = x;
             lastDrawnY = y;
             Refresh();
@@ -296,28 +319,50 @@ namespace Piskvorky
 
             if (GameSettings.DemoMode)
             {
+
                 isAIThinking = true;
-                await Task.Delay(1000);
-                int aiX, aiY;
-                //Calc.GetBestMove(Difficulty.Hard, out aiX, out aiY, currentPlayer);
-                if (currentPlayer == GameSymbol.Symbol1)
+                Stopwatch stopwatch = Stopwatch.StartNew();
+
+                var bestMove = await Task.Run(() =>
                 {
-                    Calc.GetBestMove(Difficulty.Hard, out aiX, out aiY, currentPlayer);
-                }
-                else
-                {
-                    Calc.GetBestMove(Difficulty.Medium, out aiX, out aiY, currentPlayer);
-                }
-                await AddMove(aiX, aiY);
+                    int aiX, aiY;
+                    if (currentPlayer == GameSymbol.Symbol1)
+                    {
+                        Calc.GetBestMove(Difficulty.Hard, out aiX, out aiY, currentPlayer);
+                    }
+                    else
+                    {
+                        Calc.GetBestMove(Difficulty.Medium, out aiX, out aiY, currentPlayer);
+                    }
+                    return (aiX, aiY);
+                });
+
+                stopwatch.Stop();
+                int elapsed = (int)stopwatch.ElapsedMilliseconds;
+                int delay = Math.Max(0, 1000 - elapsed);
+                await Task.Delay(delay);
+
+                await AddMove(bestMove.aiX, bestMove.aiY);
                 isAIThinking = false;
             }
             if (isPlayingAI && currentPlayer == GameSymbol.Symbol2)
             {
                 isAIThinking = true;
-                await Task.Delay(1000);
-                int optX, optY;
-                Calc.GetBestMove(GetDifficulty(AIDifficulty), out optX, out optY, currentPlayer);
-                await AddMove(optX, optY);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+
+                var bestMove = await Task.Run(() =>
+                {
+                    int optX, optY;
+                    Calc.GetBestMove(GetDifficulty(AIDifficulty), out optX, out optY, currentPlayer);
+                    return (optX, optY);
+                });
+
+                stopwatch.Stop();
+                int elapsed = (int)stopwatch.ElapsedMilliseconds;
+                int delay = Math.Max(0, 1000 - elapsed);
+                await Task.Delay(delay);
+
+                await AddMove(bestMove.optX, bestMove.optY);
                 isAIThinking = false;
             }
 

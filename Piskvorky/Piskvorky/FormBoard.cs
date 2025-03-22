@@ -132,14 +132,14 @@ namespace Piskvorky
                     {
                         winSound.Play();
                         MessageBox.Show($"Partii vyhrál {player1_name}!");
-                        player1Score++;
+                        player1Score += playingBoard1.Calc.GetWinRowsCount;
                         player_wins++;
                     }
                     else
                     {
                         winSound.Play();
                         MessageBox.Show("Partii vyhrál Počítač!");
-                        player2Score++;
+                        player2Score += playingBoard1.Calc.GetWinRowsCount;
                         player_losses++;
                     }
                 }
@@ -149,13 +149,13 @@ namespace Piskvorky
                     {
                         winSound.Play();
                         MessageBox.Show($"Partii vyhrál {player1_name}!");
-                        player1Score++;
+                        player1Score += playingBoard1.Calc.GetWinRowsCount;
                     }
                     else
                     {
                         winSound.Play();
                         MessageBox.Show($"Partii vyhrál {player2_name}!");
-                        player2Score++;
+                        player2Score += playingBoard1.Calc.GetWinRowsCount;
                     }
                 }
                 UpdateScoreLabel();
@@ -379,7 +379,7 @@ namespace Piskvorky
                     {
                         if (calc.SymbolsOnBoard[x, y] != GameSymbol.Free)
                         {
-                            calc.AddSymbol(x, y, calc.SymbolsOnBoard[x, y]);
+                            calc.AddSymbol(x, y, calc.SymbolsOnBoard[x, y], out _, out _);
                         }
                     }
                 }
