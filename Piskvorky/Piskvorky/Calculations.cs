@@ -40,6 +40,7 @@ namespace Piskvorky
         // Sets a new board size and clears the board and sequence counts
         public void SetBoardSize(int newSize)
         {
+            
             boardSize = newSize;
             ClearBoard();
             ClearSymbolsInRow();
@@ -195,9 +196,9 @@ namespace Piskvorky
 
 
         // Adds a symbol on the board at (x,y) and updates internal counters
-        public GameResult AddSymbol(int x, int y, GameSymbol player, out List<List<Point>> winRows, out List<Point> winRow)
+        public GameResult AddSymbol(int x, int y, GameSymbol player, out List<List<Point>> winRows)
         {
-            winRow = null;
+
             winRows = new List<List<Point>>();
             GameResult result = GameResult.Continue;
             foreach (Direction dir in Enum.GetValues(typeof(Direction)))
@@ -360,7 +361,6 @@ namespace Piskvorky
             PickMoveByFieldValue_Medium(out x, out y, player, opponent);
         }
 
-        // Hard difficulty: immediate win/block then iterative deepening minimax with alpha-beta
         public void GetBestMove_Hard(out int x, out int y, GameSymbol player)
         {
             if (TryFindWinningMove(player, out x, out y))
@@ -369,7 +369,6 @@ namespace Piskvorky
             if (TryFindWinningMove(opponent, out x, out y))
                 return;
 
-            // Use iterative deepening search with a 500ms time limit
             (int bestX, int bestY) = FindBestMoveIterative(player, 200);
             x = bestX;
             y = bestY;
@@ -593,7 +592,8 @@ namespace Piskvorky
         /// <param name="bestMove">Best move found at this node.</param>
         /// <returns>The evaluated score for this branch.</returns>
         
-        private int Minimax(int depth, int maxDepth, GameSymbol currentPlayer, GameSymbol maximizingPlayer, int alpha, int beta, out (int x, int y) bestMove)
+        private int Minimax(int depth, int maxDepth, GameSymbol currentPlayer, 
+                            GameSymbol maximizingPlayer, int alpha, int beta, out (int x, int y) bestMove)
         {
             bestMove = (-1, -1);
 
@@ -718,7 +718,7 @@ namespace Piskvorky
             }
 
             // Add a margin (adjustable) around the occupied area.
-            int margin = 2; // You can tweak this value
+            int margin = 6; // You can tweak this value
             int startX = Math.Max(0, minX - margin);
             int endX = Math.Min(boardSize - 1, maxX + margin);
             int startY = Math.Max(0, minY - margin);

@@ -21,7 +21,7 @@ namespace Piskvorky
         private Color symbol1Color = Color.Red;
         private Color symbol2Color = Color.Blue;
         private Color lastDrawnColor = Color.Yellow;
-        private Color winRowColor = Color.LimeGreen;
+        private Color winRowColor = Color.LightGreen;
         private Pen gridPen;
         private int lastDrawnX = -1, 
                     lastDrawnY = -1;
@@ -35,6 +35,7 @@ namespace Piskvorky
         private int movesToWin = 0;
         private int movesToWinMin = 626;
         private List<List<Point>> winningRows;
+        private bool playerIsWinner;
 
         public event Action<GameSymbol> PlayerWon;
         public event Action Draw;
@@ -78,11 +79,14 @@ namespace Piskvorky
                 Refresh();
             }
         }
+
         public bool IsPlayingAI
         {
             get { return isPlayingAI; }
             set { isPlayingAI = value; }
         }
+
+        public bool PlayerIsWinner { get; }
 
         public int FieldSize {
             get { return fieldSize; } 
@@ -255,6 +259,7 @@ namespace Piskvorky
             ClearHighlightedMove();
             currentPlayer = GameSymbol.Symbol1;
             isAIThinking = false;
+            playerIsWinner = false;
             movesToWin = 0;
             Refresh();
         }
@@ -295,7 +300,7 @@ namespace Piskvorky
                 return;
             }
             movesToWin++;
-            GameResult result = Calc.AddSymbol(x, y, currentPlayer, out winningRows, out _);
+            GameResult result = Calc.AddSymbol(x, y, currentPlayer, out winningRows);
             lastDrawnX = x;
             lastDrawnY = y;
             Refresh();
@@ -304,6 +309,10 @@ namespace Piskvorky
                 if (movesToWin < movesToWinMin)
                 {
                     movesToWinMin = movesToWin;
+                    if (currentPlayer == GameSymbol.Symbol1)
+                    {
+                        playerIsWinner = true;
+                    }
                 }
                 PlayerWon?.Invoke(currentPlayer);
                 ResetGame();

@@ -32,6 +32,7 @@ namespace Piskvorky
         double player2Score = 0;
         double player_winPercentage = 0;
         int movesCount = 0;
+        int winMoves = 0;
         FormMenu formMenu;
         SoundPlayer winSound = new SoundPlayer(@"sound\win.wav");
         private List<BestOfLeaderboard> leaderboard = new List<BestOfLeaderboard>();
@@ -121,6 +122,24 @@ namespace Piskvorky
             label_score.Text = $"{player1Score}:{player2Score}";
         }
 
+        private void GameFinish()
+        {
+            winMoves = playingBoard1.MovesToWinMin;
+            if (playingBoard1.PlayerIsWinner)
+                player_bestWinMoves = playingBoard1.MovesToWinMin;
+            MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text} a nejkratší výhra hráče měla {player_bestWinMoves} tahů");
+            if (GameSettings.AI_Difficulty == "těžká" && GameSettings.IsAgainstAI)
+            {
+                player_score = (int)player1Score * 100 - player_losses * 25 - player_bestWinMoves;
+                player_winPercentage = (double)player_wins / gamesPlayed * 100;
+                AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
+            }
+            player1Score = 0;
+            player2Score = 0;
+            UpdateScoreLabel();
+            Close();
+        }
+
         private void OnPlayerWon(GameSymbol winner)
         {
             gamesPlayed++;
@@ -161,18 +180,7 @@ namespace Piskvorky
                 UpdateScoreLabel();
                 if (gamesPlayed == gameLength)
                 {
-                    player_bestWinMoves = playingBoard1.MovesToWinMin;
-                    MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text} a nejkratší hra měla {player_bestWinMoves} tahů");
-                    if (GameSettings.AI_Difficulty == "těžká" && GameSettings.IsAgainstAI)
-                    {
-                        player_score = (int)player1Score * 100 - player_losses * 25 - player_bestWinMoves;
-                        player_winPercentage = (double)player_wins / gamesPlayed * 100;
-                        AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
-                    }
-                    player1Score = 0;
-                    player2Score = 0;
-                    UpdateScoreLabel();
-                    Close();
+                    GameFinish();
                 }
             }
             else
@@ -203,18 +211,7 @@ namespace Piskvorky
 
                 if (gamesPlayed == gameLength)
                 {
-                    player_bestWinMoves = playingBoard1.MovesToWinMin;
-                    MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text} a nejkratší hra měla {player_bestWinMoves} tahů");
-                    if (GameSettings.AI_Difficulty == "těžká" && GameSettings.IsAgainstAI)
-                    {
-                        player_score = (int)player1Score * 100 - player_losses * 25 - player_bestWinMoves;
-                        player_winPercentage = (double)player_wins / gamesPlayed * 100;
-                        AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
-                    }
-                    player1Score = 0;
-                    player2Score = 0;
-                    UpdateScoreLabel();
-                    Close();
+                    GameFinish();
                 }
             }
                 
@@ -341,6 +338,7 @@ namespace Piskvorky
 
                 // Update the game state from the loaded data.
                 calc.SetBoardSize(data.BoardSize);
+                playingBoard1.BoardSize = data.BoardSize;
                 calc.WinLength = data.WinLength;
                 playingBoard1.CurrentPlayer = (GameSymbol)data.NextPlayer;
                 gamesPlayed = data.GamesPlayed;
@@ -362,7 +360,7 @@ namespace Piskvorky
                     label_hrac2.Text = player2_name;
                     label_score.Text = data.ScoreText;
                 }
-
+                calc.ClearFieldValues();
                 // Parse the board rows and update the board.
                 for (int x = 0; x < data.BoardSize; x++)
                 {
@@ -379,7 +377,7 @@ namespace Piskvorky
                     {
                         if (calc.SymbolsOnBoard[x, y] != GameSymbol.Free)
                         {
-                            calc.AddSymbol(x, y, calc.SymbolsOnBoard[x, y], out _, out _);
+                            calc.AddSymbol(x, y, calc.SymbolsOnBoard[x, y], out _);
                         }
                     }
                 }
@@ -415,6 +413,11 @@ namespace Piskvorky
 
         private void AddToLeaderboard(string playerName, int score, int wins, int losses, int draws, int bestWinMoves, double winPercentage)
         {
+            if (score < 0)
+                score = 0;
+            if (wins == 0)
+                bestWinMoves = 0;
+
             var newEntry = new BestOfLeaderboard
             {
                 PlayerName = playerName,
@@ -428,7 +431,6 @@ namespace Piskvorky
             leaderboard.Add(newEntry);
             leaderboard = leaderboard
                 .OrderByDescending(entry => entry.Score)
-                .ThenBy(entry => entry.BestWinMoves)
                 .Take(10)
                 .ToList();
             SaveLeaderboard(leaderboardFilePath, leaderboard);
