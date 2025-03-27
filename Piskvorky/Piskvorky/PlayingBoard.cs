@@ -71,14 +71,17 @@ namespace Piskvorky
                 throw new Exception("Hráč není správně určen!");
             }
         }
-        public int BoardSize {
+        public int BoardSize
+        {
             get { return boardSize; }
             set
             {
                 boardSize = value;
+                FieldSize = 20 + (15 - boardSize);
                 Refresh();
             }
         }
+
 
         public bool IsPlayingAI
         {

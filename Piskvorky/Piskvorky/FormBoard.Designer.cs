@@ -205,6 +205,7 @@
             this.Text = "Piškvorky";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormBoard_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormBoard_FormClosed);
+            this.Load += new System.EventHandler(this.FormBoard_Load);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

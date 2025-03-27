@@ -16,8 +16,7 @@ namespace Piskvorky
     public partial class FormBoard : Form
     {
         int fieldSize;
-        int width = 0,
-            height = 0;
+        int height = 0;
         int gameLength;
         int gamesPlayed = 0;
         string player1_name = "Hráč 1";
@@ -88,14 +87,12 @@ namespace Piskvorky
         {
             if (Math.Abs(height - Height) > ResizeThreshold)
             {
-                int currentAvg = (Width + Height) / 2;
-                int minAvg = (this.MinimumSize.Width + this.MinimumSize.Height) / 2;
-                playingBoard1.FieldSize = (int)(fieldSize * (float)currentAvg / minAvg);
-                width = Width;
+                int currentHeight = Height;
+                playingBoard1.FieldSize = (int)(fieldSize * (float)currentHeight / MinimumSize.Height);
                 height = Height;
-                
             }
         }
+
 
         private void FormBoard_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -434,6 +431,11 @@ namespace Piskvorky
                 .Take(10)
                 .ToList();
             SaveLeaderboard(leaderboardFilePath, leaderboard);
+        }
+
+        private void FormBoard_Load(object sender, EventArgs e)
+        {
+            playingBoard1.Location = new Point((this.ClientSize.Width - playingBoard1.Width) / 2, playingBoard1.Location.Y);
         }
     }
 }
