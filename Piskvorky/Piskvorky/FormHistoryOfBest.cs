@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -14,26 +13,26 @@ namespace Piskvorky
 {
     public partial class FormHistoryOfBest : Form
     {
-        private readonly string leaderboardFilePath = Path.Combine(Application.StartupPath, "leaderboard.xml");
         private List<BestOfLeaderboard> leaderboard;
 
         public FormHistoryOfBest()
         {
             InitializeComponent();
-            leaderboard = LoadLeaderboardBase64(leaderboardFilePath);
+            leaderboard = LoadLeaderboard();
             InitializeLeaderboardGridView();
         }
-        public List<BestOfLeaderboard> LoadLeaderboardBase64(string filePath)
-        {
-            if (!File.Exists(filePath)) return new List<BestOfLeaderboard>();
 
-            string encodedContent = File.ReadAllText(filePath);
-            string xmlContent = Encoding.UTF8.GetString(Convert.FromBase64String(encodedContent));
+        public List<BestOfLeaderboard> LoadLeaderboard()
+        {
+            string filePath = Path.Combine(Application.StartupPath, "leaderboard.dat");
+            if (!File.Exists(filePath))
+                return new List<BestOfLeaderboard>();
 
             XmlSerializer serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
-            using (StringReader stringReader = new StringReader(xmlContent))
+            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (BinaryReader br = new BinaryReader(fs))
             {
-                return (List<BestOfLeaderboard>)serializer.Deserialize(stringReader);
+                return (List<BestOfLeaderboard>)serializer.Deserialize(br.BaseStream);
             }
         }
 
@@ -62,4 +61,3 @@ namespace Piskvorky
         }
     }
 }
-

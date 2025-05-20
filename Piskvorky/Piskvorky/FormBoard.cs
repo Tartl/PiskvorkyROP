@@ -21,12 +21,10 @@ namespace Piskvorky
         int gamesPlayed = 0;
         string player1_name = "Hráč 1";
         string player2_name = "Hráč 2";
-        private readonly string leaderboardFilePath = Path.Combine(Application.StartupPath, "leaderboard.xml");
         int player_score = 0;
         int player_wins = 0;
         int player_losses = 0;
         int player_draws = 0;
-        int player_bestWinMoves = 0;
         double player1Score = 0;
         double player2Score = 0;
         double player_winPercentage = 0;
@@ -60,9 +58,9 @@ namespace Piskvorky
             }
             GameSettings.Player1Name = player1_name;
             GameSettings.Player2Name = player2_name;
-            label_hrac1.Text = player1_name;
-            label_hrac2.Text = player2_name;
-            leaderboard = LoadLeaderboard(leaderboardFilePath);
+            label_player1.Text = player1_name;
+            label_player2.Text = player2_name;
+            leaderboard = LoadLeaderboard();
 
                 
         }
@@ -96,7 +94,7 @@ namespace Piskvorky
 
         private void FormBoard_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveLeaderboard(leaderboardFilePath, leaderboard);
+            SaveLeaderboard(leaderboard);
         }
 
         private void FormBoard_FormClosed(object sender, FormClosedEventArgs e)
@@ -122,14 +120,12 @@ namespace Piskvorky
         private void GameFinish()
         {
             winMoves = playingBoard1.MovesToWinMin;
-            if (playingBoard1.PlayerIsWinner)
-                player_bestWinMoves = playingBoard1.MovesToWinMin;
-            MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text} a nejkratší výhra hráče měla {player_bestWinMoves} tahů");
+            MessageBox.Show($"Konec hry!\nFinální skóre je {label_score.Text}");
             if (GameSettings.AI_Difficulty == "těžká" && GameSettings.IsAgainstAI)
             {
-                player_score = (int)player1Score * 100 - player_losses * 25 - player_bestWinMoves;
+                player_score = (int)player1Score * 100 - player_losses * 25 - winMoves;
                 player_winPercentage = (double)player_wins / gamesPlayed * 100;
-                AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, player_bestWinMoves, player_winPercentage);
+                AddToLeaderboard(player1_name, player_score, player_wins, player_losses, player_draws, winMoves, player_winPercentage);
             }
             player1Score = 0;
             player2Score = 0;
@@ -214,6 +210,21 @@ namespace Piskvorky
                 
         }
 
+        private void ResetInternalState()
+        {
+            gamesPlayed = 0;
+            player_wins = 0;
+            player_losses = 0;
+            player_draws = 0;
+            player1Score = 0;
+            player2Score = 0;
+            player_winPercentage = 0;
+            movesCount = 0;
+            winMoves = 0;
+            player1_name = GameSettings.Player1Name;
+            player2_name = GameSettings.Player2Name;
+        }
+
         private void nováHraToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormNewGame formNewGame = new FormNewGame();
@@ -221,8 +232,9 @@ namespace Piskvorky
             if (formNewGame.DialogResult == DialogResult.OK)
             {
                 playingBoard1.ResetGame();
-                label_hrac1.Text = GameSettings.Player1Name;
-                label_hrac2.Text = GameSettings.Player2Name;
+                ResetInternalState();
+                label_player1.Text = GameSettings.Player1Name;
+                label_player2.Text = GameSettings.Player2Name;
                 label_score.Text = "0:0";
                 InitializeGameSettings();
             }
@@ -317,6 +329,7 @@ namespace Piskvorky
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 playingBoard1.ResetGame();
+                ResetInternalState();
                 string path = openFileDialog1.FileName;
 
                 string xmlContent;
@@ -353,8 +366,8 @@ namespace Piskvorky
                 player2_name = GameSettings.Player2Name;
                 if (!GameSettings.DemoMode)
                 {
-                    label_hrac1.Text = player1_name;
-                    label_hrac2.Text = player2_name;
+                    label_player1.Text = player1_name;
+                    label_player2.Text = player2_name;
                     label_score.Text = data.ScoreText;
                 }
                 calc.ClearFieldValues();
@@ -384,29 +397,31 @@ namespace Piskvorky
         }
 
 
-        public void SaveLeaderboard(string filePath, List<BestOfLeaderboard> leaderboard)
+        public void SaveLeaderboard(List<BestOfLeaderboard> leaderboard)
         {
+            string filePath = Path.Combine(Application.StartupPath, "leaderboard.dat");
             XmlSerializer serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
-            using (StringWriter stringWriter = new StringWriter())
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            using (BinaryWriter bw = new BinaryWriter(fs))
             {
-                serializer.Serialize(stringWriter, leaderboard);
-                string xmlContent = stringWriter.ToString();
-                string encodedContent = Convert.ToBase64String(Encoding.UTF8.GetBytes(xmlContent));
-                File.WriteAllText(filePath, encodedContent);
+                serializer.Serialize(bw.BaseStream, leaderboard);
             }
         }
 
-        public List<BestOfLeaderboard> LoadLeaderboard(string filePath)
+        public List<BestOfLeaderboard> LoadLeaderboard()
         {
-            if (!File.Exists(filePath)) return new List<BestOfLeaderboard>();
-            string encodedContent = File.ReadAllText(filePath);
-            string xmlContent = Encoding.UTF8.GetString(Convert.FromBase64String(encodedContent));
+            string filePath = Path.Combine(Application.StartupPath, "leaderboard.dat");
+            if (!File.Exists(filePath))
+                return new List<BestOfLeaderboard>();
+
             XmlSerializer serializer = new XmlSerializer(typeof(List<BestOfLeaderboard>));
-            using (StringReader stringReader = new StringReader(xmlContent))
+            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (BinaryReader br = new BinaryReader(fs))
             {
-                return (List<BestOfLeaderboard>)serializer.Deserialize(stringReader);
+                return (List<BestOfLeaderboard>)serializer.Deserialize(br.BaseStream);
             }
         }
+
 
         private void AddToLeaderboard(string playerName, int score, int wins, int losses, int draws, int bestWinMoves, double winPercentage)
         {
@@ -430,7 +445,7 @@ namespace Piskvorky
                 .OrderByDescending(entry => entry.Score)
                 .Take(10)
                 .ToList();
-            SaveLeaderboard(leaderboardFilePath, leaderboard);
+            SaveLeaderboard(leaderboard);
         }
 
         private void FormBoard_Load(object sender, EventArgs e)

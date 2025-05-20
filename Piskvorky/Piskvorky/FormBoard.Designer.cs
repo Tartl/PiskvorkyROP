@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormBoard));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label_hrac2 = new System.Windows.Forms.Label();
-            this.label_hrac1 = new System.Windows.Forms.Label();
+            this.label_player2 = new System.Windows.Forms.Label();
+            this.label_player1 = new System.Windows.Forms.Label();
             this.label_score = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.hraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,8 +56,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.27273F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.45454F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.27273F));
-            this.tableLayoutPanel1.Controls.Add(this.label_hrac2, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label_hrac1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label_player2, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label_player1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label_score, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tableLayoutPanel1.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
@@ -71,25 +71,25 @@
             // 
             // label_hrac2
             // 
-            this.label_hrac2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label_hrac2.AutoSize = true;
-            this.label_hrac2.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label_hrac2.Location = new System.Drawing.Point(683, 10);
-            this.label_hrac2.Name = "label_hrac2";
-            this.label_hrac2.Size = new System.Drawing.Size(98, 32);
-            this.label_hrac2.TabIndex = 2;
-            this.label_hrac2.Text = "Hráč 2";
+            this.label_player2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label_player2.AutoSize = true;
+            this.label_player2.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label_player2.Location = new System.Drawing.Point(683, 10);
+            this.label_player2.Name = "label_hrac2";
+            this.label_player2.Size = new System.Drawing.Size(98, 32);
+            this.label_player2.TabIndex = 2;
+            this.label_player2.Text = "Hráč 2";
             // 
             // label_hrac1
             // 
-            this.label_hrac1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label_hrac1.AutoSize = true;
-            this.label_hrac1.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label_hrac1.Location = new System.Drawing.Point(3, 10);
-            this.label_hrac1.Name = "label_hrac1";
-            this.label_hrac1.Size = new System.Drawing.Size(98, 32);
-            this.label_hrac1.TabIndex = 1;
-            this.label_hrac1.Text = "Hráč 1";
+            this.label_player1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label_player1.AutoSize = true;
+            this.label_player1.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label_player1.Location = new System.Drawing.Point(3, 10);
+            this.label_player1.Name = "label_hrac1";
+            this.label_player1.Size = new System.Drawing.Size(98, 32);
+            this.label_player1.TabIndex = 1;
+            this.label_player1.Text = "Hráč 1";
             // 
             // label_score
             // 
@@ -218,8 +218,8 @@
 
         #endregion
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label_hrac2;
-        private System.Windows.Forms.Label label_hrac1;
+        private System.Windows.Forms.Label label_player2;
+        private System.Windows.Forms.Label label_player1;
         private PlayingBoard playingBoard1;
         public System.Windows.Forms.Label label_score;
         private System.Windows.Forms.MenuStrip menuStrip1;

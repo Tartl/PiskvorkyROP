@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Piskvorky
 {
@@ -35,7 +36,6 @@ namespace Piskvorky
         private int movesToWin = 0;
         private int movesToWinMin = 626;
         private List<List<Point>> winningRows;
-        private bool playerIsWinner;
 
         public event Action<GameSymbol> PlayerWon;
         public event Action Draw;
@@ -88,8 +88,6 @@ namespace Piskvorky
             get { return isPlayingAI; }
             set { isPlayingAI = value; }
         }
-
-        public bool PlayerIsWinner { get; }
 
         public int FieldSize {
             get { return fieldSize; } 
@@ -179,9 +177,13 @@ namespace Piskvorky
 
         private void HighlightMove(Graphics graphics, Color color, int x, int y)
         {
-            if (Calc.CordsOnBoard(lastDrawnX, lastDrawnY))
+            if (Calc.CordsOnBoard(x, y))
             {
-                graphics.FillRectangle(new SolidBrush(color), x * fieldSize + 1, y * fieldSize + 1, fieldSize - 1, fieldSize - 1);
+                graphics.FillRectangle(new SolidBrush(color), 
+                                        x * fieldSize + 1, 
+                                        y * fieldSize + 1, 
+                                        fieldSize - 1, 
+                                        fieldSize - 1);
             }
         }
 
@@ -256,13 +258,13 @@ namespace Piskvorky
 
         public void ResetGame()
         {
+            winningRows = null;
             Calc.ClearBoard();
             Calc.ClearSymbolsInRow();
             Calc.ClearFieldValues();
             ClearHighlightedMove();
             currentPlayer = GameSymbol.Symbol1;
             isAIThinking = false;
-            playerIsWinner = false;
             movesToWin = 0;
             Refresh();
         }
@@ -299,7 +301,6 @@ namespace Piskvorky
             if (Calc.SymbolsOnBoard[x, y] != GameSymbol.Free)
             {
                 fieldFullSound.Play();
-                MessageBox.Show("Tady už symbol je!");
                 return;
             }
             movesToWin++;
@@ -309,13 +310,9 @@ namespace Piskvorky
             Refresh();
             if (result == GameResult.Win)
             {
-                if (movesToWin < movesToWinMin)
+                if (movesToWin < movesToWinMin && currentPlayer == GameSymbol.Symbol1)
                 {
                     movesToWinMin = movesToWin;
-                    if (currentPlayer == GameSymbol.Symbol1)
-                    {
-                        playerIsWinner = true;
-                    }
                 }
                 PlayerWon?.Invoke(currentPlayer);
                 ResetGame();
@@ -357,6 +354,7 @@ namespace Piskvorky
                 await AddMove(bestMove.aiX, bestMove.aiY);
                 isAIThinking = false;
             }
+
             if (isPlayingAI && currentPlayer == GameSymbol.Symbol2)
             {
                 isAIThinking = true;

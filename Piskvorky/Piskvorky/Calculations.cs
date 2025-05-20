@@ -7,58 +7,67 @@ namespace Piskvorky
 {
     public class Calculations
     {
-        private int boardSize = 15; // Board size (e.g., 15x15)
-        private GameSymbol[,] symbolsOnBoard; // Symbols on the board
-        private short winLength = 5; // Number of symbols in a row needed to win
-        private short[,,,] symbolsInRow; // Counts of symbols in each direction
-        private short[,,,] openEnds; // Number of open ends (potential extensions of a sequence)
-        private short[,] DirectionSigns; // Direction signs for horizontal, diagonal, vertical
-        private int rowsLeftOnBoard; // Remaining possible winning rows on the board
-        private int[,,] fieldValues; // Field values used to choose moves in heuristic approaches
-        private int[] Values; // Values based on number of symbols in a row (e.g., 4, 20, 100, 500)
-        private short winRowsCount = 0;
-        private Random random = new Random();
+        private int boardSize = 15; // Velikost desky
+        private GameSymbol[,] symbolsOnBoard; // Symboly na desce (x, y)
+        private short winLength = 5; // Počet symbolů v řadě potřebný k výhře
+        private short[,,,] symbolsInRow; // Počty symbolů v řadách ve všech směrech (x, y, směr, symbol)
+        private short[,,,] openEnds; // Počet volných konců (možná prodloužení řady) (x, y, směr, symbol)
+        private short[,] DirectionSigns; // Směrová znaménka pro horizontální, diagonální a vertikální (směr, souřadnice)
+        private int rowsLeftOnBoard; // Zbývající počet možných vítězných řad na desce
+        private int[,,] fieldValues; // Hodnoty polí používané při výběru tahů v heuristických přístupech (x, y, symbol)
+        private int[] Values; // Hodnoty na základě počtu symbolů v řadě (0, 0, 4, 20, 100, 500)
+        private short winRowsCount = 0; // Počet nalezených vítězných řad
+        private Random random = new Random(); // Instance pro generování náhodných čísel
 
-        // Constructor: initializes key variables
+        /// <summary>
+        /// Konstruktor, který inicializuje hlavní proměnné, nastaví velikost desky,
+        /// směrová znaménka a hodnoty podle délky řady.
+        /// </summary>
+        /// <param name="boardSize">Velikost desky</param>
         public Calculations(int boardSize)
         {
             this.boardSize = boardSize;
-
-            // Directions: horizontal, diagonal1, vertical, diagonal2
             DirectionSigns = new short[(short)Direction.Diag2 + 1, (short)Coordinate.Y + 1]
             {
-                { -1,  0 }, // Horizontal
-                { -1, -1 }, // Diagonal 1
-                {  0, -1 }, // Vertical
-                {  1, -1 }  // Diagonal 2
+                { -1,  0 },  // horizontálně
+                { -1, -1 },  // diagonálně (směr 1)
+                {  0, -1 },  // vertikálně
+                {  1, -1 }   // diagonálně (směr 2)
             };
-
-            // Values according to sequence length: the longer the sequence, the higher the value.
             Values = new int[7] { 0, 0, 4, 20, 100, 500, 0 };
         }
 
-        // Sets a new board size and clears the board and sequence counts
+        /// <summary>
+        /// Nastaví novou velikost desky a vymaže desku i počítadla řad.
+        /// </summary>
+        /// <param name="newSize">Nová velikost desky</param>
         public void SetBoardSize(int newSize)
         {
-            
             boardSize = newSize;
             ClearBoard();
             ClearSymbolsInRow();
         }
 
-        // The win length needed
+        /// <summary>
+        /// Vlastnost pro získání či nastavení počtu symbolů potřebných k výhře.
+        /// </summary>
         public short WinLength
         {
             get { return winLength; }
             set { winLength = value; }
         }
 
+        /// <summary>
+        /// Vrací počet nalezených vítězných řad.
+        /// </summary>
         public short GetWinRowsCount
         {
             get { return winRowsCount; }
         }
 
-        // Counts of symbols in each direction
+        /// <summary>
+        /// Vrací počty symbolů v řadách ve všech směrech.
+        /// </summary>
         public short[,,,] SymbolsInRow
         {
             get
@@ -68,7 +77,9 @@ namespace Piskvorky
             }
         }
 
-        // The board’s symbols
+        /// <summary>
+        /// Vrací aktuální rozmístění symbolů na desce.
+        /// </summary>
         public GameSymbol[,] SymbolsOnBoard
         {
             get
@@ -78,7 +89,9 @@ namespace Piskvorky
             }
         }
 
-        // Field values for heuristic evaluations
+        /// <summary>
+        /// Vrací hodnoty polí pro heuristické vyhodnocení tahů.
+        /// </summary>
         public int[,,] FieldValues
         {
             get
@@ -88,7 +101,9 @@ namespace Piskvorky
             }
         }
 
-        // Clears the sequence counts arrays
+        /// <summary>
+        /// Vymaže pole s počty symbolů v řadě a volné konce a inicializuje počet možných vítězných řad.
+        /// </summary>
         public void ClearSymbolsInRow()
         {
             symbolsInRow = new short[boardSize, boardSize, (short)Direction.Diag2 + 1, (short)GameSymbol.Symbol2 + 1];
@@ -107,11 +122,12 @@ namespace Piskvorky
                     }
                 }
             }
-            // Total possible winning sequences on the board
             rowsLeftOnBoard = 4 * (2 * boardSize - (winLength - 1)) * (boardSize - (winLength - 1));
         }
 
-        // Clears the board (sets all cells to Free)
+        /// <summary>
+        /// Nastaví všechna pole na volné.
+        /// </summary>
         public void ClearBoard()
         {
             symbolsOnBoard = new GameSymbol[boardSize, boardSize];
@@ -124,7 +140,9 @@ namespace Piskvorky
             }
         }
 
-        // Clears the field values array (all to 0)
+        /// <summary>
+        /// nastavení všechny hodnoty na nulu.
+        /// </summary>
         public void ClearFieldValues()
         {
             fieldValues = new int[boardSize, boardSize, (short)GameSymbol.Symbol2 + 1];
@@ -140,21 +158,30 @@ namespace Piskvorky
             }
         }
 
-        // Checks whether coordinates (x,y) are on the board
+        /// <summary>
+        /// Ověří, zda souřadnice (x, y) leží na herní desce.
+        /// </summary>
         public bool CordsOnBoard(int x, int y)
         {
             return x >= 0 && x < boardSize && y >= 0 && y < boardSize;
         }
 
-        // Returns the opponent's symbol
+        /// <summary>
+        /// Vrací symbol soupeře na základě symbolu aktuálního hráče.
+        /// </summary>
+        /// <param name="currentPlayer">Symbol aktuálního hráče</param>
+        /// <returns>Symbol soupeře</returns>
         private GameSymbol GetOpponent(GameSymbol currentPlayer)
         {
             if (currentPlayer == GameSymbol.Symbol1) return GameSymbol.Symbol2;
             if (currentPlayer == GameSymbol.Symbol2) return GameSymbol.Symbol1;
-            throw new Exception("Invalid player symbol!");
+            throw new Exception("Neplatný symbol hráče!");
         }
 
-        //Stores the winning row
+        /// <summary>
+        /// Vrací seznam bodů tvořících vítěznou řadu v daném směru.
+        /// Posune se zpět na začátek řady a poté postupuje směrem ke konci.
+        /// </summary>
         private List<Point> GetWinningRow(int x, int y, Direction dir, GameSymbol player)
         {
             List<Point> winRow = new List<Point>();
@@ -162,7 +189,7 @@ namespace Piskvorky
             short signX = DirectionSigns[(short)dir, (short)Coordinate.X];
             short signY = DirectionSigns[(short)dir, (short)Coordinate.Y];
 
-            while (CordsOnBoard(x - signX, y - signY) && SymbolsOnBoard[x - signX, y-signY] == player)
+            while (CordsOnBoard(x - signX, y - signY) && SymbolsOnBoard[x - signX, y - signY] == player)
             {
                 x -= signX;
                 y -= signY;
@@ -177,6 +204,9 @@ namespace Piskvorky
             return winRow;
         }
 
+        /// <summary>
+        /// Vrací všechny vítězné řady (seznam seznamů bodů), které obsahují alespoň požadovaný počet symbolů.
+        /// </summary>
         private List<List<Point>> GetWinningRows(int x, int y, GameSymbol player)
         {
             List<List<Point>> winRows = new List<List<Point>>();
@@ -184,7 +214,6 @@ namespace Piskvorky
             foreach (Direction dir in Enum.GetValues(typeof(Direction)))
             {
                 List<Point> currentWinRow = GetWinningRow(x, y, dir, player);
-                // Only add the row if it has at least winLength points.
                 if (currentWinRow.Count >= winLength)
                 {
                     winRows.Add(currentWinRow);
@@ -194,11 +223,12 @@ namespace Piskvorky
             return winRows;
         }
 
-
-        // Adds a symbol on the board at (x,y) and updates internal counters
+        /// <summary>
+        /// Přidá symbol hráče na pozici (x, y), aktualizuje interní počítadla,
+        /// zkontroluje případné vítězství a aktualizuje heuristické hodnoty polí.
+        /// </summary>
         public GameResult AddSymbol(int x, int y, GameSymbol player, out List<List<Point>> winRows)
         {
-
             winRows = new List<List<Point>>();
             GameResult result = GameResult.Continue;
             foreach (Direction dir in Enum.GetValues(typeof(Direction)))
@@ -221,7 +251,6 @@ namespace Piskvorky
                                 winRows = GetWinningRows(x, y, player);
                                 winRowsCount = (short)winRows.Count;
                             }
-                                
                             break;
                         }
 
@@ -246,14 +275,16 @@ namespace Piskvorky
                 }
             }
 
-            SymbolsOnBoard[x, y] = player; // Update the board
+            SymbolsOnBoard[x, y] = player;
             if (result == GameResult.Continue && rowsLeftOnBoard <= 0)
-                result = GameResult.Draw; // Draw if no moves left
+                result = GameResult.Draw;
 
             return result;
         }
 
-        // Checks if position (posX, posY) is within bounds for a given direction
+        /// <summary>
+        /// Ověří, zda je pozice (posX, posY) v rámci desky pro daný směr.
+        /// </summary>
         private bool PositionWithinBounds(int posX, int posY, short dirHor, short dirVer)
         {
             bool withinHorizontalBounds =
@@ -269,7 +300,10 @@ namespace Piskvorky
             return withinHorizontalBounds && withinVerticalBounds;
         }
 
-        // Increments the count of symbols in a row; returns Win if the sequence reaches winLength
+        /// <summary>
+        /// Zvýší počet symbolů v řadě; pokud dosáhne požadované délky, vrátí výhru.
+        /// Při prvním symbolu sníží počet zbývajících vítězných řad.
+        /// </summary>
         private GameResult IncludeDraw(ref short numberInRow)
         {
             numberInRow++;
@@ -280,7 +314,10 @@ namespace Piskvorky
             return GameResult.Continue;
         }
 
-        // Recalculates the heuristic value of a field based on current sequences
+        /// <summary>
+        /// Přepočítá heuristickou hodnotu pole na základě aktuálních řad symbolů,
+        /// volných konců a přidá hodnotu pro aktuálního hráče či upraví hodnotu soupeře.
+        /// </summary>
         private void RecalcValue(
             short symbolsInRowCurrentPlayer,
             short symbolsInRowOpponent,
@@ -312,7 +349,9 @@ namespace Piskvorky
             }
         }
 
-        // Public interface to get the best move according to difficulty
+        /// <summary>
+        /// Veřejná metoda, která na základě zvolené obtížnosti určí nejlepší tah pro hráče.
+        /// </summary>
         public void GetBestMove(Difficulty difficulty, out int x, out int y, GameSymbol player)
         {
             switch (difficulty)
@@ -332,7 +371,10 @@ namespace Piskvorky
             }
         }
 
-        // Easy difficulty: uses chance and immediate win/block checks plus a suboptimal move
+        /// <summary>
+        /// Metoda pro snadnou obtížnost. Používá náhodu, kontroluje okamžité vítězství či blokování
+        /// a volí suboptimální tah.
+        /// </summary>
         public void GetBestMove_Easy(out int x, out int y, GameSymbol player)
         {
             Random random = new Random();
@@ -350,7 +392,10 @@ namespace Piskvorky
             PickMoveSuboptimalByFieldValue(out x, out y, player, opponent, topN: 3);
         }
 
-        // Medium difficulty: immediate win/block then a heuristic field value move
+        /// <summary>
+        /// Metoda pro střední obtížnost. Nejprve kontroluje vítězné tahy a poté vybírá tah na základě
+        /// heuristické hodnoty polí.
+        /// </summary>
         public void GetBestMove_Medium(out int x, out int y, GameSymbol player)
         {
             if (TryFindWinningMove(player, out x, out y))
@@ -361,6 +406,10 @@ namespace Piskvorky
             PickMoveByFieldValue_Medium(out x, out y, player, opponent);
         }
 
+        /// <summary>
+        /// Metoda pro těžkou obtížnost. Pokud není okamžité vítězství či blok,
+        /// hledá nejlepší tah pomocí iterativního prohledávání (Minimax).
+        /// </summary>
         public void GetBestMove_Hard(out int x, out int y, GameSymbol player)
         {
             if (TryFindWinningMove(player, out x, out y))
@@ -374,7 +423,10 @@ namespace Piskvorky
             y = bestY;
         }
 
-        // Searches for an immediate winning move for checkPlayer
+        /// <summary>
+        /// Hledá okamžitě vítězný tah pro zadaného hráče.
+        /// Pro každý volný bod vyzkouší tah a ověří, zda vede k výhře.
+        /// </summary>
         private bool TryFindWinningMove(GameSymbol checkPlayer, out int winX, out int winY)
         {
             winX = -1;
@@ -400,15 +452,18 @@ namespace Piskvorky
             return false;
         }
 
-        // Checks whether placing checkPlayer's symbol at (x,y) wins the game
+        /// <summary>
+        /// Ověří, zda tah hráče na pozici (x, y) vede k výhře.
+        /// Pro každé směry sečte souvislé symboly.
+        /// </summary>
         private bool WouldThisMoveWin(int x, int y, GameSymbol checkPlayer)
         {
             int[][] directions = new int[][]
             {
-                new int[]{1, 0}, // Horizontal
-                new int[]{0, 1}, // Vertical
-                new int[]{1, 1}, // Diagonal \
-                new int[]{1, -1} // Diagonal /
+                new int[]{1, 0},    // horizontálně
+                new int[]{0, 1},    // vertikálně
+                new int[]{1, 1},    // diagonálně "\"
+                new int[]{1, -1}    // diagonálně "/"
             };
             foreach (var d in directions)
             {
@@ -421,7 +476,9 @@ namespace Piskvorky
             return false;
         }
 
-        // Counts consecutive symbols in a given direction
+        /// <summary>
+        /// Spočítá počet sousedních symbolů hráče ve zvoleném směru.
+        /// </summary>
         private int CountDirection(int startX, int startY, int dx, int dy, GameSymbol checkPlayer)
         {
             int cnt = 0;
@@ -436,7 +493,9 @@ namespace Piskvorky
             return cnt;
         }
 
-        // Tries to find a move that blocks an open three or four for the opponent
+        /// <summary>
+        /// Hledá tah, který blokuje potenciálně nebezpečnou situaci (otevřenou řadu tří nebo čtyř symbolů) soupeře.
+        /// </summary>
         private bool TryFindOpenThreeOrFour(GameSymbol opponent, out int blockX, out int blockY)
         {
             blockX = -1;
@@ -462,7 +521,10 @@ namespace Piskvorky
             return false;
         }
 
-        // Checks whether placing a symbol creates an open three or four
+        /// <summary>
+        /// Ověří, zda umístění symbolu vytváří otevřenou řadu tří nebo čtyř symbolů,
+        /// tedy situaci s možností prodloužení řady volnými konci.
+        /// </summary>
         private bool IsOpenThreeOrFour(int placedX, int placedY, GameSymbol symbol)
         {
             int[][] directions = new int[][]
@@ -489,7 +551,9 @@ namespace Piskvorky
             return false;
         }
 
-        // Checks whether the cell at (startX+dx, startY+dy) is open
+        /// <summary>
+        /// Zjistí, zda je pole na dané pozici volné (možnost prodloužení řady).
+        /// </summary>
         private bool IsOpenEnd(int startX, int startY, int dx, int dy)
         {
             int x = startX + dx;
@@ -499,19 +563,24 @@ namespace Piskvorky
             return (SymbolsOnBoard[x, y] == GameSymbol.Free);
         }
 
-        // Returns a bonus based on closeness to the board center
+        /// <summary>
+        /// Vrací bonusovou hodnotu podle vzdálenosti od středu desky (Manhattanská vzdálenost).
+        /// </summary>
         private int GetCenterBonus(int row, int col)
         {
             int center = boardSize / 2;
             int dx = Math.Abs(row - center);
             int dy = Math.Abs(col - center);
-            int dist = dx + dy; // Manhattan distance
+            int dist = dx + dy;
             int radius = center * 2;
             int bonus = radius - dist;
             return bonus < 0 ? 0 : bonus;
         }
 
-        // Picks a move for medium difficulty using field values
+        /// <summary>
+        /// Vybere tah pro střední obtížnost na základě heuristické hodnoty polí.
+        /// Prohledá desku a zvolí volné pole s nejvyšším skóre.
+        /// </summary>
         private void PickMoveByFieldValue_Medium(out int bestX, out int bestY, GameSymbol player, GameSymbol opponent)
         {
             int bestValue = int.MinValue;
@@ -540,7 +609,10 @@ namespace Piskvorky
             }
         }
 
-        // Picks a suboptimal move based on field values (used for easy mode)
+        /// <summary>
+        /// Vybere suboptimální tah na základě heuristické hodnoty polí (používá se pro snadnou obtížnost).
+        /// Provede výběr z topN kandidátů.
+        /// </summary>
         private void PickMoveSuboptimalByFieldValue(
             out int bestX,
             out int bestY,
@@ -578,21 +650,18 @@ namespace Piskvorky
             bestY = chosen.Y;
         }
 
-        // ------------------ Minimax with Alpha–Beta Pruning and Iterative Deepening ------------------
-
         /// <summary>
-        /// Minimax search with alpha-beta pruning.
+        /// Prohledávání stromu tahů pomocí algoritmu Minimax s alfa-beta ořezáváním.
         /// </summary>
-        /// <param name="depth">Current depth.</param>
-        /// <param name="maxDepth">Maximum depth to search.</param>
-        /// <param name="currentPlayer">The player making the move in this call.</param>
-        /// <param name="maximizingPlayer">The player for whom we are optimizing.</param>
-        /// <param name="alpha">Alpha value for pruning.</param>
-        /// <param name="beta">Beta value for pruning.</param>
-        /// <param name="bestMove">Best move found at this node.</param>
-        /// <returns>The evaluated score for this branch.</returns>
-        
-        private int Minimax(int depth, int maxDepth, GameSymbol currentPlayer, 
+        /// <param name="depth">Aktuální hloubka hledání.</param>
+        /// <param name="maxDepth">Maximální hloubka hledání.</param>
+        /// <param name="currentPlayer">Hráč, který provádí tah v aktuálním uzlu.</param>
+        /// <param name="maximizingPlayer">Hráč, pro kterého hledáme nejlepší tah.</param>
+        /// <param name="alpha">Hodnota alfa pro ořezávání.</param>
+        /// <param name="beta">Hodnota beta pro ořezávání.</param>
+        /// <param name="bestMove">Nejlepší nalezený tah v daném uzlu.</param>
+        /// <returns>Hodnocení větve.</returns>
+        private int Minimax(int depth, int maxDepth, GameSymbol currentPlayer,
                             GameSymbol maximizingPlayer, int alpha, int beta, out (int x, int y) bestMove)
         {
             bestMove = (-1, -1);
@@ -630,7 +699,8 @@ namespace Piskvorky
                         bestMove = move;
                         return 10000 - depth;
                     }
-                    int score = Minimax(depth + 1, maxDepth, GetOpponent(currentPlayer), maximizingPlayer, alpha, beta, out _);
+                    int score = Minimax(depth + 1, maxDepth, GetOpponent(currentPlayer), 
+                        maximizingPlayer, alpha, beta, out _);
                     SymbolsOnBoard[move.x, move.y] = GameSymbol.Free;
                     if (score > bestScore)
                     {
@@ -654,7 +724,8 @@ namespace Piskvorky
                         bestMove = move;
                         return -10000 + depth;
                     }
-                    int score = Minimax(depth + 1, maxDepth, GetOpponent(currentPlayer), maximizingPlayer, alpha, beta, out _);
+                    int score = Minimax(depth + 1, maxDepth, GetOpponent(currentPlayer), 
+                        maximizingPlayer, alpha, beta, out _);
                     SymbolsOnBoard[move.x, move.y] = GameSymbol.Free;
                     if (score < bestScore)
                     {
@@ -669,6 +740,9 @@ namespace Piskvorky
             return bestScore;
         }
 
+        /// <summary>
+        /// Promíchá seznam prvků pomocí algoritmu Fisher–Yates.
+        /// </summary>
         private void Shuffle<T>(IList<T> list)
         {
             for (int i = list.Count - 1; i > 0; i--)
@@ -681,13 +755,13 @@ namespace Piskvorky
         }
 
         /// <summary>
-        /// Returns a list of candidate moves – empty cells adjacent to an occupied cell.
+        /// Vrací seznam kandidátních tahů – volná pole sousedící s již obsazeným polem.
+        /// Nejprve se určí ohraničující obdélník obsazených polí, přidá se okraj a kandidáti se promíchají.
         /// </summary>
         private List<(int x, int y)> GetCandidateMoves()
         {
             var candidates = new List<(int, int)>();
 
-            // Determine the bounding box of all occupied cells.
             int minX = boardSize, maxX = -1, minY = boardSize, maxY = -1;
             for (int i = 0; i < boardSize; i++)
             {
@@ -703,7 +777,6 @@ namespace Piskvorky
                 }
             }
 
-            // If the board is empty, return all free cells.
             if (maxX == -1)
             {
                 for (int i = 0; i < boardSize; i++)
@@ -717,14 +790,12 @@ namespace Piskvorky
                 return candidates;
             }
 
-            // Add a margin (adjustable) around the occupied area.
-            int margin = 6; // You can tweak this value
+            int margin = 6;
             int startX = Math.Max(0, minX - margin);
             int endX = Math.Min(boardSize - 1, maxX + margin);
             int startY = Math.Max(0, minY - margin);
             int endY = Math.Min(boardSize - 1, maxY + margin);
 
-            // Iterate only within the bounding box.
             for (int i = startX; i <= endX; i++)
             {
                 for (int j = startY; j <= endY; j++)
@@ -752,7 +823,6 @@ namespace Piskvorky
                 }
             }
 
-            // Fallback: if no candidate is found in the box, add all free cells in the bounding box.
             if (candidates.Count == 0)
             {
                 for (int i = startX; i <= endX; i++)
@@ -770,19 +840,18 @@ namespace Piskvorky
             return candidates;
         }
 
-
         /// <summary>
-        /// Advanced board evaluation: scans the board for sequences (lines) and computes a score.
+        /// Pokročilé vyhodnocení desky: prohledá desku pro sekvence (řady) symbolů a spočítá skóre podle délky řady a počtu volných konců.
         /// </summary>
         private int EvaluateBoardAdvanced(GameSymbol player)
         {
             int score = 0;
             int[][] directions = new int[][]
             {
-                new int[]{1, 0},   // Horizontal
-                new int[]{0, 1},   // Vertical
-                new int[]{1, 1},   // Diagonal \
-                new int[]{1, -1}   // Diagonal /
+                new int[]{1, 0},    // horizontálně
+                new int[]{0, 1},    // vertikálně
+                new int[]{1, 1},    // diagonálně "\"
+                new int[]{1, -1}    // diagonálně "/"
             };
 
             for (int i = 0; i < boardSize; i++)
@@ -795,7 +864,7 @@ namespace Piskvorky
                         {
                             int prevX = i - d[0], prevY = j - d[1];
                             if (CordsOnBoard(prevX, prevY) && SymbolsOnBoard[prevX, prevY] == player)
-                                continue; // Only count from the beginning of the line
+                                continue; // počítá pouze od začátku řady
 
                             int count = 0;
                             int x = i, y = j;
@@ -820,12 +889,13 @@ namespace Piskvorky
         }
 
         /// <summary>
-        /// Returns a score for a line with a given count of consecutive symbols and number of open ends.
+        /// Vyhodnocení řady: na základě počtu souvislých symbolů a volných konců vrací skóre.
+        /// Pokud řada dosáhne potřebné délky, vrací okamžitou výhru.
         /// </summary>
         private int EvaluateLine(int count, int openEnds)
         {
             if (count >= winLength)
-                return 100000; // Immediate win
+                return 100000;
             if (count == 4)
             {
                 if (openEnds == 2) return 10000;
@@ -849,7 +919,7 @@ namespace Piskvorky
         }
 
         /// <summary>
-        /// Overall board evaluation for minimax: difference between AI and opponent scores.
+        /// Celkové vyhodnocení desky pro algoritmus minimax: rozdíl mezi skóre hráče a soupeře.
         /// </summary>
         private int EvaluateBoard(GameSymbol maximizingPlayer)
         {
@@ -860,11 +930,12 @@ namespace Piskvorky
         }
 
         /// <summary>
-        /// Iterative deepening search: repeatedly calls minimax with increasing depth until time runs out.
+        /// Iterativní prohledávání: opakovaně volá algoritmus Minimax s narůstající hloubkou,
+        /// dokud nevyprší časový limit, a vrací nejlepší nalezený tah.
         /// </summary>
-        /// <param name="player">The player for whom to find the move.</param>
-        /// <param name="timeLimitMs">Time limit in milliseconds.</param>
-        /// <returns>The best move found within the time limit.</returns>
+        /// <param name="player">Hráč, pro kterého se tah hledá.</param>
+        /// <param name="timeLimitMs">Časový limit v milisekundách.</param>
+        /// <returns>Nejlepší nalezený tah.</returns>
         private (int x, int y) FindBestMoveIterative(GameSymbol player, int timeLimitMs)
         {
             Stopwatch stopwatch = new Stopwatch();
@@ -873,23 +944,17 @@ namespace Piskvorky
             int depth = 1;
             int lastCompletedScore = int.MinValue;
 
-            // Iteratively deepen until time runs out.
             while (stopwatch.ElapsedMilliseconds < timeLimitMs)
             {
                 int score = Minimax(0, depth, player, player, int.MinValue, int.MaxValue, out (int x, int y) currentBest);
-                // Only update best move if the full search at this depth finished within time.
                 if (stopwatch.ElapsedMilliseconds < timeLimitMs)
                 {
                     lastCompletedScore = score;
                     bestMove = currentBest;
                 }
-
-                    depth++;
-                
-                
+                depth++;
             }
             return bestMove;
         }
-        // -------------------------------------------------------------------------------------
     }
 }
